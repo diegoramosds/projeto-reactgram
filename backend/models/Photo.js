@@ -6,7 +6,7 @@ const photoSchema = new Schema({
    title: String,
    likes: Array,
    comments: Array,
-   userId: mongoose.objectId,
+   userId: {type: Schema.Types.ObjectId, ref: 'User'},
    userName: String,
 }, {
     timestamps: true
