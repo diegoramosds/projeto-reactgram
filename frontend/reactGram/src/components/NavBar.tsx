@@ -9,20 +9,29 @@ import { Link, NavLink } from "react-router-dom"
 
 const NavBar = () => {
   return (
-    <nav>
+    <nav className="flex justify-between p-5 border-b border-zinc-800 bg-zinc-950">
       <Link to="/">ReactGram</Link>
-      <form>
+      
+      <form className="flex items-center gap-1">
         <BsSearch />
-        <input type="text" />
-        <ul>
-          <NavLink to="/"> <BsHouseDoorFill /> </NavLink>
+        <input type="text" placeholder="Pesquisar"/>
+        </form>
 
-          <NavLink to="/login"> <BsHouseDoorFill />Entrar </NavLink>
+        <ul className="flex gap-6 items-center">
+          <li>
+            <NavLink to="/"> <BsHouseDoorFill /> </NavLink>
+          </li>
 
-          <NavLink to="/register"> <BsHouseDoorFill />Cadastrar </NavLink>
+          <li>
+            <NavLink to="/login"> Entrar </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/register"> Cadastrar </NavLink>
+          </li>
           
         </ul>
-      </form>
+      
     </nav>
   )
 }
