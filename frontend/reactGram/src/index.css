@@ -1,3 +1,57 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+a {
+    @apply text-white no-underline
+}
+
+.active {
+    @apply font-bold
+}
+
+ul{
+    @apply list-none
+}
+
+form {
+    @apply flex flex-col
+}
+
+label {
+    @apply flex flex-col text-left
+}
+
+label span {
+    @apply font-bold mb-2 text-zinc-400 text-sm
+}
+
+input {
+    @apply bg-zinc-800 text-zinc-400  border border-zinc-800 rounded-sm outline-0 mb-3 p-2
+}
+input-::placeholder  {
+    @apply text-zinc-300
+}
+
+.btn,button,input[type="submit"] {
+    @apply bg-sky-700 text-white border-0 rounded p-2 cursor-pointer opacity-80 text-base
+}
+
+input[type="submit"] {
+    @apply mt-4
+}
+input:disabled {
+    @apply cursor-not-allowed bg-black
+}
+
+button:hover,input[type="submit"]:hover {
+    @apply opacity-100
+}
+
+.cancel-btn {
+    @apply bg-zinc-100 
+}
+
+.hide {
+    @apply hidden
+}
