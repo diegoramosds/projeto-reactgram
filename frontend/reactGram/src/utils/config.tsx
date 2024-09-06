@@ -1,8 +1,9 @@
 export const api = "http://localhost:5000/api"
 export const uploads = "http://localhost:5000/uploads"
 
-export const requestConfig = (method, data, token = null, image = null) => {
+export const requestConfig = (method: string, data: unknown, token = null, image = null) => {
 
+    
     let config
 
     if (image) {
@@ -27,7 +28,12 @@ export const requestConfig = (method, data, token = null, image = null) => {
         }
     }
     if(token) {
-        config.headers.Authorization = `Bearer ${token}`
+        const headers: Record<string, string> = {
+            "Content-Type": "application/json"
+        };
+        
+         headers["Authorization"] = `Bearer ${token}`;
+        //  config.headers.Authorization = `Bearer ${token}`
     }
     
     return config;
