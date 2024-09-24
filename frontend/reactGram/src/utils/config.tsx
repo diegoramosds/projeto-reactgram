@@ -23,7 +23,7 @@ export const requestConfig = (method: string, data: unknown, token = null, image
             method,
             body: JSON.stringify(data),
             headers: {
-                "Content-Type": "application/json"
+              "Content-Type": "application/json",
             }
         }
     }
