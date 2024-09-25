@@ -20,7 +20,9 @@ import authService from "../services/authService";
         if(data.errors) {
             return thunkAPI.rejectWithValue(data.errors[0])
         }
-        return data;
+   
+        return data;   
+        
     });
 
 export const authSlice = createSlice({

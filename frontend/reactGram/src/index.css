@@ -42,7 +42,7 @@ input[type="submit"] {
     @apply mt-4
 }
 input:disabled {
-    @apply cursor-not-allowed bg-sky-700/
+    @apply cursor-not-allowed bg-sky-700/20
 }
 
 button:hover,input[type="submit"]:hover {
