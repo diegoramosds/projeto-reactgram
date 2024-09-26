@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import './App.css'
 
@@ -8,8 +8,14 @@ import Register from './pages/Auth/Register';
 import Login from './pages/Auth/Login';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
+import { useAuth } from './hooks/useAuth';
 
 function App() {
+  const {auth, loading} = useAuth()
+ console.log(loading)
+  if(loading) {
+    return <p>Carregando...</p>
+  }
 
  
   return (
@@ -17,9 +23,9 @@ function App() {
       <BrowserRouter>
       <NavBar />
         <Routes>
-          <Route path="/" element={<Home />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="login" element={<Login />} />
+          <Route path="/" element={auth ? <Home /> : <Navigate to="/login"/>} />
+            <Route path="/register" element={!auth ? <Login /> : <Navigate to="/"/>} />
+            <Route path="login" element={!auth ? <Register /> : <Navigate to="/"/>} />
         </Routes>
       <Footer />
     </BrowserRouter>
