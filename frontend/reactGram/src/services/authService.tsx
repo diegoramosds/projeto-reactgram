@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import { api, requestConfig } from "../utils/config";
 
 //Register an user
 const register = async(data) => {
+
 
     const config = requestConfig("POST", data)
 
@@ -23,9 +25,33 @@ const logout = () => {
     localStorage.removeItem("user")
 }
 
+const login = async(data) => {
+    
+    const config = requestConfig("POST", data);  // Configuração da requisição com método POST e dados
+
+    try {
+        const res = await fetch(api + "/users/login", config)  // Faz a requisição para a API de login
+        .then((res) => res.json())  // Transforma a resposta em JSON
+        .catch((err) => err);  // Captura erros de transformação de JSON
+
+        if (res.id) {
+            localStorage.setItem("user", JSON.stringify({ token: res.token, id: res._id }));
+            // Redirecionar o usuário após o login bem-sucedido
+
+          }
+          
+        return res;  // Retorna a resposta para uso posterior
+        
+    } catch (error) {
+        console.log(error);  // Captura erros de execução do fetch
+    }
+};
+
+
 const authService = {
     register,
-    logout
+    logout,
+    login
 }
 
 export default authService;

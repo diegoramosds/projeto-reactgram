@@ -6,24 +6,34 @@ import Message from "../../components/Message"
 //Hooks 
 import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { login, reset } from "../../slices/authSlice"
 
 //Redux
 
 
 const Login = () => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
 
   const {loading, error} = useSelector((state) => state.auth)
 
+  const user = {
+    email,
+    password,
+  }
+
   const handleSubmit = (e : React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(user)
 
-
-    dispatch((user))
+    dispatch(login(user))
 };
+  // Clean all auth states
+  useEffect(() => {
+    dispatch(reset());
+  }, [dispatch])
 
   return (
     <div className="bg-zinc-950 w-2/5 mx-auto p-4 my-10 rounded-xl">
