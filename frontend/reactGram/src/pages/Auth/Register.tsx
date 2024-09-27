@@ -34,7 +34,7 @@ const user = {
     console.log(user)
 
     dispatch(register(user))
-};;
+};
 
    // Clean all auth states
   useEffect(() => {
@@ -55,7 +55,7 @@ const user = {
           {error && <Message msg={error} type="error"/>}
 
         </form>
-        <p className="pt-12 pb-4">Já tem conta? <Link to="/login">Clique aqui</Link></p>
+        <p className="pt-12 pb-4">Já tem conta? <Link to="/login" className="text-sky-700 border-b border-sky-700 hover:text-sky-700/80">Clique aqui</Link></p>
       </div>
     </div>
   )
