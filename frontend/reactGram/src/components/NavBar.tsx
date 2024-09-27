@@ -11,10 +11,25 @@ import { useState } from "react"
 import { useAuth } from "../hooks/useAuth"
 import { useDispatch, useSelector } from "react-redux"
 
+//Redux
+import { logout, reset } from "../slices/authSlice"
+
 
 const NavBar = () => {
   const {auth} = useAuth();
   const {user} = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout(user))
+    dispatch(reset());
+    
+    navigate("/login")
+    }
+
+
 
   return (
     <nav className="flex justify-between items-center p-3 border-b border-zinc-800 bg-zinc-950 md:">
@@ -46,7 +61,7 @@ const NavBar = () => {
             </li>
 
             <li>
-              <span>Sair</span>
+              <span onClick={handleLogout}>Sair</span>
             </li>
             </>
           
