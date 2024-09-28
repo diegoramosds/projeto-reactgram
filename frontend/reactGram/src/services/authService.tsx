@@ -34,7 +34,7 @@ const login = async(data) => {
         .then((res) => res.json())  // Transforma a resposta em JSON
         .catch((err) => err);  // Captura erros de transformação de JSON
 
-        if (res.id) {
+        if (res._id) {
             localStorage.setItem("user", JSON.stringify({ token: res.token, id: res._id }));
             // Redirecionar o usuário após o login bem-sucedido
 

@@ -1,18 +1,39 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authService from "../services/authService";
 
- const user = JSON.parse(localStorage.getItem("user") )
 
- const initialState = {
-    user: user ? user : null,
-    error: false,
+ const user = JSON.parse(localStorage.getItem("user") as string )
+ interface User {
+    _id?: string; // ID do usuário (opcional)
+    name?: string; // Nome do usuário (opcional)
+    email?: string; // Email do usuário (opcional)
+    password: string; // Senha do usuário
+    confirmPassword?: string;
+}
+
+ interface AuthState {
+    user: User | null; // Substitua por um tipo mais específico, se possível
+    error: string | null; // Permitir que error seja uma string ou null
+    success: boolean;
+    loading: boolean;
+}
+
+// Estado inicial com error como null
+const initialState: AuthState = {
+    user: user,
+    error: null, // Inicialize como null
     success: false,
     loading: false,
- }
+};
 
  //Register an user
  export const register = createAsyncThunk("auth/register",
-    async (user, thunkAPI) => {
+    async (user: {
+        name: string;
+        email: string;
+        password: string;
+        confirmPassword: string;
+    }, thunkAPI) => {
 
         const data = await authService.register(user)
 
@@ -32,7 +53,7 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 
  //Sing in an user
  export const login = createAsyncThunk("auth/login",
-    async (user, thunkAPI) => {
+    async (user: {email: string; password: string}, thunkAPI) => {
 
         const data = await authService.login(user)
 
@@ -52,14 +73,14 @@ export const authSlice = createSlice({
     reducers: {
         reset: (state) => {
             state.loading = false;
-            state.error = false;
+            state.error = null;
             state.success = false;
         }
     },
     extraReducers: (builder) => {
         builder.addCase(register.pending, (state) => {
             state.loading = true;
-            state.error = false;
+            state.error = null;
         })
         .addCase(register.fulfilled, (state, action) => {
             state.loading = false;
@@ -69,10 +90,10 @@ export const authSlice = createSlice({
         })
         .addCase(register.rejected, (state, action) => {
             state.loading = false;
-            state.error = action.payload;
+            state.error = action.payload as string;
             state.user = null;
         })
-        .addCase(logout.fulfilled, (state, action) => {
+        .addCase(logout.fulfilled, (state) => {
             state.loading = false;
             state.success = true;
             state.error = null;
@@ -80,7 +101,7 @@ export const authSlice = createSlice({
         })
         builder.addCase(login.pending, (state) => {
             state.loading = true;
-            state.error = false;
+            state.error = null;
         })
         .addCase(login.fulfilled, (state, action) => {
             state.loading = false;
@@ -88,7 +109,7 @@ export const authSlice = createSlice({
           })
         .addCase(login.rejected, (state, action) => {
             state.loading = false;
-            state.error = action.payload;
+            state.error = action.payload as string;
             state.user = null;
         })
     }

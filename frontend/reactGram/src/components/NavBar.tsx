@@ -7,23 +7,23 @@ import {
 import { Link, NavLink, useNavigate } from "react-router-dom"
 
 //Hooks
-import { useState } from "react"
 import { useAuth } from "../hooks/useAuth"
 import { useDispatch, useSelector } from "react-redux"
 
 //Redux
 import { logout, reset } from "../slices/authSlice"
+import { AppDispatch, RootState } from "../store"
 
 
 const NavBar = () => {
   const {auth} = useAuth();
-  const {user} = useSelector((state) => state.auth);
+  const {user} = useSelector((state: RootState) => state.auth);
 
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    dispatch(logout(user))
+    dispatch(logout())
     dispatch(reset());
     
     navigate("/login")
