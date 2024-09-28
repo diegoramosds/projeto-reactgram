@@ -1,5 +1,9 @@
+interface MessageProps  {
+ msg: string,
+ type: string
+}
 
-const Message = ({msg, type}) => {
+const Message = ({msg, type}: MessageProps) => {
     
     const messageClass =
     type === "success"

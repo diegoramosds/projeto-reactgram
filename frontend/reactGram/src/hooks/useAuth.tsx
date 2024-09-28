@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 export const useAuth = () => {
  
-    const { user } = useSelector((state) => state.auth)
+    const { user } = useSelector((state: RootState) => state.auth)
 
     const [auth, setAuth]= useState(false)
     const [loading, setLoading]= useState(true)
@@ -17,7 +18,7 @@ export const useAuth = () => {
         }
         setLoading(false)
 
-    }, [user])
+    }, [user]) 
 
     return { auth, loading }
 } 

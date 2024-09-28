@@ -1,8 +1,8 @@
-import { useNavigate } from "react-router-dom";
+
 import { api, requestConfig } from "../utils/config";
 
 //Register an user
-const register = async(data) => {
+const register = async(data: unknown) => {
 
 
     const config = requestConfig("POST", data)
@@ -25,7 +25,7 @@ const logout = () => {
     localStorage.removeItem("user")
 }
 
-const login = async(data) => {
+const login = async(data: unknown) => {
     
     const config = requestConfig("POST", data);  // Configuração da requisição com método POST e dados
 

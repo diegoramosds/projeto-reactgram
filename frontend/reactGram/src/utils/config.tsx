@@ -1,40 +1,31 @@
-export const api = "http://localhost:5000/api"
-export const uploads = "http://localhost:5000/uploads"
+export const api = "http://localhost:5000/api";
+export const uploads = "http://localhost:5000/uploads";
 
-export const requestConfig = (method: string, data: unknown, token = null, image = null) => {
+export const requestConfig = (
+  method: string,
+  data: unknown = null,
+  token: string | null = null,
+  image: File | null = null
+): RequestInit => {
+  // Inicializa o objeto de configuração
+  const config: RequestInit = {
+    method,
+    headers: {},
+  };
 
-    
-    let config
+  // Verifica se é um upload de imagem
+  if (image && data instanceof FormData) {
+    config.body = data as FormData; // Para uploads, usa FormData
+  } else if (data !== null && method !== "DELETE") {
+    // Para requisições com JSON, exceto DELETE
+    config.body = JSON.stringify(data);
+    (config.headers as Record<string, string>)["Content-Type"] = "application/json";
+  }
 
-    if (image) {
-        config = {
-            method,
-            body: data,
-            headers: {}
-        }
-        
-    } else if (method === "DELETE" || data === null) {
-        config = {
-            method,
-            headers: {}
-        }
-    } else {
-        config = {
-            method,
-            body: JSON.stringify(data),
-            headers: {
-              "Content-Type": "application/json",
-            }
-        }
-    }
-    if(token) {
-        const headers: Record<string, string> = {
-            "Content-Type": "application/json"
-        };
-        
-         headers["Authorization"] = `Bearer ${token}`;
-        //  config.headers.Authorization = `Bearer ${token}`
-    }
-    
-    return config;
-}
+  // Adiciona o token ao cabeçalho, se disponível
+  if (token) {
+    (config.headers as Record<string, string>)["Authorization"] = `Bearer ${token}`;
+  }
+
+  return config;
+};
