@@ -3,8 +3,7 @@ import { api, requestConfig } from "../utils/config";
 
 //Register an user
 const register = async(data: unknown) => {
-
-
+    
     const config = requestConfig("POST", data)
 
     try {
