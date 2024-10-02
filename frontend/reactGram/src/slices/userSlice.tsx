@@ -6,6 +6,7 @@ interface User {
     name: string;
     email: string;
     bio: string;
+    profileImage: string;
     // Adicione outras propriedades aqui, se necessário
 }
 
