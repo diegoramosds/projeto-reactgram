@@ -1,13 +1,20 @@
-import { FormEvent, useEffect } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import FormStyle from "../../components/FormStyle";
 
 //Hooks
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { reset } from "../../slices/authSlice";
+import { profile } from "../../slices/userSlice";
+
 
 
 const EditProfile = () => {
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
+  const [bio, setBio] = useState("");
+  const [password, setPassword] = useState("");
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -16,13 +23,26 @@ const EditProfile = () => {
 
     const dispatch: AppDispatch = useDispatch();
 
-    const {loading, error} = useSelector((state: RootState) => state.auth);
+    const {loading, error, user, message, success} = useSelector((state: RootState) => state.user);
 
-  // Clean all auth states
+  //Load user data
     useEffect(() => {
-     dispatch(reset());
+     dispatch(profile());
     }, [dispatch])
 
+
+
+  // Fill form with user data
+      useEffect(() => {
+       
+        if(user) {
+          setName(user.name)
+          setEmail(user.email)
+          setBio(user.bio)
+        }
+        
+       }, [user])
+   
 
   return (
     <FormStyle
@@ -37,27 +57,27 @@ const EditProfile = () => {
           >
             <label>
               <span>Digite seu nome</span>
-              <input type="text" placeholder="Nome"/>
+              <input type="text" placeholder="Nome" onChange={(e) => setName(e.target.value)} value={name}/>
             </label>
 
             <label>
               <span>Digite seu email</span>
-              <input type="email" name="" placeholder="E-mail" />
+              <input type="email" name="" placeholder="E-mail" onChange={(e) => setEmail(e.target.value)} value={email}/>
             </label>
 
             <label>
                 <span>Imagem de perfil</span>
-                <input type="file" name="" />
+                <input type="file" onChange={(e) => setPreviewImage(e.target.value)} value={previewImage}/>
              </label>
              
              <label>
                 <span>Bio</span>
-                <input type="text" placeholder="Descrição do perfil"/>
+                <input type="text" placeholder="Descrição do perfil" onChange={(e) => setBio(e.target.value)} value={bio}/>
              </label>
              
              <label>
                 <span>Quer alterar sua senha?</span>
-                <input type="password" name="" placeholder="Digite sua nova senha" />
+                <input type="password" name="" placeholder="Digite sua nova senha" onChange={(e) => setPassword(e.target.value)} value={password}/>
              </label>
 
     </FormStyle>
