@@ -12,10 +12,11 @@ interface FormStyleProps {
     handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
     loading: boolean;
     errorMessage?: ReactNode;
+    successMessage?: ReactNode;
   }
   
 
-const FormStyle = ({ children, title, subtitle, handleSubmit, loading, linkTo, linkText, btnText, errorMessage  }: FormStyleProps) => {
+const FormStyle = ({ children, title, subtitle, handleSubmit, loading, linkTo, linkText, btnText, errorMessage, successMessage  }: FormStyleProps) => {
   return (
     <div className="bg-zinc-950 w-2/5 mx-auto p-4 my-10 rounded-xl">
       <div className="text-center w-11/12 mx-auto my-0">
@@ -27,11 +28,14 @@ const FormStyle = ({ children, title, subtitle, handleSubmit, loading, linkTo, l
       {!loading && <input type="submit" value={btnText} />}
       {loading && <input type="submit" value="Aguarde" disabled/>}
 
-      {errorMessage && (
+      {errorMessage ? (
             <div className="mt-4">
               {errorMessage}
             </div>
-          )}
+          ) : 
+          <div className="mt-4">
+          {successMessage}
+        </div>}
       </form>
         <p className="pt-12 pb-4">{linkText} <Link to={linkTo} className="text-sky-700 border-b border-sky-700 hover:text-sky-700/80">Clique aqui</Link></p>
       </div>

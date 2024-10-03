@@ -4,36 +4,73 @@ import FormStyle from "../../components/FormStyle";
 //Hooks
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { profile } from "../../slices/userSlice";
+import { profile, resetMessage, updateProfile } from "../../slices/userSlice";
 import { uploads } from "../../utils/config";
-
-
+import Message from "../../components/Message";
 
 const EditProfile = () => {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [previewImage, setPreviewImage] = useState<Blob | null>(null);
-  const [profileImage, setimageProfile] = useState("");
+  const [profileImage, setimageProfile] = useState<File | null>(null);
   const [bio, setBio] = useState("");
   const [password, setPassword] = useState("");
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const {loading, error, user, message, success} = useSelector((state: RootState) => state.user);
+
+    const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      console.log('oi')
+      
+      //Gather user data from states
+      type UserData = {
+        name: string;
+        profileImage?: string | File; // Propriedade opcional
+        bio?: string; // Propriedade opcional
+        password?: string; // Propriedade opcional
+      };
+      
+      const userData: UserData = {
+        name
+      }
+
+      if(profileImage) {
+        userData.profileImage = profileImage;
+      }
+      if(bio) {
+        userData.bio = bio;
+      }
+      if(password) {
+        userData.password = password;
+      }
+
+      //build form data
+      const formData = new FormData()
+      Object.keys(userData).forEach((key) => {
+        const value = userData[key as keyof UserData]; // Garante que 'key' seja uma chave válida
+        if (value !== undefined) {
+          formData.append(key, value);
+        }
+      });
+
+      await dispatch(updateProfile(formData))
+
+      setTimeout(() => {
+        dispatch(resetMessage())
+      }, 2000)
     }
 
-    const handleFile = (e) => {
-     const image = e.target.files[0]
+    const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files && e.target.files[0]) {
+        const image = e.target.files[0];
 
      setPreviewImage(image)
 
      setimageProfile(image)
     }
+  }
 
     const dispatch: AppDispatch = useDispatch();
-
-    const {loading, error, user, message, success} = useSelector((state: RootState) => state.user);
 
   //Load user data
     useEffect(() => {
@@ -60,9 +97,9 @@ const EditProfile = () => {
     linkText="Não que editar agora?"
     linkTo="/"
     loading={loading}
-    errorMessage={error}
+    errorMessage={error && <Message msg={error} type="error" />}
+    successMessage={success && <Message msg={message} type="success" />}
           >
-
             {(user && (user.profileImage || previewImage)) && (
               
               <img src={previewImage  
@@ -79,7 +116,7 @@ const EditProfile = () => {
 
             <label>
               <span>Digite seu email</span>
-              <input type="email" name="" placeholder="E-mail" onChange={(e) => setEmail(e.target.value)} value={email || ""}/>
+              <input type="email" name="" placeholder="E-mail" disabled onChange={(e) => setEmail(e.target.value)} value={email || ""}/>
             </label>
 
             <label>

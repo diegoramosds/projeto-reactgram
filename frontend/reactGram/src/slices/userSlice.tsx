@@ -11,8 +11,8 @@ interface User {
 }
 
 interface UserState {
-    user: User | null;
-    error: boolean | null;
+    user: User | null ;
+    error: string | null;
     success: boolean;
     loading: boolean;
     message: string | null;
@@ -20,7 +20,7 @@ interface UserState {
   
   const initialState: UserState = {
     user: null,
-    error: false,
+    error: null,
     success: false,
     loading: false,
     message: null,
@@ -32,10 +32,23 @@ interface UserState {
         const token = (thunkAPI.getState() as RootState).auth.user?.token || "";
 
         const data = await userService.profile(user, token)
+        
+        return data;
+    }
+ )
+
+ export const updateProfile = createAsyncThunk("user/update", 
+    async(user: FormData, thunkAPI) => {
+        const token = (thunkAPI.getState() as RootState).auth.user?.token || ""
+
+        const data = await userService.update(user, token)
+        // Check errors
+
+        if(data.erros) {
+            return thunkAPI.rejectWithValue(data.errors[0])
+         }
 
         return data;
-
-
     }
  )
 
@@ -59,6 +72,22 @@ export const userSlice = createSlice({
             state.success = true;
             state.error = null;
             state.user = action.payload;
+        })
+        .addCase(updateProfile.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(updateProfile.fulfilled, (state, action) => {
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+            state.user = action.payload;
+            state.message = "Usuário atualizado com sucesso!";
+        })
+        .addCase(updateProfile.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+            state.user = null;
         })
     }
 })
