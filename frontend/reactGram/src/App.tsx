@@ -10,6 +10,7 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import { useAuth } from './hooks/useAuth';
 import EditProfile from './pages/EditProifile/EditProfile';
+import Profile from './pages/Profile/Profile';
 
 function App() {
   const {auth, loading} = useAuth()
@@ -28,6 +29,7 @@ function App() {
             <Route path="/register" element={!auth ? <Register /> : <Navigate to="/"/>} />
             <Route path="/login" element={!auth ? <Login /> : <Navigate to="/"/>} />
             <Route path="/profile" element={auth ? <EditProfile /> : <Navigate to="/"/>} />
+            <Route path="/users/:id" element={auth ? <Profile /> : <Navigate to="/"/>} />
         </Routes>
       <Footer />
     </BrowserRouter>
