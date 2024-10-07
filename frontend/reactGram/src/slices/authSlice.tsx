@@ -4,7 +4,8 @@ import authService from "../services/authService";
 
  const user = JSON.parse(localStorage.getItem("user") as string )
  interface User {
-    _id?: string; // ID do usuário (opcional)
+    _id: any;
+    
     token?: string; // token do usuário (opcional)
     name?: string; // Nome do usuário (opcional)
     email?: string; // Email do usuário (opcional)
