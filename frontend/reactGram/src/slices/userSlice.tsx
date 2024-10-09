@@ -6,7 +6,7 @@ interface User {
     name: string;
     email: string;
     bio: string;
-    profileImage: string;
+    profileImage: string ;
     // Adicione outras propriedades aqui, se necessário
 }
 
@@ -54,8 +54,10 @@ interface UserState {
 
  //Get user details
  export const getUserDetails = createAsyncThunk("user/get",
-    async(id, thunkAPI) => {
+    async(id: string, thunkAPI) => {
      const data = await userService.getUserDetails(id)
+
+   
 
      return data;
     }

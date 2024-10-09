@@ -74,7 +74,7 @@ const register = async(req, res) =>  {
             token: genarateToken(user._id)
         })
     }
-      //Get current lgged in user
+      //Get current logged in user
       const getCurrentUser = async(req, res) => {
         const user = req.user;
 

@@ -31,7 +31,8 @@ import { api, requestConfig } from "../utils/config";
  }
 
  //Get user details
-const getUserDetails = async(id: void) => {
+const getUserDetails = async(id:unknown) => {
+
 
     const config = requestConfig("GET")
 

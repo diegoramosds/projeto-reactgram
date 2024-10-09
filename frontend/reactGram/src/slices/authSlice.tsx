@@ -3,9 +3,9 @@ import authService from "../services/authService";
 
 
  const user = JSON.parse(localStorage.getItem("user") as string )
+ 
  interface User {
-    _id: any;
-    
+    _id:  string;
     token?: string; // token do usuário (opcional)
     name?: string; // Nome do usuário (opcional)
     email?: string; // Email do usuário (opcional)
@@ -15,15 +15,15 @@ import authService from "../services/authService";
 
  interface AuthState {
     user: User | null; // Substitua por um tipo mais específico, se possível
-    error: string | null; // Permitir que error seja uma string ou null
+    error: string | null | boolean; // Permitir que error seja uma string ou null
     success: boolean;
     loading: boolean;
 }
 
 // Estado inicial com error como null
 const initialState: AuthState = {
-    user: user,
-    error: null, // Inicialize como null
+    user: user ? user : null,
+    error: false, // Inicialize como null
     success: false,
     loading: false,
 };
@@ -31,6 +31,7 @@ const initialState: AuthState = {
  //Register an user
  export const register = createAsyncThunk("auth/register",
     async (user: {
+         _id:  string;
         name: string;
         email: string;
         password: string;
@@ -54,19 +55,16 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 });
 
  //Sing in an user
- export const login = createAsyncThunk("auth/login",
-    async (user: {email: string; password: string}, thunkAPI) => {
+export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
+  const data = await authService.login(user);
 
-        const data = await authService.login(user)
+  // Check for errors
+  if (data.errors) {
+    return thunkAPI.rejectWithValue(data.errors[0]);
+  }
 
-        //Check for errors
-        if(data.errors) {
-            return thunkAPI.rejectWithValue(data.errors[0])
-        }
-
-        return data;   
-        
-    });
+  return data;
+});
 
 
 export const authSlice = createSlice({
@@ -101,12 +99,14 @@ export const authSlice = createSlice({
             state.error = null;
             state.user = null;
         })
-        builder.addCase(login.pending, (state) => {
+        .addCase(login.pending, (state) => {
             state.loading = true;
             state.error = null;
         })
         .addCase(login.fulfilled, (state, action) => {
             state.loading = false;
+            state.success = true;
+            state.error = null;
             state.user = action.payload; 
           })
         .addCase(login.rejected, (state, action) => {
@@ -116,6 +116,7 @@ export const authSlice = createSlice({
         })
     }
 })
+
 
 export const {reset} = authSlice.actions
 export default authSlice.reducer;

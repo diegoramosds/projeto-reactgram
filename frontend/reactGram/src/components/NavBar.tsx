@@ -29,8 +29,6 @@ const NavBar = () => {
     navigate("/login")
     }
 
-
-
   return (
     <nav className="flex justify-between items-center p-3 border-b border-zinc-800 bg-zinc-950 md:">
       <Link to="/" className="text-zinc-100">ReactGram</Link>
@@ -43,6 +41,8 @@ const NavBar = () => {
         </form>
 
         <ul className="flex gap-2 items-center text-zinc-100 pr-3 md:gap-6 md:text-lg">
+
+      
 
           {auth ? (
             <>

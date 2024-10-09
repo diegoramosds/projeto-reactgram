@@ -106,7 +106,7 @@ const EditProfile = () => {
                 ? URL.createObjectURL(previewImage)
                 : `${uploads}/users/${user.profileImage}`
               } 
-                alt={user ? user.name : 'User profile'} className="w-40 h-40 rounded-[100%] m-auto mb-10"/>
+                alt={user ? user.name : 'User profile'} className="w-40 h-40 rounded-full m-auto mb-10"/>
             )}
 
             <label>
