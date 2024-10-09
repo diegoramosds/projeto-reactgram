@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
+h3 {
+    @apply text-lg font-bold my-2
+}
 a {
     @apply text-white no-underline
 }

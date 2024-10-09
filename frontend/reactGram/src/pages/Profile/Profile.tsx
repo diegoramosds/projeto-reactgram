@@ -70,10 +70,10 @@ const Profile = () => {
                             <input type="text" placeholder="Insira um titulo"/>
                         </label>
                         <label>
-                            <span>Imagem:</span>
+                            <span>Imagem</span>
                             <input type="file" />
                         </label>
-                        <input type="button" value="Postar" />
+                        <input type="submit" value="Postar" />
                     </form>
                 </div>
                 </>
