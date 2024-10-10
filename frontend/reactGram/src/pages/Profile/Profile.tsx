@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux"
 //Redux
 import { getUserDetails } from "../../slices/userSlice"
 import { AppDispatch, RootState } from "../../store"
+import { publishPhoto, resetMessage } from "../../slices/photoSlice"
 
 const Profile = () => {
     
@@ -24,6 +25,16 @@ const Profile = () => {
 
     const {user, loading} = useSelector((state: RootState) => state.user)
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
+    const { 
+        photos, 
+        error:errorPhoto, 
+        loading:loadingPhoto, 
+        message:messagePhoto, 
+        success: successPhoto
+    } = useSelector((state: RootState) => state.photo)
+
+    const [image, setImage] = useState("");
+    const [title, setTitle] = useState("");
 
     //New form and edit form const const = useRef(second)
     const newPhotoForm = useRef()
@@ -33,13 +44,43 @@ const Profile = () => {
     useEffect(() => {
     if (id) {
         dispatch(getUserDetails(id));
-    } else {
-        console.error("ID do usuário é undefined");
-    }
+    } 
 }, [dispatch, id]);
 
     const submitHandle = (e : React.FormEvent<HTMLFormElement>) => {
      e.preventDefault();
+
+     const photoData = {
+        title,
+        image
+     }
+
+     //Build form data
+     const formData = new FormData()
+
+     const photoFormData = Object.keys(photoData).forEach((key) => 
+        formData.append(key, photoData[key])
+    );
+
+    formData.append("photo", photoFormData)
+
+    dispatch(publishPhoto(formData))
+
+    setTitle("")
+
+    setTimeout(() => {
+        dispatch(resetMessage())
+      }, 2000)
+
+
+    }
+
+    const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+          const image = e.target.files[0]
+  
+            setImage(image);
+      }
     }
 
     if(loading) {
@@ -67,15 +108,18 @@ const Profile = () => {
                     <form onSubmit={submitHandle}>
                         <label>
                             <span>Titulo para a foto</span>
-                            <input type="text" placeholder="Insira um titulo"/>
+                            <input type="text" placeholder="Insira um titulo" onChange={(e) => setTitle(e.target.value)} value={title || ""}/>
                         </label>
                         <label>
                             <span>Imagem</span>
-                            <input type="file" />
+                            <input type="file" onChange={handleFile}/>
                         </label>
-                        <input type="submit" value="Postar" />
+                        {!loadingPhoto && <input type="submit" value="Postar" />}
+                        {loadingPhoto && <input type="submit" value="Aguarde..." disabled />}
                     </form>
                 </div>
+                {errorPhoto && <Message msg={errorPhoto} type="error"></Message>}
+                {messagePhoto && <Message msg={messagePhoto} type="success"></Message>}
                 </>
             )}
         </div>
