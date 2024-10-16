@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux"
 //Redux
 import { getUserDetails } from "../../slices/userSlice"
 import { AppDispatch, RootState } from "../../store"
-import { publishPhoto, resetMessage } from "../../slices/photoSlice"
+import { getUserPhotos, publishPhoto, resetMessage } from "../../slices/photoSlice"
 
 const Profile = () => {
     
@@ -30,27 +30,32 @@ const Profile = () => {
         error:errorPhoto, 
         loading:loadingPhoto, 
         message:messagePhoto, 
-        success: successPhoto
     } = useSelector((state: RootState) => state.photo)
 
-    const [image, setImage] = useState("");
+    const [image, setImage] = useState<File | string>(String);
     const [title, setTitle] = useState("");
 
     //New form and edit form const const = useRef(second)
-    const newPhotoForm = useRef()
+    const newPhotoForm =  useRef<HTMLDivElement | null>(null)
     const editPhotoForm = useRef()
 
     //Load user data
     useEffect(() => {
     if (id) {
         dispatch(getUserDetails(id));
+        dispatch(getUserPhotos(id));
     } 
 }, [dispatch, id]);
 
     const submitHandle = (e : React.FormEvent<HTMLFormElement>) => {
      e.preventDefault();
 
-     const photoData = {
+     type PhotoDataProps = {
+        title: string,
+        image: string | File,
+     }
+
+     const photoData: PhotoDataProps = {
         title,
         image
      }
@@ -59,20 +64,20 @@ const Profile = () => {
      const formData = new FormData()
 
      const photoFormData = Object.keys(photoData).forEach((key) => 
-        formData.append(key, photoData[key])
+        formData.append(key, photoData[key as keyof PhotoDataProps])
     );
 
     formData.append("photo", photoFormData)
 
     dispatch(publishPhoto(formData))
-
+    
     setTitle("")
-
+    
     setTimeout(() => {
         dispatch(resetMessage())
       }, 2000)
 
-
+  
     }
 
     const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,10 +105,10 @@ const Profile = () => {
                 <p>{user?.bio}</p>
             </div>
         </div>
-        <div className="m-2">
+        <div className="m-4">
             {id === userAuth?._id && (
                 <>
-                <div ref={newPhotoForm}>
+                <div ref={newPhotoForm} className="border-b border-zinc-700 mb-8">
                     <h3>Compartilhe momentos</h3>
                     <form onSubmit={submitHandle}>
                         <label>
@@ -115,13 +120,38 @@ const Profile = () => {
                             <input type="file" onChange={handleFile}/>
                         </label>
                         {!loadingPhoto && <input type="submit" value="Postar" />}
-                        {loadingPhoto && <input type="submit" value="Aguarde..." disabled />}
+                        {loadingPhoto && <input type="submit" disabled value="Aguarde..."  />}
                     </form>
                 </div>
                 {errorPhoto && <Message msg={errorPhoto} type="error"></Message>}
                 {messagePhoto && <Message msg={messagePhoto} type="success"></Message>}
                 </>
             )}
+            <div className="w-full flex flex-col flex-wrap">
+                <h2 className="font-bold text-xl mb-5">Fotos publicadas</h2>
+                <div className="flex flex-wrap justify-center items-center gap-3">
+                    {photos && photos.map((photo) => (
+
+                    <div key={photo.id} className="flex flex-col w-36">
+                        {photo.image && (<img src={`${uploads}/photos/${photo.image}`} alt={photo.title}/>)}
+                       
+                            {id === userAuth?._id ? (
+                               <div className="flex justify-around m-3 cursor-pointer text-lg">
+                                <Link to={`/photos/${photo.id}`}><BsFillEyeFill/></Link>
+                                <BsPencilFill/>
+                                <BsXLg />
+                               </div>
+                                
+                            ) : 
+                            (
+                            <Link to={`/photos/${photo.id}`}>Ver</Link>
+                            )} 
+
+                    </div>
+                    ))}
+                    {photos.length === 0 && <p>Ainda não há publicações</p>}
+                </div>
+            </div>
         </div>
     </div>
     )
