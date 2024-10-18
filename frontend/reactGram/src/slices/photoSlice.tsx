@@ -4,7 +4,7 @@ import { reset } from "./authSlice";
 import { RootState } from "../store";
 
 interface Photo {
-    id: number;
+    _id: string;
     url: string;
     title: string;
     image: File | null
@@ -63,6 +63,23 @@ export const getUserPhotos = createAsyncThunk("photos/user",
 
     }
 )
+//Delete a photo
+export const delePhoto = createAsyncThunk("/photos/delete",
+    async(id: string, thunkAPI) => {
+
+        const token = (thunkAPI.getState() as RootState).auth.user?.token
+
+        const data = await photoService.deletePhoto(id, token)
+
+
+         //Check errors
+         if(data.errors) {
+            return  thunkAPI.rejectWithValue(data.errors[0]);
+           }
+  
+        return data;
+    }
+)
 
 export const photoSlice = createSlice({
     name: "photo",
@@ -99,6 +116,26 @@ export const photoSlice = createSlice({
             state.success = true;
             state.error = null;
             state.photos = action.payload;
+        })
+        .addCase(delePhoto.pending, (state) => {
+            state.loading = true;
+            state.error = false;
+        })
+        .addCase(delePhoto.fulfilled, (state, action) => {
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+
+            state.photos = state.photos.filter((photo) => {
+                return photo._id !== action.payload.id
+            });    
+
+            state.message = action.payload.message;
+        })
+        .addCase(delePhoto.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+            state.photo = {};
         })
     }
 })
