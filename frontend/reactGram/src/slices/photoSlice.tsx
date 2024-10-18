@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { asyncThunkCreator, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import photoService from "../services/photoService";
 import { reset } from "./authSlice";
 import { RootState } from "../store";
@@ -8,6 +8,12 @@ interface Photo {
     url: string;
     title: string;
     image: File | null
+  }
+
+  interface PhotoData {
+    id: string;
+    title: string;
+   
   }
 
 interface InitialStateProps {
@@ -81,6 +87,25 @@ export const delePhoto = createAsyncThunk("/photos/delete",
     }
 )
 
+// Update photo
+
+export const updatePhoto = createAsyncThunk("/photos/update",
+    async(photoData: PhotoData, thunkAPI) => {
+        
+        const token = (thunkAPI.getState() as RootState).auth.user?.token
+
+        const data = await photoService.updatePhoto({title: photoData.title}, photoData.id, token);
+
+        
+          //Check errors
+          if(data.errors) {
+            return  thunkAPI.rejectWithValue(data.errors[0]);
+           }
+  
+           return data;
+    }
+)
+
 export const photoSlice = createSlice({
     name: "photo",
     initialState,
@@ -137,6 +162,29 @@ export const photoSlice = createSlice({
             state.error = action.payload as string;
             state.photo = {};
         })
+        .addCase(updatePhoto.pending, (state) => {
+            state.loading = true;
+            state.error = false;
+        })
+        .addCase(updatePhoto.fulfilled, (state, action) => {
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+
+            state.photos.map((photo) => {
+               if(photo._id === action.payload.photo.id) {
+                return photo.title = action.payload.photo.title
+               }
+               return photo;
+            });    
+
+            state.message = action.payload.message;
+        })
+        .addCase(updatePhoto.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+            state.photo = {};
+        });
     }
 })
 
