@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux"
 //Redux
 import { getUserDetails } from "../../slices/userSlice"
 import { AppDispatch, RootState } from "../../store"
-import { getUserPhotos, publishPhoto, resetMessage } from "../../slices/photoSlice"
+import { delePhoto, getUserPhotos, publishPhoto, resetMessage } from "../../slices/photoSlice"
 
 const Profile = () => {
     
@@ -44,8 +44,15 @@ const Profile = () => {
     if (id) {
         dispatch(getUserDetails(id));
         dispatch(getUserPhotos(id));
+        
     } 
 }, [dispatch, id]);
+
+    const resetComponents = () => {
+        setTimeout(() => {
+            dispatch(resetMessage())
+          }, 2000)    
+    }
 
     const submitHandle = (e : React.FormEvent<HTMLFormElement>) => {
      e.preventDefault();
@@ -72,13 +79,21 @@ const Profile = () => {
     dispatch(publishPhoto(formData))
     
     setTitle("")
-    
-    setTimeout(() => {
-        dispatch(resetMessage())
-      }, 2000)
 
-  
+    resetComponents();
     }
+
+    //Delete a photo
+    const handleDelete = (id: string) => {
+
+       dispatch(delePhoto(id))
+       
+       setTimeout(() => {
+           dispatch(resetMessage())
+         }, 2000)
+
+    resetComponents();
+ }
 
     const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -127,24 +142,24 @@ const Profile = () => {
                 {messagePhoto && <Message msg={messagePhoto} type="success"></Message>}
                 </>
             )}
-            <div className="w-full flex flex-col flex-wrap">
+            <div className="w-full flex flex-col flex-wrap mt-5">
                 <h2 className="font-bold text-xl mb-5">Fotos publicadas</h2>
                 <div className="flex flex-wrap justify-center items-center gap-3">
                     {photos && photos.map((photo) => (
 
-                    <div key={photo.id} className="flex flex-col w-36">
+                    <div key={photo._id} className="flex flex-col w-36">
                         {photo.image && (<img src={`${uploads}/photos/${photo.image}`} alt={photo.title}/>)}
                        
                             {id === userAuth?._id ? (
                                <div className="flex justify-around m-3 cursor-pointer text-lg">
-                                <Link to={`/photos/${photo.id}`}><BsFillEyeFill/></Link>
+                                <Link to={`/photos/${photo._id}`}><BsFillEyeFill/></Link>
                                 <BsPencilFill/>
-                                <BsXLg />
+                                <BsXLg onClick={() => handleDelete(photo._id)}/>
                                </div>
                                 
                             ) : 
                             (
-                            <Link to={`/photos/${photo.id}`}>Ver</Link>
+                            <Link to={`/photos/${photo._id}`}>Ver</Link>
                             )} 
 
                     </div>
