@@ -9,31 +9,38 @@ const fs = require("fs");
 
 
 
-//Insert a photo with an user related to  isString
-const insertPhoto = async(req, res) => {
-    const {title} = req.body;
+// Insert a photo, with an user related to it
+const insertPhoto = async (req, res) => {
+    const { title } = req.body;
     const image = req.file.filename;
-
-    const reqUser = req.user
-
+  
+    console.log(req.body);
+  
+    const reqUser = req.user;
+  
     const user = await User.findById(reqUser._id);
-
+  
+    console.log(user.name);
+  
     // Create photo
     const newPhoto = await Photo.create({
-        image,
-        title,
-        userId: user._id,
-        userName: user.name,
-    })
-
-
-    // If photo was created successfully, return data
-    if(!newPhoto) {
-        res.status(201).json({errors: ["Houve um problema, tente novamente mais tarde"]})
+      image,
+      title,
+      userId: user._id,
+      userName: user.name,
+    });
+  
+    // If user was photo sucessfully, return data
+    if (!newPhoto) {
+      res.status(422).json({
+        errors: ["Houve um erro, por favor tente novamente mais tarde."],
+      });
+      return;
     }
-    res.status(201).json(newPhoto)
-
-}
+  
+    res.status(201).json(newPhoto);
+  };
+  
 
 // Remove a photo from DB
 const deletePhoto = async(req, res) => {
