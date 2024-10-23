@@ -1,6 +1,6 @@
 import { api, requestConfig } from "../utils/config";
 
-const publishPhoto = async(data: string, token: string) => {
+const publishPhoto = async(data: object, token: string) => {
     
     const config = requestConfig("POST" , data, token, true)
 
@@ -36,7 +36,7 @@ const getUserPhotos = async(id: string, token: string) => {
 }
 
 //Delete a photo
-const deletePhoto = async(id: string, token: string | null | undefined ) => {
+const deletePhoto = async(id: string, token: string ) => {
 
      const config = requestConfig("DELETE", null, token)
 
@@ -53,7 +53,7 @@ const deletePhoto = async(id: string, token: string | null | undefined ) => {
 }
 
 //update photo
-const updatePhoto = async(data: object, id: string, token: string | null | undefined) => {
+const updatePhoto = async(data: object, id: string, token: string) => {
 
     const config = requestConfig("PUT", data, token)
 

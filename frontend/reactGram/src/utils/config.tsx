@@ -5,7 +5,7 @@ export const requestConfig = (
   method: string,
   data: unknown = null,
   token: string | null = null,
-  image: File | null = null
+  image: File | null | boolean = null
 ): RequestInit => {
   // Inicializa o objeto de configuração
   const config: RequestInit = {

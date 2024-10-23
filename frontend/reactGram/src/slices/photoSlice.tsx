@@ -7,10 +7,10 @@ interface Photo {
     _id: string;
     url: string;
     title: string;
-    image: File | null
+    image: string | File;
   }
 
-  interface PhotoData {
+  interface PhotoDataProps {
     id: string;
     title: string;
    
@@ -19,7 +19,7 @@ interface Photo {
 interface InitialStateProps {
     photos: Array<Photo>,
     photo:  Partial<Photo>,
-    error: false | string | null,
+    error: boolean | string | null,
     success: boolean,
     loading: boolean,
     message: null | string,
@@ -36,7 +36,7 @@ const initialState: InitialStateProps = {
 
 // Publish user photo
 export const publishPhoto = createAsyncThunk("photo/publish",
-    async(photo: string, thunkAPI) => {
+    async(photo: object, thunkAPI) => {
 
          const token = (thunkAPI.getState() as RootState).auth.user?.token || ""
 
@@ -73,7 +73,7 @@ export const getUserPhotos = createAsyncThunk("photos/user",
 export const delePhoto = createAsyncThunk("/photos/delete",
     async(id: string, thunkAPI) => {
 
-        const token = (thunkAPI.getState() as RootState).auth.user?.token
+        const token = (thunkAPI.getState() as RootState).auth.user?.token || "";
 
         const data = await photoService.deletePhoto(id, token)
 
@@ -90,13 +90,12 @@ export const delePhoto = createAsyncThunk("/photos/delete",
 // Update photo
 
 export const updatePhoto = createAsyncThunk("/photos/update",
-    async(photoData: PhotoData, thunkAPI) => {
+    async(photoData: PhotoDataProps, thunkAPI) => {
         
-        const token = (thunkAPI.getState() as RootState).auth.user?.token
+        const token = (thunkAPI.getState() as RootState).auth.user?.token || "";
 
         const data = await photoService.updatePhoto({title: photoData.title}, photoData.id, token);
 
-        
           //Check errors
           if(data.errors) {
             return  thunkAPI.rejectWithValue(data.errors[0]);

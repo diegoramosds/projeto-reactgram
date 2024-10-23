@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux"
 //Redux
 import { getUserDetails } from "../../slices/userSlice"
 import { AppDispatch, RootState } from "../../store"
-import { delePhoto, getUserPhotos, publishPhoto, resetMessage } from "../../slices/photoSlice"
+import { delePhoto, getUserPhotos, publishPhoto, resetMessage, updatePhoto } from "../../slices/photoSlice"
 
 const Profile = () => {
     
@@ -35,9 +35,13 @@ const Profile = () => {
     const [image, setImage] = useState<File | string>(String);
     const [title, setTitle] = useState("");
 
+    const [editId, setEditId] = useState("");
+    const [editImage, setEditImage] = useState<File | string>(String);
+    const [editTitle, setEditTitle] = useState("");
+
     //New form and edit form const const = useRef(second)
     const newPhotoForm =  useRef<HTMLDivElement | null>(null)
-    const editPhotoForm = useRef()
+    const editPhotoForm = useRef<HTMLDivElement | null>(null)
 
     //Load user data
     useEffect(() => {
@@ -48,7 +52,7 @@ const Profile = () => {
     } 
 }, [dispatch, id]);
 
-    const resetComponents = () => {
+    const resetComponentMessage = () => {
         setTimeout(() => {
             dispatch(resetMessage())
           }, 2000)    
@@ -70,29 +74,23 @@ const Profile = () => {
      //Build form data
      const formData = new FormData()
 
-     const photoFormData = Object.keys(photoData).forEach((key) => 
+    Object.keys(photoData).forEach((key) => 
         formData.append(key, photoData[key as keyof PhotoDataProps])
     );
-
-    formData.append("photo", photoFormData)
 
     dispatch(publishPhoto(formData))
     
     setTitle("")
 
-    resetComponents();
+    resetComponentMessage();
     }
 
     //Delete a photo
     const handleDelete = (id: string) => {
 
        dispatch(delePhoto(id))
-       
-       setTimeout(() => {
-           dispatch(resetMessage())
-         }, 2000)
 
-    resetComponents();
+      resetComponentMessage();
  }
 
     const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,6 +101,50 @@ const Profile = () => {
       }
     }
 
+
+    //Show or hide forms 
+      const hideOrShowForms = () => {
+        newPhotoForm.current?.classList.toggle("hide")
+        editPhotoForm.current?.classList.toggle("hide")
+      }  
+
+      type EditPhotoProps = {
+        _id: string,
+        title: string,
+        image: string | File,
+     }
+
+       //Open Edit form
+    const  handleEdit = (photo: EditPhotoProps) => {
+        if (editPhotoForm.current?.classList.contains("hide")) {
+          hideOrShowForms();  
+        }
+
+        setEditId(photo._id)
+        setEditImage(photo.image)
+        setEditTitle(photo.title) 
+      }
+
+    // Cancel editing
+        const handleCancelEdit = () => {
+        hideOrShowForms();
+        };
+
+
+    //Update photo
+    const handleUpdate = (e : React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const photoData = {
+            title: editTitle,
+            id: editId
+        }
+
+        dispatch(updatePhoto(photoData));
+        resetComponentMessage();
+    }
+
+    
     if(loading) {
         return <p>Carregando...</p>
     }
@@ -138,14 +180,31 @@ const Profile = () => {
                         {loadingPhoto && <input type="submit" disabled value="Aguarde..."  />}
                     </form>
                 </div>
+
+                <div className="hide" ref={editPhotoForm}>
+                    <p>Editando</p>
+                    {editImage && (
+                        <img src={`${uploads}/photos/${editImage}`} alt={editTitle} />
+                    )}
+                    <form onSubmit={handleUpdate}>
+                        <input type="text" 
+                        onChange={(e) => setEditTitle(e.target.value)} 
+                        value={editTitle || ""}/>
+                    
+                        <input type="submit"  value="Atualizar"  />
+                        <button className="" onClick={handleCancelEdit}>Cancelar edição</button>
+                    </form>
+                </div>
                 {errorPhoto && <Message msg={errorPhoto} type="error"></Message>}
                 {messagePhoto && <Message msg={messagePhoto} type="success"></Message>}
                 </>
             )}
+
             <div className="w-full flex flex-col flex-wrap mt-5">
                 <h2 className="font-bold text-xl mb-5">Fotos publicadas</h2>
                 <div className="flex flex-wrap justify-center items-center gap-3">
                     {photos && photos.map((photo) => (
+
 
                     <div key={photo._id} className="flex flex-col w-36">
                         {photo.image && (<img src={`${uploads}/photos/${photo.image}`} alt={photo.title}/>)}
@@ -153,16 +212,18 @@ const Profile = () => {
                             {id === userAuth?._id ? (
                                <div className="flex justify-around m-3 cursor-pointer text-lg">
                                 <Link to={`/photos/${photo._id}`}><BsFillEyeFill/></Link>
-                                <BsPencilFill/>
+                                <BsPencilFill onClick={() => handleEdit(photo)}/>
                                 <BsXLg onClick={() => handleDelete(photo._id)}/>
                                </div>
                                 
                             ) : 
                             (
                             <Link to={`/photos/${photo._id}`}>Ver</Link>
-                            )} 
+                            )}
 
                     </div>
+
+
                     ))}
                     {photos.length === 0 && <p>Ainda não há publicações</p>}
                 </div>
@@ -170,6 +231,7 @@ const Profile = () => {
         </div>
     </div>
     )
+
 }
 
 export default Profile
