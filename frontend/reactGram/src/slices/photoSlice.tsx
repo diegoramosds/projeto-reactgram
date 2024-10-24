@@ -105,6 +105,8 @@ export const updatePhoto = createAsyncThunk("/photos/update",
     }
 )
 
+
+//get Photo
 export const getPhotoById = createAsyncThunk("/photos/getphoto/",
     async(id: string | undefined, thunkAPI) => {
 
@@ -114,10 +116,23 @@ export const getPhotoById = createAsyncThunk("/photos/getphoto/",
 
         return data;
     
-    }
-    
-    
+    }  
 )
+
+// like a photo
+export const likePhoto = createAsyncThunk("/photo/like",
+    async(id: string, thunkAPI) => {
+
+        const token = (thunkAPI.getState() as RootState).auth.user?.token || "";
+
+        const data = await photoService.likePhoto(id, token)
+
+        return data;
+
+    }
+)
+
+
 
 export const photoSlice = createSlice({
     name: "photo",
