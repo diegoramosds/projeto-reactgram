@@ -38,7 +38,7 @@ const Photo = () => {
 
   
   return (
-    <div>
+    <div className="w-2/4 mt-0 mx-auto">
       <PhotoItem photo={photo} />
     </div>
   )

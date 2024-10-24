@@ -1,16 +1,24 @@
 import { Link } from "react-router-dom"
 import { uploads } from "../utils/config"
 
+interface PhotoItemProps {
+    photo: {
+        image: string,
+        title: string,
+        userId: string,
+        userName: string
+    }
+  }
 
-const PhotoItem = ({photo}) => {
+const PhotoItem = ({photo}: PhotoItemProps) => {
   return (
-    <div>
+    <div className="w-full mt-10 flex flex-col gap-6">
         {photo.image && (
-            <img src={`${uploads}/photos/${photo.image}`} alt={photo.title} />
+            <img src={`${uploads}/photos/${photo.image}`} alt={photo.title} className="rounded"/>
         )}
-        <p>{photo.title}</p>
-        <p> Publicado por:
-        <Link to={`/users/${photo.userId}`}> {photo.userName}</Link>
+        <p className="text-xl font-bold text-center">{photo.title}</p>
+        <p className="m-2"> Publicado por: 
+         <Link to={`/users/${photo.userId}`} className="font-bold hover:border-b"> {photo.userName} </Link>
         </p>     
     </div>
   )
