@@ -18,7 +18,7 @@ interface Photo {
 
 interface InitialStateProps {
     photos: Array<Photo>,
-    photo:  Partial<Photo>,
+    photo: object,
     error: boolean | string | null,
     success: boolean,
     loading: boolean,
@@ -47,7 +47,7 @@ export const publishPhoto = createAsyncThunk("photo/publish",
           return  thunkAPI.rejectWithValue(data.errors[0]);
          }
 
-         return data;
+      return data;
     }
 )
 
@@ -106,9 +106,11 @@ export const updatePhoto = createAsyncThunk("/photos/update",
 )
 
 export const getPhotoById = createAsyncThunk("/photos/getphoto/",
-    async(id: string) => {
+    async(id: string | undefined, thunkAPI) => {
 
-        const data = await photoService.getPhotoById(id, );
+        const token = (thunkAPI.getState() as RootState).auth.user?.token || "";
+
+        const data = await photoService.getPhotoById(id, token);
 
         return data;
     
