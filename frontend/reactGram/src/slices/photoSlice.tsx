@@ -8,6 +8,7 @@ interface Photo {
     url: string;
     title: string;
     image: string | File;
+    likes?: string[];
   }
 
   interface PhotoDataProps {
@@ -18,7 +19,7 @@ interface Photo {
 
 interface InitialStateProps {
     photos: Array<Photo>,
-    photo: object,
+    photo: Photo | object,
     error: boolean | string | null,
     success: boolean,
     loading: boolean,
@@ -86,7 +87,6 @@ export const delePhoto = createAsyncThunk("/photos/delete",
         return data;
     }
 )
-
 // Update photo
 
 export const updatePhoto = createAsyncThunk("/photos/update",
@@ -113,10 +113,8 @@ export const getPhotoById = createAsyncThunk("/photos/getphoto/",
         const token = (thunkAPI.getState() as RootState).auth.user?.token || "";
 
         const data = await photoService.getPhotoById(id, token);
-
         return data;
-    
-    }  
+    }
 )
 
 // like a photo
@@ -234,14 +232,15 @@ export const photoSlice = createSlice({
             state.success = true;
             state.error = null;  
             
-            if(state.photo.likes) {
-                state.photo.likes.push(action.payload.userId)
+            if ("likes" in state.photo && Array.isArray(state.photo.likes)) {
+                state.photo.likes.push(action.payload.userId);
             }
 
 
             state.photos.map((photo) => {
 
-                if(photo._id === action.payload.photo.photoId) {
+                if(  "likes" in state.photo &&  photo._id === action.payload.photo.photoId) {
+                    state.photo.likes = state.photo.likes || [];
                     return state.photo.likes.push(action.payload.userId)
                 }
             })

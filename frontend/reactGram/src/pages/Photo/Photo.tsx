@@ -9,10 +9,11 @@ import PhotoItem from "../../components/PhotoItem";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { getPhotoById } from "../../slices/photoSlice";
-
 
 //redux 
+import { getPhotoById, likePhoto } from "../../slices/photoSlice";
+import LikeContainer from "../../components/LikeContainer";
+
 
 const Photo = () => {
   const { id } = useParams();
@@ -30,7 +31,9 @@ const Photo = () => {
 
   },[dispatch, id])
 
-  //like and comments
+  const handleLike = () => {
+    dispatch(likePhoto(photo._id))
+  };
 
   if(loading) {
     return <p>Carregando...</p>
@@ -40,6 +43,7 @@ const Photo = () => {
   return (
     <div className="w-2/4 mt-0 mx-auto">
       <PhotoItem photo={photo} />
+      <LikeContainer photo={photo} user={user} handleLike={handleLike}/>
     </div>
   )
 }
