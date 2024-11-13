@@ -163,9 +163,7 @@ const deletePhoto = async(req, res) => {
         } catch (error) {
             res.status(404).json({errors: ["Foto não encontrada"]})
             return;
-        }
-
-        
+        }  
     }
 
     //Like funcionality
@@ -186,14 +184,14 @@ const deletePhoto = async(req, res) => {
         // Check if the user already like the photo  
         if(photo.likes.includes(reqUser._id)) {
             photo.likes = photo.likes.filter(userId => !userId.equals(reqUser._id));
-            res.status(404).json({photoId: [], userId: [], message: "Curtida removida"})
+            res.status(200).json({photoId: [], userId: [], message: "Curtida removida"})
             await photo.save()
             return;
         }
         
         else {
             photo.likes.push(reqUser._id)
-            res.status(404).json({photoId: id, userId: reqUser._id, message: "Você curtiu a foto"})
+            res.status(200).json({photoId: id, userId: reqUser._id, message: "Você curtiu a foto"})
             await photo.save()
             return;
         }
@@ -203,6 +201,8 @@ const deletePhoto = async(req, res) => {
          return
         } 
     }
+
+
     // Comment a photo
     const commentPhoto = async(req, res)  => {
         const {id} = req.params;

@@ -32,13 +32,12 @@ router.get("/:id", authGuard, getPhotoById);
 
 router.put("/:id", authGuard, photoUpdateValidation(), validate, updatePhoto),
 
-router.put("/like/:id", authGuard, validate, likePhoto),
+router.put("/like/:id", authGuard, likePhoto);
 
 router.put("/comment/:id", authGuard, photoCommentValidation(), validate, commentPhoto),
 
 router.get("/find/comments/:id", authGuard, getAllComments);
 
 router.delete("/remove/comment/:photoId/:commentId", authGuard, deleteComment);
-
 
 module.exports  = router

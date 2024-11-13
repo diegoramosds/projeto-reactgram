@@ -38,12 +38,11 @@ const Photo = () => {
   if(loading) {
     return <p>Carregando...</p>
   }
-
   
   return (
     <div className="w-2/4 mt-0 mx-auto">
       <PhotoItem photo={photo} />
-      <LikeContainer photo={photo} user={user} handleLike={handleLike}/>
+      <LikeContainer photo={photo} user={user} handleLike={handleLike} />
     </div>
   )
 }

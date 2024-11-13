@@ -118,7 +118,7 @@ export const getPhotoById = createAsyncThunk("/photos/getphoto/",
 )
 
 // like a photo
-export const likePhoto = createAsyncThunk("/photo/like",
+export const likePhoto = createAsyncThunk("photo/like",
     async(id: string, thunkAPI) => {
 
         const token = (thunkAPI.getState() as RootState).auth.user?.token || "";
@@ -239,7 +239,7 @@ export const photoSlice = createSlice({
 
             state.photos.map((photo) => {
 
-                if(  "likes" in state.photo &&  photo._id === action.payload.photo.photoId) {
+                if(  "likes" in state.photo &&  photo._id === action.payload.photoId) {
                     state.photo.likes = state.photo.likes || [];
                     return state.photo.likes.push(action.payload.userId)
                 }
