@@ -182,19 +182,18 @@ const deletePhoto = async(req, res) => {
         }
 
         // Check if the user already like the photo  
-        if(photo.likes.includes(reqUser._id)) {
+        if (photo.likes.includes(reqUser._id)) {
             photo.likes = photo.likes.filter(userId => !userId.equals(reqUser._id));
-            res.status(200).json({photoId: [], userId: [], message: "Curtida removida"})
-            await photo.save()
+            await photo.save();
+            res.status(200).json({ photoId: id, likes: photo.likes, message: "Curtida removida" });
             return;
-        }
-        
-        else {
-            photo.likes.push(reqUser._id)
-            res.status(200).json({photoId: id, userId: reqUser._id, message: "Você curtiu a foto"})
-            await photo.save()
+          } else {
+            photo.likes.push(reqUser._id);
+            await photo.save();
+            res.status(200).json({ photoId: id, likes: photo.likes, message: "Você curtiu a foto" });
             return;
-        }
+          }
+          
     
         } catch (error) {
         res.status(422).json({errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]}) 

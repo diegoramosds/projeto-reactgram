@@ -9,6 +9,7 @@ import PhotoItem from "../../components/PhotoItem";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
+import { useResetComponetMessage } from "../../hooks/useResetComponentMessage";
 
 //redux 
 import { getPhotoById, likePhoto } from "../../slices/photoSlice";
@@ -20,8 +21,10 @@ const Photo = () => {
 
   const dispatch: AppDispatch = useDispatch();
 
+  const resetMessage = useResetComponetMessage(dispatch);
+
   const {user} = useSelector((state: RootState) => state.auth);
-  const {photo, error, loading, message,} = useSelector((state: RootState) => state.photo);
+  const {photo, error, loading, message} = useSelector((state: RootState) => state.photo);
 
   //comments
 
@@ -32,7 +35,9 @@ const Photo = () => {
   },[dispatch, id])
 
   const handleLike = () => {
-    dispatch(likePhoto(photo._id))
+    dispatch(likePhoto(photo._id!))
+
+    resetMessage();
   };
 
   if(loading) {
@@ -42,7 +47,11 @@ const Photo = () => {
   return (
     <div className="w-2/4 mt-0 mx-auto">
       <PhotoItem photo={photo} />
-      <LikeContainer photo={photo} user={user} handleLike={handleLike} />
+      <LikeContainer photo={photo} user={user} handleLike={handleLike}/>
+      <div>
+        {error && <Message msg={error} type="error"/>}
+        {message && <Message msg={message} type="success"/>}
+      </div>
     </div>
   )
 }

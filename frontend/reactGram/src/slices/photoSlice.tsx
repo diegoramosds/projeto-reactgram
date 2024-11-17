@@ -14,12 +14,11 @@ interface Photo {
   interface PhotoDataProps {
     id: string;
     title: string;
-   
-  }
+  } 
 
 interface InitialStateProps {
     photos: Array<Photo>,
-    photo: Photo | object,
+    photo: Partial<Photo>,
     error: boolean | string | null,
     success: boolean,
     loading: boolean,
@@ -230,21 +229,22 @@ export const photoSlice = createSlice({
         .addCase(likePhoto.fulfilled, (state, action) => {
             state.loading = false;
             state.success = true;
-            state.error = null;  
-            
-            if ("likes" in state.photo && Array.isArray(state.photo.likes)) {
-                state.photo.likes.push(action.payload.userId);
+            state.error = null;
+            state.message = action.payload.message;
+          
+            const { photoId, likes } = action.payload;
+          
+            // Atualiza o estado da foto sendo exibida
+            if (state.photo._id === photoId) {
+              state.photo.likes = likes;
             }
-
-
-            state.photos.map((photo) => {
-
-                if(  "likes" in state.photo &&  photo._id === action.payload.photoId) {
-                    state.photo.likes = state.photo.likes || [];
-                    return state.photo.likes.push(action.payload.userId)
-                }
-            })
-        })
+          
+            // Atualiza a lista de fotos no estado global
+            state.photos = state.photos.map((photo) =>
+              photo._id === photoId ? { ...photo, likes } : photo
+            );
+          })
+          
         .addCase(likePhoto.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string;
@@ -252,7 +252,6 @@ export const photoSlice = createSlice({
         })
     }
 })
-
 
 export const {resetMessage} = photoSlice.actions
 export default photoSlice.reducer
