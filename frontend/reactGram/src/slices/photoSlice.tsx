@@ -9,11 +9,13 @@ interface Photo {
     title: string;
     image: string | File;
     likes?: string[];
+    comments?: string;
   }
 
   interface PhotoDataProps {
     id: string;
     title: string;
+    comment: string;
   } 
 
 interface InitialStateProps {
@@ -136,6 +138,23 @@ export const likePhoto = createAsyncThunk("photo/like",
 )
 
 
+// Add comments to a photo 
+export const comments = createAsyncThunk("/photo/comments",
+    async(photoData: PhotoDataProps, thunkAPI) => {
+
+        const token = (thunkAPI.getState() as RootState).auth.user?.token || "";
+
+        const data = await photoService.comments({ comment: photoData.comment }, photoData.id, token);
+
+        //Check errors
+        if(data.errors) {
+            return  thunkAPI.rejectWithValue(data.errors[0]);
+           }
+
+        return data;
+    }
+)
+
 
 export const photoSlice = createSlice({
     name: "photo",
@@ -249,6 +268,19 @@ export const photoSlice = createSlice({
             state.loading = false;
             state.error = action.payload as string;
             state.photo = {};
+        })
+        .addCase(comments.fulfilled, (state, action) => {
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+            state.message = action.payload.message;
+          
+           state.photo.comments.push(action.payload.comment);
+          })
+          
+        .addCase(comments.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
         })
     }
 })
