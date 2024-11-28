@@ -105,8 +105,7 @@ const likePhoto = async (id: string, token: string) => {
   };
 
   // Add Comments to a photo
-
-  const comments = async(data: string, id: string, token: string) => {
+  const comments = async(data: object, id: string, token: string) => {
      const config = requestConfig("PUT", data, token);
 
      try {
@@ -120,6 +119,20 @@ const likePhoto = async (id: string, token: string) => {
     }
   }
 
+  //Remove comment
+  const removeComments = async(photoId: string, id: string, token: string) => {
+
+    const config = requestConfig("DELETE", null, token);
+    try {
+    const res = await fetch(api + `/photos/remove/comment/${photoId}/`  + id, config)
+    .then((res) => res.json())
+    .catch((err) => err)
+
+    return res;
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 const photoService = {
     publishPhoto,
@@ -128,7 +141,8 @@ const photoService = {
     updatePhoto,
     getPhotoById,
     likePhoto,
-    comments
+    comments,
+    removeComments
 }
 
 export default  photoService;
