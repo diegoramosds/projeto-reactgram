@@ -3,13 +3,23 @@ import photoService from "../services/photoService";
 import { reset } from "./authSlice";
 import { RootState } from "../store";
 
+interface commentDataProps {
+    id: string,
+    photoId: string,
+    commentId: string,
+    comment: string,
+    userImage: string,
+    userName: string,
+    userId: string
+}
+
 interface Photo {
     _id: string;
     url: string;
     title: string;
     image: string | File;
     likes?: string[];
-    comments?: string;
+    comments?: commentDataProps[];
   }
 
   interface PhotoDataProps {
@@ -88,8 +98,8 @@ export const delePhoto = createAsyncThunk("/photos/delete",
         return data;
     }
 )
-// Update photo
 
+// Update photo
 export const updatePhoto = createAsyncThunk("/photos/update",
     async(photoData: PhotoDataProps, thunkAPI) => {
         
@@ -140,21 +150,35 @@ export const likePhoto = createAsyncThunk("photo/like",
 
 // Add comments to a photo 
 export const comments = createAsyncThunk("/photo/comments",
-    async(photoData: PhotoDataProps, thunkAPI) => {
+    async(commentData: commentDataProps, thunkAPI) => {
 
         const token = (thunkAPI.getState() as RootState).auth.user?.token || "";
 
-        const data = await photoService.comments({ comment: photoData.comment }, photoData.id, token);
+        const data = await photoService.comments({ comment: commentData.comment }, commentData.id, token);
 
         //Check errors
         if(data.errors) {
             return  thunkAPI.rejectWithValue(data.errors[0]);
            }
-
         return data;
     }
 )
 
+//Remove comment
+export const removeComment = createAsyncThunk("/remove/comment",
+    async(commentData: commentDataProps, thunkAPI) => {
+
+        const token = (thunkAPI.getState() as RootState).auth.user?.token || "";
+
+        const data = await photoService.removeComments(commentData.photoId, commentData.commentId, token)
+
+        //Check errors
+        if(data.errors) {
+            return  thunkAPI.rejectWithValue(data.errors[0]);
+           }
+        return data;
+    }
+)
 
 export const photoSlice = createSlice({
     name: "photo",
@@ -248,9 +272,7 @@ export const photoSlice = createSlice({
         .addCase(likePhoto.fulfilled, (state, action) => {
             state.loading = false;
             state.success = true;
-            state.error = null;
-            state.message = action.payload.message;
-          
+            state.error = null;          
             const { photoId, likes } = action.payload;
           
             // Atualiza o estado da foto sendo exibida
@@ -262,6 +284,8 @@ export const photoSlice = createSlice({
             state.photos = state.photos.map((photo) =>
               photo._id === photoId ? { ...photo, likes } : photo
             );
+
+            state.message = action.payload.message;
           })
           
         .addCase(likePhoto.rejected, (state, action) => {
@@ -275,10 +299,28 @@ export const photoSlice = createSlice({
             state.error = null;
             state.message = action.payload.message;
           
-           state.photo.comments.push(action.payload.comment);
+            if (!state.photo.comments) {
+                state.photo.comments = [];
+              }
+              state.photo.comments.push(action.payload.comment);
           })
           
         .addCase(comments.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        })
+        .addCase(removeComment.fulfilled, (state, action) => {
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+
+            state.photos = state.photos.filter((comments) => {
+                return comments._id !== action.payload.id
+            });  
+            
+            state.message = action.payload.message;
+          })
+        .addCase(removeComment.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string;
         })
