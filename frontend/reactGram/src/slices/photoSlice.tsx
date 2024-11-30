@@ -313,7 +313,7 @@ export const photoSlice = createSlice({
             state.loading = false;
             state.success = true;
             state.error = null;
-
+        
             state.photos = state.photos.filter((comments) => {
                 return comments._id !== action.payload.id
             });  

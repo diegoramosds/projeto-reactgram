@@ -311,7 +311,7 @@ const deletePhoto = async(req, res) => {
             // Salvar as mudanças na foto
             await photo.save();
     
-            res.status(200).json({ message: `Comentário: ${commentId} excluído com sucesso.` });
+            res.status(200).json({ message: "Comentário excluído com sucesso." });
         } catch (error) {
             console.log(error);
             res.status(500).json({ errors: ["Ocorreu um erro ao tentar excluir o comentário."] });
