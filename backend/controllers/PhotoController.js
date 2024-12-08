@@ -85,9 +85,8 @@ const deletePhoto = async(req, res) => {
     const getAllPhotos = async(req, res)  => {
     const photo = await Photo.find({}).sort([["createdAt",-1]]).exec();
 
-    return res.status(200).json(photo)
+    return res.status(200).json(photo);
 }
-
     // Get all user photos
     const getUserPhotos = async(req, res)  => {
         const {id} = req.params;
