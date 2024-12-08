@@ -2,8 +2,9 @@ import { uploads } from "../../utils/config"
 
 //Components
 import Message from "../../components/Message";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PhotoItem from "../../components/PhotoItem";
+
 
 //hooks
 import React, { useEffect, useState } from "react";
@@ -14,7 +15,7 @@ import { useResetComponetMessage } from "../../hooks/useResetComponentMessage";
 //redux 
 import { comments, getPhotoById, likePhoto, removeComment } from "../../slices/photoSlice";
 import LikeContainer from "../../components/LikeContainer";
-
+import CommentItem from "../../components/CommentItem";
 
 const Photo = () => {
   const { id } = useParams();
@@ -28,7 +29,6 @@ const Photo = () => {
 
   //comments
   const [commentText, setCommentText] = useState("")
-
 
   //load photo data
   useEffect(() => {
@@ -68,9 +68,7 @@ const Photo = () => {
    dispatch(removeComment(commentData))
 
    resetMessage();
-  }
-  }
-
+  }}
 
   if(loading) {
     return <p>Carregando...</p>
@@ -85,41 +83,12 @@ const Photo = () => {
         {message && <Message msg={message} type="success"/>}
       </div>
       <div>
-        {photo.comments && (
-          <>
-          <h3>comentários({photo.comments?.length})</h3>
-            <form onSubmit={handleComment}>
-              <input type="text"
-              placeholder="Insira seu comentário..."
-              onChange={((e) => setCommentText(e.target.value))}
-              value={commentText || ""}
-               />
-              <input type="submit" value="Enviar" />
-             </form>
-               {photo.comments?.length === 0 && <p>Não há comentarios...</p>}
-               {photo.comments.map((comment) => (
-                <div key={comment.comment} className="border rounded-lg m-2">
-                  <div >
-                    {comment.userImage && (
-                     <img src={`${uploads}/users/${comment.userImage}`}
-                      alt={comment.userName} />
-                    )}
-                    <Link to={`/users/${comment.userId}`}>
-                        {comment.userName}:
-                    </Link>
-                  </div>
-                  <div className="flex justify-between">
-                    <div className="">
-                      {comment.comment}
-                    </div>
-                     <div className="cursor-pointer">
-                      <p onClick={() => handleRemoveComment(photo._id, comment._id)}>X</p>
-                      </div>
-                  </div>
-                  </div>
-               ))}
-          </>
-        )}
+        <CommentItem 
+        commentText={commentText} 
+        handleComment={handleComment} 
+        handleRemoveComment={handleRemoveComment}
+        photo={photo}
+        setCommentText={setCommentText}/>
       </div>
        
     </div>
