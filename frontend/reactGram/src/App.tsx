@@ -12,6 +12,7 @@ import { useAuth } from './hooks/useAuth';
 import EditProfile from './pages/EditProifile/EditProfile';
 import Profile from './pages/Profile/Profile';
 import Photo from './pages/Photo/Photo';
+import Search from './pages/Search/Search';
 
 function App() {
   const {auth, loading} = useAuth()
@@ -30,12 +31,12 @@ function App() {
             <Route path="/login" element={!auth ? <Login /> : <Navigate to="/"/>} />
             <Route path="/profile" element={auth ? <EditProfile /> : <Navigate to="/"/>} />
             <Route path="/users/:id" element={auth ? <Profile /> : <Navigate to="/"/>} />
+            <Route path="/search" element={auth ? <Search /> : <Navigate to="/"/>} />
             <Route path="/photos/:id" element={auth ? <Photo /> : <Navigate to="/"/>} />
         </Routes>
       <Footer />
     </BrowserRouter>
       </div>
-   
   )
 }
 
