@@ -28,15 +28,15 @@ const initialState: AuthState = {
     loading: false,
 };
 
+interface UserProps {
+    username: string;
+    email: string;
+    password: string;
+  }
+
  //Register an user
- export const register = createAsyncThunk("auth/register",
-    async (user: {
-         _id:  string;
-        name: string;
-        email: string;
-        password: string;
-        confirmPassword: string;
-    }, thunkAPI) => {
+export const register = createAsyncThunk("auth/register",
+    async (user: Partial<UserProps>, thunkAPI) => {
 
         const data = await authService.register(user)
 
@@ -44,18 +44,22 @@ const initialState: AuthState = {
         if(data.errors) {
             return thunkAPI.rejectWithValue(data.errors[0])
         }
-   
-        return data;   
-        
+
+        return data;
     });
 
 //Logout an user
-export const logout = createAsyncThunk("auth/logout", async () => {
+export const logout = createAsyncThunk("auth/logout",
+    async () => {
     await authService.logout()
 });
 
+interface LoginProps {
+    email: string;
+    password: string;
+}
  //Sing in an user
-export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
+export const login = createAsyncThunk("auth/login", async (user: LoginProps, thunkAPI) => {
   const data = await authService.login(user);
 
   // Check for errors
