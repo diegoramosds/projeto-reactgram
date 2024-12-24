@@ -1,5 +1,3 @@
-import { uploads } from "../../utils/config"
-
 //Components
 import Message from "../../components/Message";
 import { useParams } from "react-router-dom";
@@ -12,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { useResetComponetMessage } from "../../hooks/useResetComponentMessage";
 
-//redux 
+//redux
 import { comments, getPhotoById, likePhoto, removeComment } from "../../slices/photoSlice";
 import LikeContainer from "../../components/LikeContainer";
 import CommentItem from "../../components/CommentItem";
@@ -32,7 +30,7 @@ const Photo = () => {
 
   //load photo data
   useEffect(() => {
-   dispatch(getPhotoById(id))
+  dispatch(getPhotoById(id))
 
   },[dispatch, id])
 
@@ -51,23 +49,23 @@ const Photo = () => {
       comment: commentText,
       id: photo._id
     }
-     dispatch(comments(commentData))
+    dispatch(comments(commentData))
 
-     setCommentText("");
+    setCommentText("");
 
-     resetMessage();
+    resetMessage();
   }
 
   //Remove comment
   const handleRemoveComment = (photoId: string, commentId: string) => {
     if (window.confirm("Tem certeza que deseja remover este comentário?")) {
     const commentData = {
-     photoId,
-     commentId
+    photoId,
+    commentId
     }
-   dispatch(removeComment(commentData))
+  dispatch(removeComment(commentData))
 
-   resetMessage();
+  resetMessage();
   }}
 
   if(loading) {
@@ -90,7 +88,6 @@ const Photo = () => {
         photo={photo}
         setCommentText={setCommentText}/>
       </div>
-       
     </div>
   )
 }
