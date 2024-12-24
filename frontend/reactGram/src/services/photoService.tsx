@@ -53,7 +53,7 @@ const deletePhoto = async(id: string, token: string ) => {
 }
 
 //update photo
-const updatePhoto = async(data: object, id: string, token: string) => {
+const updatePhoto = async(data: object, id: string | undefined, token: string) => {
 
     const config = requestConfig("PUT", data, token)
 
@@ -105,8 +105,8 @@ const likePhoto = async (id: string, token: string) => {
   };
 
   // Add Comments to a photo
-  const comments = async(data: object, id: string, token: string) => {
-     const config = requestConfig("PUT", data, token);
+  const comments = async(commentData: object, id: string | undefined, token: string) => {
+     const config = requestConfig("PUT", commentData, token);
 
      try {
       const res = await fetch(api + "/photos/comment/" + id, config)
@@ -120,7 +120,7 @@ const likePhoto = async (id: string, token: string) => {
   }
 
   //Remove comment
-  const removeComments = async(photoId: string, id: string, token: string) => {
+  const removeComments = async(photoId: string | undefined, id: string | undefined, token: string) => {
 
     const config = requestConfig("DELETE", null, token);
     try {
@@ -149,6 +149,23 @@ const likePhoto = async (id: string, token: string) => {
     }
   }
 
+  //search photo
+  const searchPhoto = async(searchData: string | null, token: string) => {
+
+    const config = requestConfig("GET", null, token);
+
+    try {
+      const res = await fetch(api + "/photos/search?q=" + searchData, config)
+      .then((res) => res.json())
+      .catch((err) => err)
+
+    return res;
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 const photoService = {
     publishPhoto,
     getUserPhotos,
@@ -158,7 +175,8 @@ const photoService = {
     likePhoto,
     comments,
     removeComments,
-    getAllPhotos
+    getAllPhotos,
+    searchPhoto
 }
 
 export default  photoService;
