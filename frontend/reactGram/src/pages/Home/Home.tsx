@@ -3,12 +3,11 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store";
 
 import { useResetComponetMessage } from "../../hooks/useResetComponentMessage";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import PhotoItem from "../../components/PhotoItem";
 import LikeContainer from "../../components/LikeContainer";
-import { comments, getAllPhotos, likePhoto, removeComment } from "../../slices/photoSlice";
-import { useEffect, useState } from "react";
-import CommentItem from "../../components/CommentItem";
+import { getAllPhotos, likePhoto } from "../../slices/photoSlice";
+import { useEffect } from "react";
 
 const Home = () => {
 
@@ -19,8 +18,6 @@ const Home = () => {
   const {user} = useSelector((state : RootState) => state.auth);
   const {loading, photos, photo} = useSelector((state: RootState) => state.photo);
 
-  const [commentText, setCommentText] = useState("")
-
    //load photo data
    useEffect(() => {
     dispatch(getAllPhotos())
@@ -28,37 +25,11 @@ const Home = () => {
    },[dispatch])
 
   //Insert like
-  const handleLike = (photo) => {
+  const handleLike = () => {
     dispatch(likePhoto(photo._id!))
 
     resetMessage();
   };
-    //Insert comment
-    const handleComment = (e: React.ChangeEvent<HTMLFormElement>) => {
-      e.preventDefault();
-  
-      const commentData = {
-        comment: commentText,
-        id: photo._id
-      }
-       dispatch(comments(commentData))
-  
-       setCommentText("");
-  
-       resetMessage();
-    }
-  
-    //Remove comment
-    const handleRemoveComment = (photoId: string, commentId: string) => {
-      if (window.confirm("Tem certeza que deseja remover este comentário?")) {
-      const commentData = {
-       photoId,
-       commentId
-      }
-     dispatch(removeComment(commentData))
-  
-     resetMessage();
-    }}
 
   if(loading) {
     <p>Carregando</p>
@@ -71,16 +42,11 @@ const Home = () => {
         <div key={photo._id} className="w-2/4 mx-auto pb-10 mb-40 border-b border-t border-zinc-800 shadow-md rounded-lg p-5">
           <PhotoItem photo={photo}/>
           <LikeContainer photo={photo} user={user} handleLike={handleLike}/>
-          <CommentItem 
-        commentText={commentText} 
-        handleComment={handleComment} 
-        handleRemoveComment={handleRemoveComment}
-        photo={photo}
-        setCommentText={setCommentText}/>
+          <p><Link to={`/photos/${photo._id}`}>Veja detalhes</Link></p>
         </div>
        ))}
        {photos && photos.length === 0 && (
-        <p>Ainda não ha publicações <Link to={`/users/${user?._id}`}>Clique aqui</Link> e faça um puclicação</p>
+        <p>Ainda não ha publicações <Link to={`/users/${user?._id}`}>Clique aqui</Link> e faça um publicação</p>
        )}
     </div>
   )
