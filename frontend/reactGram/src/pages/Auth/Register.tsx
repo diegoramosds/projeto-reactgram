@@ -14,7 +14,7 @@ import type { AppDispatch } from "../../store";
 
 
 const Register = () => {
-  
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,9 +46,9 @@ const user = {
     <FormStyle title="Faça seu cadastro"
     subtitle="Crie sua conta e comece a capturar e compartilhar momentos inesquecíveis."
     handleSubmit={handleSubmit}
-    loading={loading} 
+    loading={loading}
     linkTo="/login"
-    linkText="Já tem conta?" 
+    linkText="Já tem conta?"
     btnText="Cadastrar"
     errorMessage={error && <Message msg={error} type="error"/>}>
           <input type="text" placeholder="Nome" onChange={(e) => setName(e.target.value)} value={name}/>
