@@ -17,7 +17,7 @@ interface LikeContainer {
   photo: Partial<Photo>,
   user: User | null,
   handleLike: (photo : Partial<Photo>) => void
- }
+}
 
 const LikeContainer = ({ photo, user, handleLike }: LikeContainer) => {
   return (
