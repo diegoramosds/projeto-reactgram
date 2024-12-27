@@ -10,6 +10,12 @@ export default {
         roboto: ['Roboto', 'sans-serif']
       }
     },
+    keyframes: {
+      '0%, 100%': { transform: 'transform' },
+    },
+    animation: {
+      wiggle: 'wiggle 1s ease-in-out infinite',
+    },
   },
   plugins: [],
 }
