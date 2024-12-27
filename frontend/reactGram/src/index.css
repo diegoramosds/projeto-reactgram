@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 h3 {
     @apply text-lg font-bold my-2
 }
@@ -15,6 +16,10 @@ a {
 
 ul{
     @apply list-none
+}
+
+li{
+    @apply cursor-pointer
 }
 
 form {
@@ -57,4 +62,14 @@ button:hover,input[type="submit"]:hover {
 
 .hide {
     @apply hidden
+}
+
+.modal li {
+    @apply hover:bg-zinc-800 p-3 rounded-md
+}
+.modal li p {
+    @apply flex items-center gap-2
+}
+.info-profile  p  {
+    @apply flex flex-col items-center cursor-pointer
 }
