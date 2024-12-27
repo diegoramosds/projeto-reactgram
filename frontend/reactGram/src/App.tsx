@@ -1,6 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
-import './App.css'
 
 //pages
 import Home from './pages/Home/Home';
@@ -13,6 +12,7 @@ import EditProfile from './pages/EditProifile/EditProfile';
 import Profile from './pages/Profile/Profile';
 import Photo from './pages/Photo/Photo';
 import Search from './pages/Search/Search';
+import Settings from './pages/Settings/Settings';
 
 function App() {
   const {auth, loading} = useAuth()
@@ -20,16 +20,16 @@ function App() {
     return <p>Carregando...</p>
   }
 
- 
   return (
-      <div  className='text-zinc-100 md: lg:'>
+      <div  className='text-zinc-100 bg-zinc-950/70 md: lg:'>
       <BrowserRouter>
       <NavBar />
         <Routes>
           <Route path="/" element={auth ? <Home /> : <Navigate to="/login"/>} />
             <Route path="/register" element={!auth ? <Register /> : <Navigate to="/"/>} />
             <Route path="/login" element={!auth ? <Login /> : <Navigate to="/"/>} />
-            <Route path="/profile" element={auth ? <EditProfile /> : <Navigate to="/"/>} />
+            <Route path="/settings" element={auth ? <EditProfile /> : <Navigate to="/"/>} />
+            <Route path="/users/profile/:id" element={auth ? <Settings /> : <Navigate to="/"/>} />
             <Route path="/users/:id" element={auth ? <Profile /> : <Navigate to="/"/>} />
             <Route path="/search" element={auth ? <Search /> : <Navigate to="/"/>} />
             <Route path="/photos/:id" element={auth ? <Photo /> : <Navigate to="/"/>} />

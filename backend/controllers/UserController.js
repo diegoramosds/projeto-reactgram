@@ -3,6 +3,7 @@ const User = require("../models/User")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken");
 const { default: mongoose } = require("mongoose");
+const Photo = require("../models/Photo");
 
 const jwtSecret  = process.env.JWT_SECRET;
 
@@ -43,7 +44,6 @@ const register = async(req, res) =>  {
         res.status(422).json({errors: ["Houve um erro, por favor tente mais tarde"]})
         return
     }
-
     res.status(201).json({
         _id: newUser._id,
         token: genarateToken(newUser._id)
@@ -51,9 +51,9 @@ const register = async(req, res) =>  {
 }
     const login = async (req, res) => {
 
-       const {email, password} = req.body 
+    const {email, password} = req.body
 
-       const user = await User.findOne({email})
+    const user = await User.findOne({email})
 
         //check if user exists
         if(!user) {
@@ -66,7 +66,6 @@ const register = async(req, res) =>  {
             res.status(422).json({errors: ["Senha inválida"]})
             return
         }
-
         //return user with token
         res.status(201).json({
             _id: user._id,
@@ -75,42 +74,33 @@ const register = async(req, res) =>  {
         })
     }
       //Get current logged in user
-      const getCurrentUser = async(req, res) => {
+    const getCurrentUser = async(req, res) => {
         const user = req.user;
-
         res.status(200).json(user)
     }
 
     //update an user
     const upadate = async(req, res) => {
-       const {name, password, bio} = req.body;
+    const {name, password, bio} = req.body;
 
-       let = profileImage = null;
-
+    let = profileImage = null;
         if(req.file) {
             profileImage = req.file.filename;
         }
-
         const reqUser = req.user
-
         const user = await User.findById(new mongoose.Types.ObjectId(reqUser._id)).select("-password")
-
         if(name) {
-            user.name = name
+        user.name = name
         }
-         if(password) {
-            
+        if(password) {
         //Generate password hash
         const salt = await bcrypt.genSalt()
         const passwordHash = await bcrypt.hash(password, salt)
-    
-         user.password = passwordHash
+        user.password = passwordHash
         }
-    
         if(profileImage) {
             user.profileImage = profileImage
         }
-
         if(bio)  {
             user.bio = bio
         }
@@ -119,7 +109,6 @@ const register = async(req, res) =>  {
 
         res.status(200).json(user);
     };
-
     // Get user by id
     const getUserById = async(req, res) => {
         const {id} = req.params;
@@ -131,8 +120,7 @@ const register = async(req, res) =>  {
         if(!user) {
             res.status(404).json({errors:["Usuário não encontrado."]});
             return
-        } 
-        
+        }
         res.status(200).json(user);
 
         } catch (error) {
@@ -141,11 +129,44 @@ const register = async(req, res) =>  {
         }
     }
 
+     // Start following
+     const followingUser = async(req, res) => {
+        const {id} = req.params;
+
+        try {
+        const reqUser = req.user;
+
+        const user = await User.findById(id)
+
+        // Check if user  exist
+        if(!user) {
+            res.status(422).json({errors: ["usuário não encontrada"]})
+            return;
+        }
+
+        // Check if the user already follow user
+        if (user.followers.includes(reqUser._id)) {
+            user.followers = user.followers.filter(userId => !userId.equals(reqUser._id));
+            await user.save();
+            res.status(200).json({ userId: id, followers: user.followers, message: "Deixou de seguir" });
+            return;
+        } else {
+            user.followers.push(reqUser._id);
+            await user.save();
+            res.status(200).json({ userId: id, followers: user.followers, message: "Você começou a seguir" });
+            return;
+        }
+        } catch (error) {
+        res.status(422).json({errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]}) 
+        return
+        }
+    }
 
 module.exports = {
     register,
     login,
     getCurrentUser,
     upadate,
-    getUserById
+    getUserById,
+    followingUser
 }

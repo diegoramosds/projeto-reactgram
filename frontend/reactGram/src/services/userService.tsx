@@ -1,11 +1,11 @@
-import { api, requestConfig } from "../utils/config";
+import { api, requestConfig } from '../utils/config';
 
  const profile = async(data: unknown, token: string) => {
 
     const config = requestConfig("GET", data, token)
 
     try {
-        const res = await fetch(api + "/users/profile", config)
+        const res = await fetch(api + "/users/settings", config)
         .then((res) => res.json())
         .catch((err) => err)
 
@@ -31,12 +31,12 @@ import { api, requestConfig } from "../utils/config";
  }
 
  //Get user details
-const getUserDetails = async(id:unknown) => {
+const getUserDetails = async(id:string) => {
 
 
     const config = requestConfig("GET")
 
-    try { 
+    try {
         const res = await fetch(api + "/users/" + id, config)
         .then((res) => res.json())
         .catch((err) => err);
@@ -47,10 +47,10 @@ const getUserDetails = async(id:unknown) => {
     }
 }
 
- const userService = {
+const userService = {
     profile,
     update,
     getUserDetails
- }
- 
- export default userService;
+}
+
+export default userService;

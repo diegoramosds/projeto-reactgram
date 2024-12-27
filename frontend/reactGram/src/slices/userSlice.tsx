@@ -16,8 +16,8 @@ interface UserState {
     success: boolean;
     loading: boolean;
     message: string | null;
-  }
-  
+ }
+
   const initialState: UserState = {
     user: null,
     error: null,
@@ -56,13 +56,9 @@ interface UserState {
  export const getUserDetails = createAsyncThunk("user/get",
     async(id: string, thunkAPI) => {
      const data = await userService.getUserDetails(id)
-
-   
-
      return data;
     }
  )
-
 
 export const userSlice = createSlice({
     name: "user",

@@ -21,13 +21,13 @@ interface LikeContainer {
 
 const LikeContainer = ({ photo, user, handleLike }: LikeContainer) => {
   return (
-<div className="flex flex-col justify-center items-center gap-3 mt-8 border-t border-b border-zinc-800 p-5">
+<div className="flex flex-col justify-center items-center gap-3 mt-8 border-t border-b border-zinc-800 p-5 w-11/12 mx-auto">
   {photo.likes && user && (
           <>
             {photo.likes.includes(user._id) ? (
-              <BsHeartFill className="cursor-pointer"  onClick={() => handleLike(photo)}/>
+              <BsHeartFill className="cursor-pointer text-red-800 hover:text-red-900"  onClick={() => handleLike(photo)}/>
             ) : (
-              <BsHeart onClick={() => handleLike(photo)} className="cursor-pointer"/>
+              <BsHeart onClick={() => handleLike(photo)} className="cursor-pointer hover:text-red-900"/>
             )}
             <p>{photo.likes.length} like(s)</p>
           </>

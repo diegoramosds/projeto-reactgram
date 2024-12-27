@@ -25,7 +25,7 @@ const Profile = () => {
 
     const {user, loading} = useSelector((state: RootState) => state.user)
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
-    const { 
+    const { photo,
         photos, 
         error:errorPhoto, 
         loading:loadingPhoto, 
@@ -152,7 +152,6 @@ const Profile = () => {
     return (
     <div className="w-2/4 mx-auto mt-6">
         <div className="flex border-b border-zinc-700 pb-1 items-center ">
-            
                 {user?.profileImage && (
                     <img src={`${uploads}/users/${user?.profileImage}`} alt={user.name}  className="w-40 h-40 rounded-full p-4"/>
                 )}
@@ -160,6 +159,7 @@ const Profile = () => {
             <div className="flex flex-col gap-6 ml-4">
                 <h2 className="text-xl font-bold">{user?.name}</h2>
                 <p>{user?.bio}</p>
+                <button><Link to={`/users/profile/${id}`}>Ver perfil</Link> </button>
             </div>
         </div>
         <div className="m-4">
@@ -190,7 +190,6 @@ const Profile = () => {
                         <input type="text" 
                         onChange={(e) => setEditTitle(e.target.value)} 
                         value={editTitle || ""}/>
-                    
                         <input type="submit"  value="Atualizar"  />
                         <button className="" onClick={handleCancelEdit}>Cancelar edição</button>
                     </form>
@@ -231,7 +230,6 @@ const Profile = () => {
         </div>
     </div>
     )
-
 }
 
 export default Profile

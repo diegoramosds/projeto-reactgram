@@ -5,9 +5,6 @@ const { mongoose } = require("mongoose");
 
 const fs = require("fs");
 
-
-
-
 // Insert a photo, with an user related to it
 const insertPhoto = async (req, res) => {
     const { title } = req.body;
@@ -36,7 +33,7 @@ const insertPhoto = async (req, res) => {
       });
       return;
     }
-  
+
     res.status(201).json(newPhoto);
   };
   
@@ -91,7 +88,7 @@ const deletePhoto = async(req, res) => {
         const {id} = req.params;
 
         try {
-            
+
         const photo = await Photo.find({userId: id}).sort([["createdAt",-1]]).exec();
 
         // Check if photo  exist
@@ -99,7 +96,7 @@ const deletePhoto = async(req, res) => {
             res.status(404).json({errors: ["Foto não encontrada"]})
             return;
         }
-         res.status(200).json(photo)
+        res.status(200).json(photo)
         } catch (error) {
             res.status(404).json({errors: ["Foto não encontrada"]})
             return;
@@ -191,8 +188,6 @@ const deletePhoto = async(req, res) => {
             res.status(200).json({ photoId: id, likes: photo.likes, message: "Você curtiu a foto" });
             return;
           }
-          
-    
         } catch (error) {
         res.status(422).json({errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]}) 
          return
@@ -315,7 +310,7 @@ const deletePhoto = async(req, res) => {
             res.status(500).json({ errors: ["Ocorreu um erro ao tentar excluir o comentário."] });
         }
     };
-    
+
 
 module.exports = {
     insertPhoto,
