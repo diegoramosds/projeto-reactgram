@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userService from "../services/userService";
-import { RootState } from "../store";
+import { RootState } from '../store';
 
 interface User {
     name: string;
@@ -60,6 +60,19 @@ interface UserState {
     }
  )
 
+ //Starting user
+ export const followingUser = createAsyncThunk("/folowers",
+    async(id: string, thunkAPI) => {
+        const token = (thunkAPI.getState() as RootState).auth.user?.token || "";
+
+        const data = await userService.followingUser(id, token)
+
+        if(data.erros) {
+            return thunkAPI.rejectWithValue(data.errors[0])
+         }
+        return data;
+    }
+ )
 export const userSlice = createSlice({
     name: "user",
     initialState,
@@ -103,6 +116,22 @@ export const userSlice = createSlice({
             state.success = true;
             state.error = null;
             state.user = action.payload;
+        })
+        .addCase(followingUser.pending, (state) => {
+            state.loading = true;
+            state.error = false;
+        })
+        .addCase(followingUser.fulfilled, (state, action) => {
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+            state.user = action.payload;
+            state.message = action.payload.message;
+        })
+        .addCase(followingUser.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+            state.user = null;
         })
     }
 })

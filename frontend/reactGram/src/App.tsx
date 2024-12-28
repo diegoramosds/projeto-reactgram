@@ -9,10 +9,10 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import { useAuth } from './hooks/useAuth';
 import EditProfile from './pages/EditProifile/EditProfile';
-import Profile from './pages/Profile/Profile';
+import Profile from './pages/Settings/Settings';
 import Photo from './pages/Photo/Photo';
 import Search from './pages/Search/Search';
-import Settings from './pages/Settings/Settings';
+import Settings from './pages/Profile/Profile';
 
 function App() {
   const {auth, loading} = useAuth()

@@ -144,6 +144,12 @@ const register = async(req, res) =>  {
             return;
         }
 
+        if(reqUser._id == id) {
+            res.status(422).json({errors: ["Não é possivel seguir sua propria conta"]})
+            return;
+        }
+
+
         // Check if the user already follow user
         if (user.followers.includes(reqUser._id)) {
             user.followers = user.followers.filter(userId => !userId.equals(reqUser._id));

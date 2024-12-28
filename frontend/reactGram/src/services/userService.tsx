@@ -47,10 +47,26 @@ const getUserDetails = async(id:string) => {
     }
 }
 
+// Starting follower
+const followingUser = async(id: string, token: string) => {
+    const config = requestConfig("PUT", null, token)
+
+    try {
+        const res = await fetch(api + "/users/followers/" + id, config)
+        .then((res) => res.json())
+        .catch((err) => err)
+
+        return res
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 const userService = {
     profile,
     update,
-    getUserDetails
+    getUserDetails,
+    followingUser
 }
 
 export default userService;
