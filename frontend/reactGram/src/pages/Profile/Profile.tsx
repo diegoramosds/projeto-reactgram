@@ -1,30 +1,28 @@
 import { uploads } from "../../utils/config"
 
 //Components
-import { Link, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 
 //Hooks
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 
 //Redux
-import { followingUser, getUserDetails } from '../../slices/userSlice';
+import { followingUser, getUserDetails, resetMessage } from '../../slices/userSlice';
 import { AppDispatch, RootState } from "../../store"
 import { getUserPhotos, likePhoto } from "../../slices/photoSlice"
 import PhotoItem from "../../components/PhotoItem"
 import LikeContainer from "../../components/LikeContainer"
+import Message from "../../components/Message";
 
 const Profile = () => {
 
     const {id} = useParams()
 
-
-    const [following, setFollowing] = useState(false)
-
     const dispatch: AppDispatch = useDispatch()
 
-    const {user, loading} = useSelector((state: RootState) => state.user)
+    const {user, message, error, followers} = useSelector((state: RootState) => state.user)
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
     const {photos} = useSelector((state: RootState) => state.photo)
 
@@ -34,7 +32,7 @@ const Profile = () => {
         dispatch(getUserDetails(id));
         dispatch(getUserPhotos(id));
     }
-}, [dispatch, id]);
+}, [dispatch, id, followers]);
 
 interface PhotoProps {
   _id: string,
@@ -45,16 +43,19 @@ interface PhotoProps {
     dispatch(likePhoto(photo._id!))
   };
 
-    if(loading) {
-        return <p>Carregando...</p>
-    }
+    // if(loading) {
+    //     return <p>Carregando...</p>
+    // }
 
 
     //Start following
     const handleFollowing = () => {
-      dispatch(followingUser(id));
+      
+      dispatch(followingUser(id as string));
 
-      setFollowing(true);
+      setTimeout(() => {
+        dispatch(resetMessage())
+      }, 1000)
     }
 
     return (
@@ -66,8 +67,9 @@ interface PhotoProps {
                   )}
               <div className="flex gap-10 m-10 info-profile">
                 <p><span>{photos.length}</span>Publicações</p>
-                <p><span>87</span>Seguidores</p>
+                <p><span>{user?.followers.length}</span>Seguidores</p>
                 <p><span>87</span>Seguindo</p>
+
               </div>
           </div>
           <div className="flex justify-between items-center  px-10 py-2">
@@ -77,7 +79,13 @@ interface PhotoProps {
             </div>
             <div>
 
-                {following ? <button onClick={handleFollowing}>Seguindo</button> : <button onClick={handleFollowing}>Seguir +</button>}
+                {userAuth?._id !== id  ? (
+                  user?.followers.includes(userAuth?._id as string) ?
+                  <button onClick={handleFollowing}>Seguindo</button>
+                    : <button onClick={handleFollowing}>Seguir +</button>
+                ) : ""}
+                {message && ( <Message msg={message} type="success"/>)}
+                {error && ( <Message msg={message} type="error"/>)}
             </div>
           </div>
         </div>

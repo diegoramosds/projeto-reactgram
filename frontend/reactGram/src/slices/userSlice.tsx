@@ -3,11 +3,20 @@ import userService from "../services/userService";
 import { RootState } from '../store';
 
 interface User {
+    _id: string,
     name: string;
     email: string;
     bio: string;
-    profileImage: string ;
+    profileImage: string;
+    followers: string[];
     // Adicione outras propriedades aqui, se necessário
+}
+
+interface FollowersProps {
+    userId?: string,
+    followers?: string[],
+    userName?: string,
+    userImage?: File,
 }
 
 interface UserState {
@@ -16,6 +25,7 @@ interface UserState {
     success: boolean;
     loading: boolean;
     message: string | null;
+    followers: Array<FollowersProps>;
  }
 
   const initialState: UserState = {
@@ -24,6 +34,7 @@ interface UserState {
     success: false,
     loading: false,
     message: null,
+    followers: [],
   };
 
  export const profile = createAsyncThunk("user/profile",
@@ -54,7 +65,7 @@ interface UserState {
 
  //Get user details
  export const getUserDetails = createAsyncThunk("user/get",
-    async(id: string, thunkAPI) => {
+    async(id: string) => {
      const data = await userService.getUserDetails(id)
      return data;
     }
@@ -117,15 +128,13 @@ export const userSlice = createSlice({
             state.error = null;
             state.user = action.payload;
         })
-        .addCase(followingUser.pending, (state) => {
-            state.loading = true;
-            state.error = false;
-        })
         .addCase(followingUser.fulfilled, (state, action) => {
             state.loading = false;
             state.success = true;
             state.error = null;
-            state.user = action.payload;
+
+            state.followers.push(action.payload.followers)
+
             state.message = action.payload.message;
         })
         .addCase(followingUser.rejected, (state, action) => {

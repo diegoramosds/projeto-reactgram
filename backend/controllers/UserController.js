@@ -154,12 +154,12 @@ const register = async(req, res) =>  {
         if (user.followers.includes(reqUser._id)) {
             user.followers = user.followers.filter(userId => !userId.equals(reqUser._id));
             await user.save();
-            res.status(200).json({ userId: id, followers: user.followers, message: "Deixou de seguir" });
+            res.status(200).json({ userId: id, userName: user.name, userImage: user.profileImage, followers: user.followers, message: "Deixou de seguir" });
             return;
         } else {
             user.followers.push(reqUser._id);
             await user.save();
-            res.status(200).json({ userId: id, followers: user.followers, message: "Você começou a seguir" });
+            res.status(200).json({ userId: id, userName: user.name, userImage: user.profileImage, followers: user.followers, message: "Você começou a seguir" });
             return;
         }
         } catch (error) {
