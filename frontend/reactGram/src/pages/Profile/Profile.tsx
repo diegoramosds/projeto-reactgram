@@ -1,7 +1,7 @@
 import { uploads } from "../../utils/config"
 
 //Components
-import { Link, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 
 //Hooks
 import { useEffect, useState } from "react"
@@ -15,6 +15,7 @@ import { getUserPhotos, likePhoto } from "../../slices/photoSlice"
 import PhotoItem from "../../components/PhotoItem"
 import LikeContainer from "../../components/LikeContainer"
 import Message from "../../components/Message";
+import ModalFollowers from "../../components/ModalFollowers";
 
 const Profile = () => {
 
@@ -26,7 +27,8 @@ const Profile = () => {
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
     const {photos} = useSelector((state: RootState) => state.photo)
 
-    const [followersModal, setFollowersModal] = useState(false)
+    const [followersModal, setFollowersModal] = useState(false);
+    const [followingModal, setFollowingModal] = useState(false);
 
     //Load user data
     useEffect(() => {
@@ -52,29 +54,44 @@ interface PhotoProps {
 
     //Start following
     const handleFollowing = () => {
-      
       dispatch(followingUser(id as string));
 
       setTimeout(() => {
         dispatch(resetMessage())
       }, 1000)
     }
-    const handleOpenModal = () => {
+
+    //Open followers modal
+    const followersOpenModal = () => {
       setFollowersModal(true)
     }
-    const handleCloseModal = () => {
+
+    //Close followers modal
+    const followersCloseModal = () => {
       setFollowersModal(false)
     }
 
+    //Open following modal
+    const followingOpenModal = () => {
+      setFollowingModal(true)
+    }
+
+    //Close following modal
+    const followingCloseModal = () => {
+      setFollowingModal(false)
+    }
+
+
+
     useEffect(() => {
-      if (followersModal) {
+      if (followersModal || followingModal) {
         document.body.classList.add("overflow-hidden");
       } else {
         document.body.classList.remove("overflow-hidden");
       }
 
       return () => document.body.classList.remove("overflow-hidden");
-    }, [followersModal, followers]);
+    }, [followersModal, followers, followingModal]);
 
 
     return (
@@ -86,8 +103,8 @@ interface PhotoProps {
                   )}
               <div className="flex gap-10 m-10 info-profile">
                 <p ><span>{photos.length}</span>Publicações</p>
-                <p onClick={handleOpenModal}><span>{user?.followers.length}</span>Seguidores</p>
-                <p><span>87</span>Seguindo</p>
+                <p onClick={followersOpenModal}><span>{user?.followers.length}</span>Seguidores</p>
+                <p onClick={followingOpenModal}><span>{user?.following.length}</span>Seguindo</p>
 
               </div>
           </div>
@@ -107,21 +124,21 @@ interface PhotoProps {
                 {error && ( <Message msg={message} type="error"/>)} */}
             </div>
             {followersModal && (
-              <div  className="fixed  bg-black/70 inset-0 z-10">
-              <div className=" w-1/2 h-full mx-auto gap-10 mt-10 z-20 bg-zinc-950">
-              <p onClick={handleCloseModal} className="flex justify-end p-5">X</p>
-              {user?.followers &&  user?.followers.map((follower) => (
-                  <div className="mt-10 border-b border-zinc-900 w-3/4 mx-auto p-2">
-                    <Link to={`/users/profile/${follower.userId}`} className="flex items-center  gap-20" onClick={handleCloseModal}>
-                      <img src={`${uploads}/users/${follower.userImage}`} alt={follower.userName} className="h-16 rounded-full" />
-                      <p>{follower.userName}</p>
-                    </Link>
-                  </div>
-            ))}
-            {followers.length === 0 && <p className="text-center">Esse usuário ainda não possui seguidores</p>}
-        </div>
-        </div>
+              <ModalFollowers
+              closeModal={followersCloseModal}
+              user={user}
+              textInfo="Esse usuário ainda não possui seguidores"
+              dataType="followers"
+              />
             )}
+                {followingModal && (
+                        <ModalFollowers
+                        closeModal={followingCloseModal}
+                        user={user}
+                        textInfo="Esse usuário ainda não segue ninguém"
+                        dataType="following"
+                        />
+                            )}
 
           </div>
         </div>

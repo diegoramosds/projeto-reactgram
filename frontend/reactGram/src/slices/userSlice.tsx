@@ -9,6 +9,7 @@ interface User {
     bio: string;
     profileImage: string;
     followers: Partial<FollowersProps>[];
+    following: Partial<FollowersProps>[];
 }
 
 interface FollowersProps {
@@ -19,12 +20,13 @@ interface FollowersProps {
 }
 
 interface UserState {
-    user: User | null ;
+    user: User | null  ;
     error: string | null | boolean;
     success: boolean;
     loading: boolean;
     message: string | null;
     followers:FollowersProps[];
+    following:FollowersProps[];
 }
 
 const initialState: UserState = {
@@ -34,6 +36,7 @@ const initialState: UserState = {
     loading: false,
     message: null,
     followers: [],
+    following: [],
 };
 
 export const profile = createAsyncThunk("user/profile",
@@ -133,6 +136,7 @@ export const userSlice = createSlice({
             state.error = null;
 
             state.followers.push(action.payload.followers)
+            state.following.push(action.payload.following)
 
             state.message = action.payload.message;
         })
