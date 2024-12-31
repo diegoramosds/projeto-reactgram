@@ -151,23 +151,22 @@ const register = async(req, res) =>  {
 
 
         // Check if the user already follow user
-        if (user.followers.includes(reqUser._id)) {
-            user.followers = user.followers.filter(userId => !userId.equals(reqUser._id));
+        if (user.followers.some((follower) => follower.userId.equals(reqUser._id))) {
+            user.followers = user.followers.filter(follower => !follower.userId.equals(reqUser._id));
             await user.save();
             res.status(200).json({ userId: id, userName: user.name, userImage: user.profileImage, followers: user.followers, message: "Deixou de seguir" });
             return;
         } else {
-            user.followers.push(reqUser._id);
+            user.followers.push({userId: reqUser._id ,userName: reqUser.name, userImage: reqUser.profileImage});
             await user.save();
             res.status(200).json({ userId: id, userName: user.name, userImage: user.profileImage, followers: user.followers, message: "Você começou a seguir" });
             return;
         }
         } catch (error) {
-        res.status(422).json({errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]}) 
+        res.status(422).json({errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]})
         return
         }
     }
-
 module.exports = {
     register,
     login,

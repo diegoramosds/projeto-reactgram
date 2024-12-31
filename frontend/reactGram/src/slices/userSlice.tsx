@@ -3,20 +3,19 @@ import userService from "../services/userService";
 import { RootState } from '../store';
 
 interface User {
-    _id: string,
+    _id: string ,
     name: string;
     email: string;
     bio: string;
     profileImage: string;
-    followers: string[];
-    // Adicione outras propriedades aqui, se necessário
+    followers: Partial<FollowersProps>[];
 }
 
 interface FollowersProps {
     userId?: string,
     followers?: string[],
     userName?: string,
-    userImage?: File,
+    userImage?: string,
 }
 
 interface UserState {
@@ -25,19 +24,19 @@ interface UserState {
     success: boolean;
     loading: boolean;
     message: string | null;
-    followers: Array<FollowersProps>;
- }
+    followers:FollowersProps[];
+}
 
-  const initialState: UserState = {
+const initialState: UserState = {
     user: null,
     error: null,
     success: false,
     loading: false,
     message: null,
     followers: [],
-  };
+};
 
- export const profile = createAsyncThunk("user/profile",
+export const profile = createAsyncThunk("user/profile",
     async(user, thunkAPI) => {
 
         const token = (thunkAPI.getState() as RootState).auth.user?.token || "";

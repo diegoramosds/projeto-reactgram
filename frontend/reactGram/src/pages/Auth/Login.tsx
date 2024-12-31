@@ -43,7 +43,7 @@ const Login = () => {
     handleSubmit={handleSubmit}
     loading={loading} 
     linkTo="/register"
-    linkText="Já tem conta?" 
+    linkText="Não tem conta?" 
     btnText="Entrar"
     errorMessage={error && <Message msg={error} type="error"/>}>
        <input type="email" placeholder="E-mail" onChange={(e) => setEmail(e.target.value)} value={email || ""}/>
