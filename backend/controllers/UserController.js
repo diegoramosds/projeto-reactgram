@@ -148,25 +148,29 @@ const register = async(req, res) =>  {
             res.status(422).json({errors: ["Não é possivel seguir sua propria conta"]})
             return;
         }
-
-
         // Check if the user already follow user
         if (user.followers.some((follower) => follower.userId.equals(reqUser._id))) {
             user.followers = user.followers.filter(follower => !follower.userId.equals(reqUser._id));
+            reqUser.following = reqUser.following.filter(follow => !follow.userId.equals(id));
             await user.save();
+            await reqUser.save();
             res.status(200).json({ userId: id, userName: user.name, userImage: user.profileImage, followers: user.followers, message: "Deixou de seguir" });
             return;
         } else {
             user.followers.push({userId: reqUser._id ,userName: reqUser.name, userImage: reqUser.profileImage});
+            reqUser.following.push({userId: user._id ,userName: user.name, userImage: user.profileImage});
             await user.save();
+            await reqUser.save();
             res.status(200).json({ userId: id, userName: user.name, userImage: user.profileImage, followers: user.followers, message: "Você começou a seguir" });
             return;
         }
-        } catch (error) {
+
+    } catch (error) {
         res.status(422).json({errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]})
         return
         }
     }
+
 module.exports = {
     register,
     login,

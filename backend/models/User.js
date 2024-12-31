@@ -8,15 +8,14 @@ const userSchema = new Schema(
     password: String,
     profileImage: String,
     bio: String,
-    followers: Array
+    followers: Array,
+    following: Array,
   },
   {
     timestamps: true,
   }
 );
- 
+
 const User = mongoose.model("User", userSchema);
- 
+
 module.exports = User;
-
-
