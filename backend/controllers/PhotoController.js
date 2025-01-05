@@ -260,7 +260,7 @@ const deletePhoto = async(req, res) => {
 
         // Check if photo  exist
         if (userComments.length === 0) {
-            return res.status(404).json({ errors: ["Você ainda não comentou nenhuma publicação"] });
+            return res.status(422).json({ errors: ["Você ainda não comentou nenhuma publicação"] });
         }
 
          res.status(200).json(userComments)
