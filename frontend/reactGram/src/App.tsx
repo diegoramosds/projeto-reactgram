@@ -14,6 +14,9 @@ import Photo from './pages/Photo/Photo';
 import Search from './pages/Search/Search';
 import Settings from './pages/Profile/Profile';
 
+import Interaction from './pages/Interaction/Interaction';
+import Comments from './pages/Comments/Comments';
+
 function App() {
   const {auth, loading} = useAuth()
   if(loading) {
@@ -33,6 +36,8 @@ function App() {
             <Route path="/users/:id" element={auth ? <Profile /> : <Navigate to="/"/>} />
             <Route path="/search" element={auth ? <Search /> : <Navigate to="/"/>} />
             <Route path="/photos/:id" element={auth ? <Photo /> : <Navigate to="/"/>} />
+            <Route path="/photos/find/" element={auth ? <Interaction /> : <Navigate to="/"/>} />
+            <Route path="/photos/find/comments/:id" element={auth ? <Comments /> : <Navigate to="/"/>} />
         </Routes>
       <Footer />
     </BrowserRouter>
