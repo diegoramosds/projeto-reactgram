@@ -6,14 +6,13 @@ import { RootState } from "../store";
 interface commentDataProps {
     _id: string,
     id: string,
-    photoId: string,
     commentId: string,
+    photoId: string,
+    photoImage: string,
     comment: string,
-    userImage: string,
     userName: string,
     userId: string
 }
-
 interface Photo {
     _id: string;
     url: string;
@@ -192,7 +191,22 @@ export const searchPhoto = createAsyncThunk("photo/search",
 
         const data = await photoService.searchPhoto(searchData, token);
 
+         //Check errors
+        if(data.errors) {
+            return  thunkAPI.rejectWithValue(data.errors[0]);
+        }
+
         return data;
+    }
+)
+
+//Get all comments
+export const getAllComments = createAsyncThunk("find/comments",
+    async(id: string, thunkAPI) => {
+        const token = (thunkAPI.getState() as RootState).auth.user?.token || "";
+
+        const data = photoService.getAllComments(id, token)
+        return data
     }
 )
 
@@ -363,6 +377,21 @@ export const photoSlice = createSlice({
             state.success = true;
             state.error = null;
             state.photos = action.payload;
+        })
+        .addCase(getAllComments.pending, (state) => {
+            state.loading = true;
+            state.error = false;
+        })
+        .addCase(getAllComments.fulfilled, (state, action) => {
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+            state.photo.comments = action.payload;
+        })
+        .addCase(getAllComments.rejected, (state, action) => {
+            state.loading = false;
+            state.error = true;
+            state.error = action.payload as string;
         })
     }
 })

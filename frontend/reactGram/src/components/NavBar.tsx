@@ -125,7 +125,9 @@ const NavBar = () => {
                   </NavLink>
                     </li>
                   <li>
-                    <p><span><BiMessageSquareAdd/> </span>Curtidas e Comentários</p>
+                    <NavLink to={"/photos/find"}>
+                      <p><span><BiMessageSquareAdd/> </span>Curtidas e Comentários</p>
+                    </NavLink>
                   </li>
                   <li>
                     <NavLink to="/settings">

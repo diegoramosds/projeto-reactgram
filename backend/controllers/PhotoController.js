@@ -217,6 +217,7 @@ const deletePhoto = async(req, res) => {
             const userComment = {
                 _id:  new mongoose.Types.ObjectId(),
                 photoId: photo.id,
+                photoImage: photo.image,
                 comment,
                 userName: user.name,
                 userId: user._id,
@@ -256,7 +257,6 @@ const deletePhoto = async(req, res) => {
            const userComments = photos.flatMap(photo =>
             photo.comments.filter(comment => comment.userId.equals(id))
         );
-
 
         // Check if photo  exist
         if (userComments.length === 0) {
