@@ -139,7 +139,6 @@ export const likePhoto = createAsyncThunk("photo/like",
 
     }
 )
-
 // Add comments to a photo
 export const comments = createAsyncThunk("/photo/comments",
     async(commentData: Partial<commentDataProps>, thunkAPI) => {
