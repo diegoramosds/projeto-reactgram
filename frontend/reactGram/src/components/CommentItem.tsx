@@ -30,7 +30,7 @@ const CommentItem = ({photo, handleComment, handleRemoveComment, commentText, se
 const { user } = useSelector((state : RootState) => state.auth);
     return (
         <div>
-          {photo.comments && (
+          {Array.isArray(photo.comments) && (
               <>
               <h3>comentários({photo.comments?.length})</h3>
                 <form onSubmit={handleComment}>

@@ -16,6 +16,7 @@ import Settings from './pages/Profile/Profile';
 
 import Interaction from './pages/Interaction/Interaction';
 import Comments from './pages/Comments/Comments';
+import { Likes } from './pages/Likes/Likes';
 
 function App() {
   const {auth, loading} = useAuth()
@@ -38,6 +39,7 @@ function App() {
             <Route path="/photos/:id" element={auth ? <Photo /> : <Navigate to="/"/>} />
             <Route path="/photos/find/" element={auth ? <Interaction /> : <Navigate to="/"/>} />
             <Route path="/photos/find/comments/:id" element={auth ? <Comments /> : <Navigate to="/"/>} />
+            <Route path="/photos/find/likes/:id" element={auth ? <Likes /> : <Navigate to="/"/>} />
         </Routes>
       <Footer />
     </BrowserRouter>

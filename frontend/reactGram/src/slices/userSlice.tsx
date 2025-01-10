@@ -10,6 +10,7 @@ interface User {
     profileImage: string;
     followers: Partial<FollowersProps>[];
     following: Partial<FollowersProps>[];
+    likedPhotos: LikedPhotosProps[];
 }
 
 interface FollowersProps {
@@ -17,6 +18,11 @@ interface FollowersProps {
     followers?: string[],
     userName?: string,
     userImage?: string,
+}
+
+interface LikedPhotosProps {
+    photoId: string,
+    photoImage: string,
 }
 
 interface UserState {
@@ -27,6 +33,7 @@ interface UserState {
     message: string | null;
     followers:FollowersProps[];
     following:FollowersProps[];
+    likedPhotos:LikedPhotosProps[];
 }
 
 const initialState: UserState = {
@@ -37,6 +44,7 @@ const initialState: UserState = {
     message: null,
     followers: [],
     following: [],
+    likedPhotos: [],
 };
 
 export const profile = createAsyncThunk("user/profile",
@@ -45,10 +53,9 @@ export const profile = createAsyncThunk("user/profile",
         const token = (thunkAPI.getState() as RootState).auth.user?.token || "";
 
         const data = await userService.profile(user, token)
-        
         return data;
     }
- )
+)
 
  export const updateProfile = createAsyncThunk("user/update", 
     async(user: FormData, thunkAPI) => {

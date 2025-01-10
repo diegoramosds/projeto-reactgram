@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
- 
 const userSchema = new Schema(
   {
     name: String,
@@ -10,6 +9,7 @@ const userSchema = new Schema(
     bio: String,
     followers: Array,
     following: Array,
+    likedPhotos: Array,
   },
   {
     timestamps: true,

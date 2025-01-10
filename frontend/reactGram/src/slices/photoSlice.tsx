@@ -204,7 +204,13 @@ export const getAllComments = createAsyncThunk("find/comments",
     async(id: string, thunkAPI) => {
         const token = (thunkAPI.getState() as RootState).auth.user?.token || "";
 
-        const data = photoService.getAllComments(id, token)
+
+        const data = await photoService.getAllComments(id, token)
+
+         //Check errors
+        if(data.errors) {
+            return  thunkAPI.rejectWithValue(data.errors[0]);
+        }
         return data
     }
 )
@@ -386,6 +392,8 @@ export const photoSlice = createSlice({
             state.success = true;
             state.error = null;
             state.photo.comments = action.payload;
+
+            state.message = action.payload.message;
         })
         .addCase(getAllComments.rejected, (state, action) => {
             state.loading = false;

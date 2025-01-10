@@ -166,33 +166,40 @@ const deletePhoto = async(req, res) => {
         const {id} = req.params;
 
         try {
-            const reqUser = req.user;
+        const reqUser = req.user;
 
         const photo = await Photo.findById(id)
+        const user = await User.findById(reqUser._id)
 
         // Check if photo  exist
         if(!photo) {
             res.status(404).json({errors: ["Foto não encontrada"]})
             return;
         }
-
-        // Check if the user already like the photo  
+        // Check if the user already like the photo
         if (photo.likes.includes(reqUser._id)) {
             photo.likes = photo.likes.filter(userId => !userId.equals(reqUser._id));
+            user.likedPhotos = user.likedPhotos.filter(likedPhoto => !likedPhoto.photoId.equals(photo._id));
             await photo.save();
+            await user.save();
             res.status(200).json({ photoId: id, likes: photo.likes, message: "Curtida removida" });
             return;
-          } else {
+        } else {
             photo.likes.push(reqUser._id);
+            user.likedPhotos.push({photoId: photo._id, photoImage: photo.image})
             await photo.save();
+            await user.save();
             res.status(200).json({ photoId: id, likes: photo.likes, message: "Você curtiu a foto" });
             return;
           }
         } catch (error) {
         res.status(422).json({errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]}) 
          return
-        } 
+        }
     }
+
+    //Get all likes
+
 
 
     // Comment a photo
@@ -250,60 +257,52 @@ const deletePhoto = async(req, res) => {
         const {id} = req.params;
 
         try {
-            
         const photos = await Photo.find({userId: id}).sort([["createdAt",-1]]).exec();
 
-           // Extrair e filtrar apenas os comentários feitos pelo usuário
-           const userComments = photos.flatMap(photo =>
+            const userComments = photos.flatMap(photo =>
             photo.comments.filter(comment => comment.userId.equals(id))
         );
 
         // Check if photo  exist
         if (userComments.length === 0) {
-            return res.status(422).json({ errors: ["Você ainda não comentou nenhuma publicação"] });
+            return res.status(200).json({ errors: ["Você ainda não comentou nenhuma publicação"] });
         }
 
-         res.status(200).json(userComments)
+        res.status(200).json(userComments)
 
         } catch (error) {
-            res.status(404).json({errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]})
+            res.status(422).json({errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]})
             return;
         }
     }
 
     // Delete comment
     const deleteComment = async (req, res) => {
-        const { photoId, commentId } = req.params; // ID da foto e do comentário
-        const reqUser = req.user; // Usuário logado
-    
+        const { photoId, commentId } = req.params;
+        const reqUser = req.user;
+
         try {
-            // Buscar a foto pelo ID
+
             const photo = await Photo.findById(photoId);
-    
-            // Verificar se a foto existe
+
             if (!photo) {
                 return res.status(404).json({ errors: ["Foto não encontrada"] });
             }
-    
-            // Encontrar o comentário específico
+
             const comment = photo.comments.find(comment => comment._id?.toString() === commentId);
-    
-            // Verificar se o comentário existe
+
             if (!comment) {
                 return res.status(404).json({ errors: ["Comentário não encontrado"] });
             }
-    
-            // Verificar se o comentário pertence ao usuário logado
+
             if (!comment.userId.equals(reqUser._id)) {
                 return res.status(403).json({ errors: ["Você não tem permissão para excluir este comentário."] });
             }
-    
-            // Remover o comentário
+
             photo.comments = photo.comments.filter(comment => comment._id?.toString() !== commentId);
-    
-            // Salvar as mudanças na foto
+
             await photo.save();
-    
+
             res.status(200).json({ message: "Comentário excluído com sucesso." });
         } catch (error) {
             console.log(error);
