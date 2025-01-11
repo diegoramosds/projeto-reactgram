@@ -12,7 +12,6 @@ const Comments = () => {
     const dispatch: AppDispatch = useDispatch();
 
     const resetMessage = useResetComponetMessage(dispatch);
-
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
     const {photo, message} = useSelector((state: RootState) => state.photo)
 
@@ -33,7 +32,7 @@ const Comments = () => {
       }}
       return (
         <div>
-          {Array.isArray(photo.comments)  && photo.comments.length > 0 ? (
+          {photo.comments  && photo.comments.length > 0 ? (
             photo.comments.map((comment) => (
               <div
                 key={comment._id}

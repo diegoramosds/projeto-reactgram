@@ -38,7 +38,9 @@ interface InitialStateProps {
 
 const initialState: InitialStateProps = {
     photos: [],
-    photo:{},
+    photo:{
+        comments: [],
+    },
     error: false,
     success: false,
     loading: false,
