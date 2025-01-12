@@ -1,26 +1,26 @@
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from '../../store';
 import { useEffect } from "react";
-import { getAllComments, removeComment } from '../../slices/photoSlice';
+import { getAllComments, getAllPhotos, getPhotoById, removeComment } from '../../slices/photoSlice';
 import { uploads } from "../../utils/config";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { MdClose } from "react-icons/md";
 import Message from "../../components/Message";
 import { useResetComponetMessage } from "../../hooks/useResetComponentMessage";
+import { getUserDetails } from "../../slices/userSlice";
 
 const Comments = () => {
     const dispatch: AppDispatch = useDispatch();
 
     const resetMessage = useResetComponetMessage(dispatch);
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
-    const {photo, message} = useSelector((state: RootState) => state.photo)
+    const {photo, message, error} = useSelector((state: RootState) => state.photo)
 
     useEffect(() => {
       if (userAuth?._id) {
-        dispatch(getAllComments(userAuth._id))
+        dispatch(getAllComments(userAuth?._id));
       }
-    }, [dispatch, userAuth])
-
+    }, [dispatch, photoId]);
     const handleRemoveComment = (photoId: string, commentId: string) => {
         if (window.confirm("Tem certeza que deseja remover este comentário?")) {
         const commentData = {
@@ -32,7 +32,7 @@ const Comments = () => {
       }}
       return (
         <div>
-          {photo.comments  && photo.comments.length > 0 ? (
+          {Array.isArray(photo.comments)  && photo.comments.length > 0 ? (
             photo.comments.map((comment) => (
               <div
                 key={comment._id}
@@ -65,6 +65,7 @@ const Comments = () => {
             <p className="text-center mt-10">Você ainda não comentou nenhuma publicação</p>
           )}
           {message && <Message msg={message} type="success"/>}
+          {error && <Message msg={error} type="success"/>}
         </div>
       );
 }
