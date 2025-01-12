@@ -30,6 +30,7 @@ interface PhotoDataProps {
 interface InitialStateProps {
     photos: Array<Photo>,
     photo: Partial<Photo>,
+    comments?: commentDataProps[];
     error: boolean | string | null,
     success: boolean,
     loading: boolean,
@@ -38,9 +39,8 @@ interface InitialStateProps {
 
 const initialState: InitialStateProps = {
     photos: [],
-    photo:{
-        comments: [],
-    },
+    photo:{},
+    comments: [],
     error: false,
     success: false,
     loading: false,
@@ -86,8 +86,6 @@ export const delePhoto = createAsyncThunk("/photos/delete",
         const token = (thunkAPI.getState() as RootState).auth.user?.token || "";
 
         const data = await photoService.deletePhoto(id, token)
-
-
          //Check errors
         if(data.errors) {
             return  thunkAPI.rejectWithValue(data.errors[0]);
