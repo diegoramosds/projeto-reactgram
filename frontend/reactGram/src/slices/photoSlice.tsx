@@ -111,6 +111,7 @@ export const updatePhoto = createAsyncThunk("/photos/update",
 
 
 //get Photo
+
 export const getPhotoById = createAsyncThunk("/photos/getphoto/",
     async(id: string | undefined, thunkAPI) => {
 
