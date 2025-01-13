@@ -16,6 +16,7 @@ const Comments = () => {
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
     const {photo, message, error} = useSelector((state: RootState) => state.photo)
 
+    
     useEffect(() => {
       if (userAuth?._id) {
         dispatch(getAllComments(userAuth?._id));
