@@ -257,10 +257,12 @@ const deletePhoto = async(req, res) => {
         const {id} = req.params;
 
         try {
-        const photos = await Photo.find({userId: id}).sort([["createdAt",-1]]).exec();
+        const reqUser = req.user;
+
+        const photos = await Photo.find().sort([["createdAt",-1]]).exec();
 
             const userComments = photos.flatMap(photo =>
-            photo.comments.filter(comment => comment.userId.equals(id))
+            photo.comments.filter(comment => comment.userId.equals(reqUser._id))
         );
 
         // Check if photo  exist
@@ -268,6 +270,10 @@ const deletePhoto = async(req, res) => {
             return res.status(200).json({ errors: ["Você ainda não comentou nenhuma publicação"] });
         }
 
+         // Check user
+        if (!reqUser._id.equals(id)) {
+            return res.status(422).json({ errors: ["Você não tem autorização para vizualizar comentários de outros usúarios nessa aba."] });
+        }
         res.status(200).json(userComments)
 
         } catch (error) {

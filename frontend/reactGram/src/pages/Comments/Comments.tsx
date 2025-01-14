@@ -1,27 +1,27 @@
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from '../../store';
 import { useEffect } from "react";
-import { getAllComments, getAllPhotos, getPhotoById, removeComment } from '../../slices/photoSlice';
+import { getAllComments, removeComment } from '../../slices/photoSlice';
 import { uploads } from "../../utils/config";
 import { Link, useParams } from "react-router-dom";
 import { MdClose } from "react-icons/md";
-import Message from "../../components/Message";
 import { useResetComponetMessage } from "../../hooks/useResetComponentMessage";
-import { getUserDetails } from "../../slices/userSlice";
 
 const Comments = () => {
+    const {id} = useParams();
+
     const dispatch: AppDispatch = useDispatch();
 
     const resetMessage = useResetComponetMessage(dispatch);
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
-    const {photo, message, error} = useSelector((state: RootState) => state.photo)
+    const {photo} = useSelector((state: RootState) => state.photo)
 
-    
     useEffect(() => {
       if (userAuth?._id) {
-        dispatch(getAllComments(userAuth?._id));
+        dispatch(getAllComments(userAuth._id))
       }
-    }, [dispatch, photoId]);
+    }, [dispatch, userAuth]);
+
     const handleRemoveComment = (photoId: string, commentId: string) => {
         if (window.confirm("Tem certeza que deseja remover este comentário?")) {
         const commentData = {
@@ -39,7 +39,7 @@ const Comments = () => {
                 key={comment._id}
                 className=""
               >
-                {comment.userId === userAuth?._id && (
+                {id === userAuth?._id ? (
                   <div className="m-5 flex items-center justify-around border-b rounded border-zinc-900">
                   <p>Comentário: {comment.comment}</p>
                 <Link to={`/photos/${comment.photoId}`}>
@@ -59,14 +59,14 @@ const Comments = () => {
                     <MdClose className="cursor-pointer"/>
                   </p>
                   </div>
+                ) : (
+                  <p className="text-center mt-10">Você não tem autorização para vizualizar comentários de outros usúarios nessa aba.</p>
                 )}
               </div>
             ))
           ) : (
             <p className="text-center mt-10">Você ainda não comentou nenhuma publicação</p>
           )}
-          {message && <Message msg={message} type="success"/>}
-          {error && <Message msg={error} type="success"/>}
         </div>
       );
 }
