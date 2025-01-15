@@ -20,7 +20,6 @@ import { DiAptana } from "react-icons/di";
 import { BiMessageSquareAdd } from "react-icons/bi";
 import { FiLogOut } from "react-icons/fi";
 
-
 const NavBar = () => {
   const {auth} = useAuth();
   const {user} = useSelector((state: RootState) => state.auth);
@@ -135,7 +134,9 @@ const NavBar = () => {
                     </NavLink>
                   </li>
                   <li>
-                    <p><span><HiUserGroup /></span>Encontre usuários e/ou publicações</p>
+                    <NavLink to="/search">
+                      <p><span><HiUserGroup /></span>Encontre usuários e/ou publicações</p>
+                    </NavLink>
                   </li>
                   <li onClick={handleLogout}><p><span><FiLogOut /></span>Sair</p></li>
               </div>
