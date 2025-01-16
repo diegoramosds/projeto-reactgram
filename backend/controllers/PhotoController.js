@@ -255,7 +255,6 @@ const deletePhoto = async(req, res) => {
     // Get all Comments
     const getAllComments = async(req, res) => {
         const {id} = req.params;
-
         try {
         const reqUser = req.user;
 
@@ -269,7 +268,6 @@ const deletePhoto = async(req, res) => {
         if (userComments.length === 0) {
             return res.status(200).json({ errors: ["Você ainda não comentou nenhuma publicação"] });
         }
-
          // Check user
         if (!reqUser._id.equals(id)) {
             return res.status(422).json({ errors: ["Você não tem autorização para vizualizar comentários de outros usúarios nessa aba."] });

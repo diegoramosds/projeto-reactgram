@@ -79,6 +79,14 @@ const register = async(req, res) =>  {
         res.status(200).json(user)
     }
 
+    // Search user by name
+        const searchUser = async(req, res) => {
+        const {q} = req.query
+
+        const users = await User.find({name: new RegExp(q, "i")}).select("-password").exec()
+
+        res.status(200).json(users);
+    }
     //update an user
     const upadate = async(req, res) => {
     const {name, password, bio} = req.body;
@@ -175,6 +183,7 @@ module.exports = {
     register,
     login,
     getCurrentUser,
+    searchUser,
     upadate,
     getUserById,
     followingUser

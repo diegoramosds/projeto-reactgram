@@ -26,7 +26,6 @@ const Profile = () => {
     const {user, message, error, followers} = useSelector((state: RootState) => state.user)
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
     const {photos} = useSelector((state: RootState) => state.photo)
-
     const [followersModal, setFollowersModal] = useState(false);
     const [followingModal, setFollowingModal] = useState(false);
 

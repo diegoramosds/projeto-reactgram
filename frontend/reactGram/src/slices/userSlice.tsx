@@ -80,6 +80,23 @@ export const profile = createAsyncThunk("user/profile",
     }
  )
 
+ //Search user
+export const searchUser = createAsyncThunk("/user/search",
+    async(searchData: string | null, thunkAPI) => {
+
+        const token = (thunkAPI.getState() as RootState).auth.user?.token || "";
+
+        const data = await userService.searchUser(searchData, token);
+
+          //Check errors
+        if(data.errors) {
+            return  thunkAPI.rejectWithValue(data.errors[0]);
+        }
+
+        return data
+    }
+)
+
  //Starting user
  export const followingUser = createAsyncThunk("/folowers",
     async(id: string, thunkAPI) => {
@@ -136,6 +153,18 @@ export const userSlice = createSlice({
             state.success = true;
             state.error = null;
             state.user = action.payload;
+        })
+        .addCase(searchUser.pending, (state) => {
+                    state.loading = false;
+                    state.error = false;
+        })
+        .addCase(searchUser.fulfilled, (state, action) => {
+                    state.loading = false;
+                    state.success = true;
+                    state.error = null;
+                    state.user = action.payload;
+
+                    console.log(action.payload)
         })
         .addCase(followingUser.fulfilled, (state, action) => {
             state.loading = false;

@@ -47,6 +47,21 @@ const getUserDetails = async(id:string) => {
     }
 }
 
+// Search user
+const searchUser = async(searchData: string | null, token: string) => {
+    const config = requestConfig("GET", null, token)
+    
+    try {
+        const res = await fetch(api + "/users/search?q=" + searchData, config)
+        .then((res) => res.json())
+        .catch((err) => err)
+
+        return res;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 // Starting follower
 const followingUser = async(id: string, token: string) => {
     const config = requestConfig("PUT", null, token)
@@ -66,7 +81,8 @@ const userService = {
     profile,
     update,
     getUserDetails,
-    followingUser
+    searchUser,
+    followingUser,
 }
 
 export default userService;
