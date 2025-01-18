@@ -17,6 +17,8 @@ import Settings from './pages/Profile/Profile';
 import Interaction from './pages/Interaction/Interaction';
 import Comments from './pages/Comments/Comments';
 import { Likes } from './pages/Likes/Likes';
+import SearchUsers from './pages/SearchUsers/SearchUsers';
+import SearchPhotos from './pages/SearchPhotos/SearchPhotos';
 
 function App() {
   const {auth, loading} = useAuth()
