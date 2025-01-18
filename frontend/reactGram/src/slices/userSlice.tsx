@@ -163,8 +163,6 @@ export const userSlice = createSlice({
                     state.success = true;
                     state.error = null;
                     state.user = action.payload;
-
-                    console.log(action.payload)
         })
         .addCase(followingUser.fulfilled, (state, action) => {
             state.loading = false;

@@ -14,7 +14,6 @@ import { AppDispatch, RootState } from "../../store"
 import { getUserPhotos, likePhoto } from "../../slices/photoSlice"
 import PhotoItem from "../../components/PhotoItem"
 import LikeContainer from "../../components/LikeContainer"
-import Message from "../../components/Message";
 import ModalFollowers from "../../components/ModalFollowers";
 
 const Profile = () => {
@@ -23,7 +22,7 @@ const Profile = () => {
 
     const dispatch: AppDispatch = useDispatch()
 
-    const {user, message, error, followers} = useSelector((state: RootState) => state.user)
+    const {user, followers} = useSelector((state: RootState) => state.user)
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
     const {photos} = useSelector((state: RootState) => state.photo)
     const [followersModal, setFollowersModal] = useState(false);
@@ -101,11 +100,17 @@ interface PhotoProps {
                       <img src={`${uploads}/users/${user?.profileImage}`} alt={user.name}  className="w-40 h-40 rounded-full p-4"/>
                   )}
               <div className="flex gap-10 m-10 info-profile">
-                <p ><span>{photos.length}</span>Publicações</p>
-                <p onClick={followersOpenModal}><span>{user?.followers.length}</span>Seguidores</p>
-                <p onClick={followingOpenModal}><span>{user?.following.length}</span>Seguindo</p>
-
+                  <p>
+                    <span>{photos?.length || 0}</span> Publicações
+                  </p>
+                  <p onClick={followersOpenModal}>
+                    <span>{user?.followers?.length || 0}</span> Seguidores
+                  </p>
+                  <p onClick={followingOpenModal}>
+                    <span>{user?.following?.length || 0}</span> Seguindo
+                  </p>
               </div>
+
           </div>
           <div className="flex justify-between items-center  px-10 py-2">
             <div className="m">
@@ -114,8 +119,8 @@ interface PhotoProps {
             </div>
             <div>
 
-                {userAuth?._id !== id  ? (
-                  user?.followers.some((follower) => follower.userId?.includes(userAuth?._id as string)) ?
+                {user && userAuth?._id !== id  ? (
+                  Array.isArray(user?.followers) && user?.followers.some((follower) => follower.userId?.includes(userAuth?._id as string)) ?
                   <button onClick={handleFollowing}>Seguindo</button>
                     : <button onClick={handleFollowing}>Seguir +</button>
                 ) : ""}
@@ -147,7 +152,7 @@ interface PhotoProps {
                 <div className="flex flex-wrap justify-center items-center gap-3">
                     {photos && photos.map((photo) => (
                     <div key={photo._id} className="flex flex-col w-4/5">
-                        <PhotoItem photo={photo}/>
+                        <PhotoItem photo={photo} user={user}/>
                         <LikeContainer handleLike={handleLike} photo={photo} user={userAuth}/>
                     </div>
                     ))}

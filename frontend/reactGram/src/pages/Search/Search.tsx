@@ -20,17 +20,16 @@ useEffect(()=> {
     dispatch(searchPhoto(search))
     dispatch(searchUser(search))
     setSearchPhotos(true);
+    setSearchUsers(false);
     }
 }, [dispatch, search])
 
-const [searchUsers, setSearchUsers] = useState();
-const [searchPhotos, setSearchPhotos] = useState();
+const [searchUsers, setSearchUsers] = useState(false);
+const [searchPhotos, setSearchPhotos] = useState(false);
 
 const handleUsers = () => {
     setSearchUsers(true);
-
     setSearchPhotos(false);
-
 }
 
 const handlePhotos = () => {
@@ -43,10 +42,10 @@ return (
     <div>
         <div className='flex m-3 gap-5 justify-center'>
             {search && (
-              <div className='flex gap-5'>
-                <p onClick={handlePhotos}>Publicações</p>
-                <p onClick={handleUsers}>Usuários</p>
-              </div>
+                <div className='flex gap-5'>
+                    <p onClick={handlePhotos}  className={searchPhotos ? "text-sky-700/80 border-b border-sky-700" : ""}>Publicações</p>
+                    <p onClick={handleUsers} className={searchUsers ? "text-sky-700/80 border-b border-sky-700" : ""}>Usuários</p>
+                </div>
             )}
         </div>
         {!search && (
