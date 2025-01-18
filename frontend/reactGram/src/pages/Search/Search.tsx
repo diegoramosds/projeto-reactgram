@@ -1,65 +1,67 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useQuery } from '../../hooks/useQuery';
-import { AppDispatch, RootState } from '../../store';
-import PhotoItem from '../../components/PhotoItem';
-import { useEffect } from 'react';
-import { likePhoto, resetMessage, searchPhoto } from '../../slices/photoSlice';
-import LikeContainer from '../../components/LikeContainer';
-import { Link } from 'react-router-dom';
-import { getUserDetails, searchUser } from '../../slices/userSlice';
-import { uploads } from '../../utils/config';
+import { AppDispatch } from '../../store';
+import { useEffect, useState } from 'react';
+import { searchPhoto } from '../../slices/photoSlice';
+
+import {  searchUser } from '../../slices/userSlice';
+import SearchPhotos from '../SearchPhotos/SearchPhotos';
+import SearchUsers from '../SearchUsers/SearchUsers';
 
 
 const Search = () => {
 const query = useQuery();
 const search = query.get("q");
 
-const {user: userAuth} = useSelector((state : RootState) => state.auth);
-const {user} = useSelector((state : RootState) => state.user);
-const {photos, loading} = useSelector((state: RootState) => state.photo)
-
 const dispatch: AppDispatch  = useDispatch()
 
 useEffect(()=> {
+    if(search) {
     dispatch(searchPhoto(search))
     dispatch(searchUser(search))
-
+    setSearchPhotos(true);
+    }
 }, [dispatch, search])
 
-//load photo data
-if(loading) {
-    <p>Carregando</p>
+const [searchUsers, setSearchUsers] = useState();
+const [searchPhotos, setSearchPhotos] = useState();
+
+const handleUsers = () => {
+    setSearchUsers(true);
+
+    setSearchPhotos(false);
+
 }
 
-interface PhotoProps {
-    _id: string,
-}
+const handlePhotos = () => {
+    setSearchPhotos(true);
 
-  //Insert like
-    const handleLike = (photo: Partial<PhotoProps>) => {
-    dispatch(likePhoto(photo._id!))
-    resetMessage();
-};
+    setSearchUsers(false);
+}
 
 return (
     <div>
-        <p>Search: {search}</p>
-        <div className=''>
-        {user?.profileImage && (
-          <div>
-            {user._id}
-          </div>
-                )}
-            {photos && photos.map((photo) =>(
-                <div key={photo._id}>
-                <PhotoItem photo={photo}/>
-                <LikeContainer handleLike={handleLike} photo={photo} user={userAuth}/>
-                </div>
-            ))}
+        <div className='flex m-3 gap-5 justify-center'>
+            {search && (
+              <div className='flex gap-5'>
+                <p onClick={handlePhotos}>Publicações</p>
+                <p onClick={handleUsers}>Usuários</p>
+              </div>
+            )}
         </div>
-        {photos && photos.length === 0 && (
-            <div>Nao ha publicacoes relacionados a sua busca <Link to={`/users/${userAuth?._id}`}>Clique aqui e publique</Link></div>
+        {!search && (
+            <p className='text-center mt-10'>Busque por publicações e usuário aqui</p>
         )}
+        <div className=''>
+            {searchPhotos && (
+                <SearchPhotos />
+            )}
+        </div>
+        <div className=''>
+            {searchUsers && (
+                <SearchUsers />
+            )}
+        </div>
     </div>
 )
 }
