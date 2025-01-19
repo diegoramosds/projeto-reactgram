@@ -49,14 +49,12 @@ const Comments = () => {
                     className="h-20 w-24 rounded-full"
                   />
                 </Link>
-                <p
-                    onClick={() => {
+                <p>
+                    <MdClose onClick={() => {
                       if (photo._id && comment._id) {
                         handleRemoveComment(photo._id, comment._id);
                       }
-                    }}
-                  >
-                    <MdClose className="cursor-pointer"/>
+                    }} className="cursor-pointer"/>
                   </p>
                   </div>
                 ) : (

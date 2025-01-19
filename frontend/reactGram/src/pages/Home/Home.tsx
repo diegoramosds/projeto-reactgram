@@ -42,12 +42,13 @@ const Home = () => {
 
   return (
     <div>
-      {/* <h1 className="text-center m-8 text-2xl">Veja aqui as publicações</h1> */}
       {photos && photos.map((photo) => (
         <div key={photo._id} className="w-2/4 mx-auto pb-10 mb-40 rounded-lg p-5">
           <PhotoItem photo={photo}/>
           <LikeContainer photo={photo} user={user} handleLike={handleLike}/>
-          <p className="text-center mt-5 p-1  bg-sky-700/80 rounded w-2/4 mx-auto hover:bg-sky-700/100"><Link to={`/photos/${photo._id}`}>Veja detalhes</Link></p>
+          <Link to={`/photos/${photo._id}`}>
+          <p className="text-center mt-5 p-1  bg-sky-700/80 rounded w-2/4 mx-auto hover:bg-sky-700/100">Veja detalhes</p>
+          </Link>
         </div>
       ))}
       {photos && photos.length === 0 && (

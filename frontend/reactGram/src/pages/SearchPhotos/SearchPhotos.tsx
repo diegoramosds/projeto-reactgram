@@ -4,7 +4,6 @@ import PhotoItem from "../../components/PhotoItem"
 import LikeContainer from "../../components/LikeContainer"
 import { likePhoto, resetMessage } from "../../slices/photoSlice"
 import { Link } from "react-router-dom"
-import { uploads } from "../../utils/config"
 
 
 const SearchPhotos = () => {
@@ -28,7 +27,7 @@ return (
         <div className='w-1/2 mx-auto pt-5'>
         {photos && photos.map((photo) =>(
             <div key={photo._id}>
-            <PhotoItem photo={photo}  />
+            <PhotoItem photo={photo} />
             <LikeContainer handleLike={handleLike} photo={photo} user={userAuth}/>
             </div>
         ))}

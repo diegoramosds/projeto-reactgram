@@ -40,8 +40,8 @@ function App() {
             <Route path="/search" element={auth ? <Search /> : <Navigate to="/"/>} />
             <Route path="/photos/:id" element={auth ? <Photo /> : <Navigate to="/"/>} />
             <Route path="/photos/find/" element={auth ? <Interaction /> : <Navigate to="/"/>} />
-            <Route path="/photos/find/comments/:id" element={auth ? <Comments /> : <Navigate to="/"/>} />
-            <Route path="/photos/find/likes/:id" element={auth ? <Likes /> : <Navigate to="/"/>} />
+            <Route path="/photos/find/" element={auth ? <Comments /> : <Navigate to="/"/>} />
+            <Route path="/photos/find/" element={auth ? <Likes /> : <Navigate to="/"/>} />
         </Routes>
       <Footer />
     </BrowserRouter>

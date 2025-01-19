@@ -16,7 +16,6 @@ interface Photo {
   }
   interface PhotoItemProps {
     photo: Partial<Photo>;
-    user: Partial<User>;
   }
 
   const PhotoItem = ({ photo }: PhotoItemProps)=> {

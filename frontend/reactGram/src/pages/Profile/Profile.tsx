@@ -152,7 +152,7 @@ interface PhotoProps {
                 <div className="flex flex-wrap justify-center items-center gap-3">
                     {photos && photos.map((photo) => (
                     <div key={photo._id} className="flex flex-col w-4/5">
-                        <PhotoItem photo={photo} user={user}/>
+                        <PhotoItem photo={photo}/>
                         <LikeContainer handleLike={handleLike} photo={photo} user={userAuth}/>
                     </div>
                     ))}

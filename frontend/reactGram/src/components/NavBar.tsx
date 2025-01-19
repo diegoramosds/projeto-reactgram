@@ -41,14 +41,11 @@ const NavBar = () => {
     // Search
     const handleSearh = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     setSearch("")
-
-
     if(search) {
-      return navigate(`/search?q=${search}`)
+    return navigate(`/search?q=${search}`)
     }
-    }
+  }
 
     // modal
     const handleModal = () => {
@@ -108,9 +105,6 @@ const NavBar = () => {
               <div className="fixed inset-0 z-10 bg-black/90" onClick={closeModal}>
               <ul className="bg-zinc-950 w-1/3  h-full z-20 p-6 flex flex-col gap-8">
                 <div className="flex justify-end text-2xl pb-10">
-                    {/* <li>
-                      <NavLink to="/profile"><DiAptana /></NavLink>
-                    </li> */}
                     <li
                     onClick={closeModal}><CgClose/>
                     </li>
