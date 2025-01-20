@@ -3,22 +3,23 @@ import { AppDispatch, RootState } from '../../store';
 import { useEffect } from "react";
 import { getAllComments, removeComment } from '../../slices/photoSlice';
 import { uploads } from "../../utils/config";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { MdClose } from "react-icons/md";
 import { useResetComponetMessage } from "../../hooks/useResetComponentMessage";
+import { getUserDetails } from "../../slices/userSlice";
 
 const Comments = () => {
-    const {id} = useParams();
-
     const dispatch: AppDispatch = useDispatch();
 
     const resetMessage = useResetComponetMessage(dispatch);
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
+    const {user} = useSelector((state: RootState) => state.user)
     const {photo} = useSelector((state: RootState) => state.photo)
 
     useEffect(() => {
       if (userAuth?._id) {
         dispatch(getAllComments(userAuth._id))
+        dispatch(getUserDetails(userAuth?._id))
       }
     }, [dispatch, userAuth]);
 
@@ -39,7 +40,7 @@ const Comments = () => {
                 key={comment._id}
                 className=""
               >
-                {id === userAuth?._id ? (
+                {user && user._id === userAuth?._id  && (
                   <div className="m-5 flex items-center justify-around border-b rounded border-zinc-900">
                   <p>Comentário: {comment.comment}</p>
                 <Link to={`/photos/${comment.photoId}`}>
@@ -57,8 +58,6 @@ const Comments = () => {
                     }} className="cursor-pointer"/>
                   </p>
                   </div>
-                ) : (
-                  <p className="text-center mt-10">Você não tem autorização para vizualizar comentários de outros usúarios nessa aba.</p>
                 )}
               </div>
             ))

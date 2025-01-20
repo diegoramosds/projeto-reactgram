@@ -15,10 +15,6 @@ import Search from './pages/Search/Search';
 import Settings from './pages/Profile/Profile';
 
 import Interaction from './pages/Interaction/Interaction';
-import Comments from './pages/Comments/Comments';
-import { Likes } from './pages/Likes/Likes';
-import SearchUsers from './pages/SearchUsers/SearchUsers';
-import SearchPhotos from './pages/SearchPhotos/SearchPhotos';
 
 function App() {
   const {auth, loading} = useAuth()
@@ -40,8 +36,6 @@ function App() {
             <Route path="/search" element={auth ? <Search /> : <Navigate to="/"/>} />
             <Route path="/photos/:id" element={auth ? <Photo /> : <Navigate to="/"/>} />
             <Route path="/photos/find/" element={auth ? <Interaction /> : <Navigate to="/"/>} />
-            <Route path="/photos/find/" element={auth ? <Comments /> : <Navigate to="/"/>} />
-            <Route path="/photos/find/" element={auth ? <Likes /> : <Navigate to="/"/>} />
         </Routes>
       <Footer />
     </BrowserRouter>
