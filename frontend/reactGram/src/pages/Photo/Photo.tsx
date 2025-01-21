@@ -11,7 +11,7 @@ import { AppDispatch, RootState } from "../../store";
 import { useResetComponetMessage } from "../../hooks/useResetComponentMessage";
 
 //redux
-import { comments, getPhotoById, likePhoto, removeComment } from "../../slices/photoSlice";
+import { comments, getPhotoById, likePhoto } from "../../slices/photoSlice";
 import LikeContainer from "../../components/LikeContainer";
 import CommentItem from "../../components/CommentItem";
 
@@ -40,7 +40,6 @@ const Photo = () => {
 
     resetMessage();
   };
-
   //Insert comment
   const handleComment = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,19 +53,8 @@ const Photo = () => {
     setCommentText("");
 
     resetMessage();
+    setDeleteCommentModal(false);
   }
-
-  //Remove comment
-  const handleRemoveComment = (photoId: string, commentId: string) => {
-    if (window.confirm("Tem certeza que deseja remover este comentário?")) {
-    const commentData = {
-    photoId,
-    commentId
-    }
-  dispatch(removeComment(commentData))
-
-  resetMessage();
-  }}
 
   if(loading) {
     return <p>Carregando...</p>
@@ -81,10 +69,9 @@ const Photo = () => {
         {message && <Message msg={message} type="success"/>}
       </div>
       <div>
-        <CommentItem 
-        commentText={commentText} 
-        handleComment={handleComment} 
-        handleRemoveComment={handleRemoveComment}
+        <CommentItem
+        commentText={commentText}
+        handleComment={handleComment}
         photo={photo}
         setCommentText={setCommentText}/>
       </div>
