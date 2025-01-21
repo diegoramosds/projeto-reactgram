@@ -13,7 +13,7 @@ const Message = ({msg, type}: MessageProps) => {
         : "text-gray-700 bg-gray-100 border-gray-400 text-center";
 
   return (
-    <div className={`${messageClass}`}>
+    <div className={`${messageClass} w-1/2 mx-auto`}>
         <p>{msg}</p>
     </div>
   )
