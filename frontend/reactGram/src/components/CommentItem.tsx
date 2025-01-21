@@ -2,8 +2,12 @@ import { Link } from "react-router-dom"
 import { uploads } from "../utils/config";
 
 import { MdClose } from "react-icons/md"
-import { useSelector } from "react-redux";
-import { RootState } from "../store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store";
+import { useEffect, useState } from "react";
+import DeleteCommentModal from "./DeleteCommentModal";
+import { removeComment } from "../slices/photoSlice";
+import { useResetComponetMessage } from "../hooks/useResetComponentMessage";
 
 interface CommentProps {
   _id: string;
@@ -20,14 +24,47 @@ interface PhotoProps {
 interface CommentItemProps  {
 photo: Partial<PhotoProps>,
 handleComment:  (e: React.ChangeEvent<HTMLFormElement>) => void,
-handleRemoveComment: (photoId: string, commentId: string) => void,
 commentText: string,
 setCommentText: React.Dispatch<React.SetStateAction<string>>,
 }
 
-const CommentItem = ({photo, handleComment, handleRemoveComment, commentText, setCommentText}: CommentItemProps) => {
+const CommentItem = ({photo, handleComment, commentText, setCommentText}: CommentItemProps) => {
 
 const { user } = useSelector((state : RootState) => state.auth);
+
+  const [deleteCommentModal, setDeleteCommentModal] = useState(false);
+  
+      useEffect(() => {
+        if(deleteCommentModal) {
+          document.body.classList.add("overflow-hidden")
+        } else {
+          document.body.classList.remove("overflow-auto")
+        }
+        return () => document.body.classList.remove("overflow-hidden");
+      })
+  
+      const handleOpenModalDeleteComment = () => {
+        setDeleteCommentModal(true)
+      }
+  
+      const handleCloseModalDeleteComment = () => {
+        setDeleteCommentModal(false)
+      }
+
+    const dispatch: AppDispatch = useDispatch();
+
+    const resetMessage = useResetComponetMessage(dispatch);
+
+
+      const handleRemoveComment = (photoId: string, commentId: string) => {
+        const commentData = {
+        photoId,
+        commentId
+        }
+      dispatch(removeComment(commentData))
+      resetMessage();
+      setDeleteCommentModal(false);
+      }
     return (
         <div>
           {Array.isArray(photo.comments) && (
@@ -58,13 +95,15 @@ const { user } = useSelector((state : RootState) => state.auth);
                       </div>
                       <div className="cursor-pointer">
                         {comment.userId === user?._id && (
-                          <p onClick={() => {
-                            if (photo._id && comment._id) {
-                              handleRemoveComment(photo._id, comment._id);
-                            }
-                          }}><MdClose /></p>
+                          <p onClick={handleOpenModalDeleteComment}><MdClose /></p>
                         )}
-                          </div>
+                        </div>
+                        {deleteCommentModal && (
+                          <DeleteCommentModal
+                          comment={comment}
+                          handleCloseModalDeleteComment={handleCloseModalDeleteComment}
+                          handleRemoveComment={handleRemoveComment}/>
+                        )}
                       </div>
                   ))}
               </>
