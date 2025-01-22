@@ -75,10 +75,10 @@ const Comments = () => {
                 </div>
                 )}
                 {deleteCommentModal && (
-                 <DeleteCommentModal
-                 comment={comment}
-                 handleCloseModalDeleteComment={handleCloseModalDeleteComment}
-                 handleRemoveComment={handleRemoveComment}/>
+                  <DeleteCommentModal
+                  comment={comment}
+                  handleCloseModalDeleteComment={handleCloseModalDeleteComment}
+                  handleRemoveComment={handleRemoveComment}/>
                 )}
               </div>
             ))

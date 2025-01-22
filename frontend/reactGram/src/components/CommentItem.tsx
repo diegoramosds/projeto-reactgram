@@ -19,7 +19,7 @@ interface CommentProps {
 
 interface PhotoProps {
   _id: string ;
-  comments: CommentProps[];
+  comments: Partial<CommentProps>[];
 }
 interface CommentItemProps  {
 photo: Partial<PhotoProps>,
@@ -33,7 +33,6 @@ const CommentItem = ({photo, handleComment, commentText, setCommentText}: Commen
 const { user } = useSelector((state : RootState) => state.auth);
 
   const [deleteCommentModal, setDeleteCommentModal] = useState(false);
-  
       useEffect(() => {
         if(deleteCommentModal) {
           document.body.classList.add("overflow-hidden")
@@ -42,11 +41,11 @@ const { user } = useSelector((state : RootState) => state.auth);
         }
         return () => document.body.classList.remove("overflow-hidden");
       })
-  
+
       const handleOpenModalDeleteComment = () => {
         setDeleteCommentModal(true)
       }
-  
+
       const handleCloseModalDeleteComment = () => {
         setDeleteCommentModal(false)
       }

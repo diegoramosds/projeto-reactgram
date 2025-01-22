@@ -53,7 +53,6 @@ const Photo = () => {
     setCommentText("");
 
     resetMessage();
-    setDeleteCommentModal(false);
   }
 
   if(loading) {
