@@ -15,6 +15,7 @@ import Search from './pages/Search/Search';
 import Settings from './pages/Profile/Profile';
 
 import Interaction from './pages/Interaction/Interaction';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   const {auth, loading} = useAuth()
@@ -23,11 +24,13 @@ function App() {
   }
 
   return (
-      <div  className='text-zinc-100 bg-zinc-950/70 md: lg:'>
+      <div  className='flex flex-col min-h-screen text-zinc-100 bg-zinc-950/70  md: lg:'>
       <BrowserRouter>
       <NavBar />
-        <Routes>
-          <Route path="/" element={auth ? <Home /> : <Navigate to="/login"/>} />
+      <ScrollToTop />
+          <main className='flex-grow'>
+          <Routes>
+            <Route path="/" element={auth ? <Home /> : <Navigate to="/login"/>} />
             <Route path="/register" element={!auth ? <Register /> : <Navigate to="/"/>} />
             <Route path="/login" element={!auth ? <Login /> : <Navigate to="/"/>} />
             <Route path="/settings" element={auth ? <EditProfile /> : <Navigate to="/"/>} />
@@ -36,9 +39,10 @@ function App() {
             <Route path="/search" element={auth ? <Search /> : <Navigate to="/"/>} />
             <Route path="/photos/:id" element={auth ? <Photo /> : <Navigate to="/"/>} />
             <Route path="/photos/find/" element={auth ? <Interaction /> : <Navigate to="/"/>} />
-        </Routes>
-      <Footer />
+          </Routes>
+          </main>
     </BrowserRouter>
+    <Footer />
       </div>
   )
 }

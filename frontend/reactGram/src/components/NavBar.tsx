@@ -102,7 +102,7 @@ const NavBar = () => {
         </ul>
     </nav>
     {user && modal && (
-            <div className="fixed inset-0 z-10 bg-black/90" onClick={closeModal}>
+            <div className="fixed inset-0 z-10 bg-black/90" onClick={() => closeModal()}>
               <ul className="bg-zinc-950 w-1/3  h-full z-20 p-6 flex flex-col gap-8">
                 <div className="flex justify-end text-2xl pb-10">
                     <li
