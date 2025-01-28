@@ -7,7 +7,6 @@ const Photo = require("../models/Photo");
 
 const jwtSecret  = process.env.JWT_SECRET;
 
-
 // generate user token
 const genarateToken = (id) => {
  return jwt.sign({id}, jwtSecret, {
