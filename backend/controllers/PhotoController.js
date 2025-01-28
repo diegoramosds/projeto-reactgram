@@ -36,7 +36,6 @@ const insertPhoto = async (req, res) => {
 
     res.status(201).json(newPhoto);
   };
-  
 
 // Remove a photo from DB
 const deletePhoto = async(req, res) => {
@@ -69,7 +68,6 @@ const deletePhoto = async(req, res) => {
             }) 
 
         await Photo.findByIdAndDelete(photo._id)
-    
         res.status(200).json({id: photo._id, message: "Foto excluída com sucesso."});
 
     } catch (error) {
