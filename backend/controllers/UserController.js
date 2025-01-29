@@ -116,6 +116,7 @@ const register = async(req, res) =>  {
 
         res.status(200).json(user);
     };
+
     // Get user by id
     const getUserById = async(req, res) => {
         const {id} = req.params;
@@ -175,8 +176,7 @@ const register = async(req, res) =>  {
     } catch (error) {
         res.status(422).json({errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]})
         return
-        }
-    }
+        }}
 
 module.exports = {
     register,

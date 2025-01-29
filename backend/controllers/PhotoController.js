@@ -75,6 +75,7 @@ const deletePhoto = async(req, res) => {
         return;
     }}
 
+
     // Get all photos
     const getAllPhotos = async(req, res)  => {
     const photo = await Photo.find({}).sort([["createdAt",-1]]).exec();
@@ -98,9 +99,7 @@ const deletePhoto = async(req, res) => {
         } catch (error) {
             res.status(404).json({errors: ["Foto não encontrada"]})
             return;
-        }
-
-    }
+        }}
 
     const getPhotoById = async(req, res)  => {
         const {id} = req.params;
@@ -119,9 +118,7 @@ const deletePhoto = async(req, res) => {
         } catch (error) {
             res.status(404).json({errors: ["Foto não encontrada"]})
                 return;
-        }
-
-    } 
+        }} 
     
     //Update a photo
     const updatePhoto = async(req, res)  => {
@@ -196,10 +193,6 @@ const deletePhoto = async(req, res) => {
         }
     }
 
-    //Get all likes
-
-
-
     // Comment a photo
     const commentPhoto = async(req, res)  => {
         const {id} = req.params;
@@ -237,9 +230,7 @@ const deletePhoto = async(req, res) => {
         } catch (error) {
            res.status(422).json({errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]}) 
                 return;
-        }
-
-    } 
+        }} 
 
     // Search photos by title
     const searchPhotos = async(req, res) => {

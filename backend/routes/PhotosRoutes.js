@@ -18,7 +18,7 @@ router.post(
     photoInsertValidation(),
     validate,
     insertPhoto
-  );
+);
 
 router.delete("/:id", authGuard, deletePhoto);
 
