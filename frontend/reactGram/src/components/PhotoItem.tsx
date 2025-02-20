@@ -7,13 +7,6 @@ interface Photo {
     userId: string;
     userName: string;
   }
-
-  interface User {
-    id: string;
-    profileImage: string | File;
-    userId: string;
-    name: string;
-  }
   interface PhotoItemProps {
     photo: Partial<Photo>;
   }

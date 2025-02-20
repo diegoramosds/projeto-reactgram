@@ -46,28 +46,33 @@ const deletePhoto = async(req, res) => {
 
     try {
         const photo = await Photo.findById(new mongoose.Types.ObjectId(id));
-        
         // Check if photo  exist
         if(!photo) {
             res.status(404).json({errors: ["Foto não encontrada"]})
             return;
         }
-    
+        // Check if like exist
+        if(photo.userId)
         if(!photo.userId.equals(reqUser._id)) {
             res.status(422).json({errors: ["Ocorreu um erro, por favor tente novamente mais tarde"]});
             return;
         }
-
         const completeFile = `/uploads/photos/${photo.image}`;
 
-        await fs.unlink(`./${completeFile}`, (err) => {  
-            if(err) { 
-                res.status(422).json({errors: ["Ocorreu um erro, por favor tente novamente mais tarde."]})                
-                return            
-            }      
-            }) 
+        fs.unlink(`./${completeFile}`, (err) => {
+            if (err) {
+                res.status(422).json({ errors: ["Ocorreu um erro, por favor tente novamente mais tarde."] });
+                return;
+            }
+        })
 
         await Photo.findByIdAndDelete(photo._id)
+
+        // Remove the photo from all users' likedPhotos
+        await User.updateMany(
+            { "likedPhotos.photoId": photo._id }, // Find users who liked the photo
+            { $pull: { likedPhotos: { photoId: photo._id } } } // Remove the photo from likedPhotos
+        );
         res.status(200).json({id: photo._id, message: "Foto excluída com sucesso."});
 
     } catch (error) {
@@ -171,6 +176,7 @@ const deletePhoto = async(req, res) => {
             res.status(404).json({errors: ["Foto não encontrada"]})
             return;
         }
+
         // Check if the user already like the photo
         if (photo.likes.includes(reqUser._id)) {
             photo.likes = photo.likes.filter(userId => !userId.equals(reqUser._id));

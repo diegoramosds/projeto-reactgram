@@ -309,7 +309,6 @@ export const photoSlice = createSlice({
             state.success = true;
             state.error = null;
             const { photoId, likes } = action.payload;
-
             // Atualiza o estado da foto sendo exibida
             if (state.photo._id === photoId) {
             state.photo.likes = likes;

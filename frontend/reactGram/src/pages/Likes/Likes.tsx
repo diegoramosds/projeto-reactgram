@@ -9,7 +9,7 @@ import { getUserDetails } from "../../slices/userSlice"
 
 export const Likes = () => {
 
-  const dispatch: AppDispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
 
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
     const {user} = useSelector((state: RootState) => state.user)
@@ -37,8 +37,11 @@ return (
                     </div>
                 </div>
             ))}
+            {user.likedPhotos.length === 0 && (
+                <p className="text-center">Você ainda não curtiu nenhuma publicação</p>
+            )}
+
         </div>
         )}
     </div>
-)
-}
+)}

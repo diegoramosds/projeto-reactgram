@@ -87,7 +87,7 @@ const register = async(req, res) =>  {
         res.status(200).json(users);
     }
     //update an user
-    const upadate = async(req, res) => {
+    const update = async(req, res) => {
     const {name, password, bio} = req.body;
 
     let = profileImage = null;
@@ -183,7 +183,7 @@ module.exports = {
     login,
     getCurrentUser,
     searchUser,
-    upadate,
+    update,
     getUserById,
     followingUser
 }

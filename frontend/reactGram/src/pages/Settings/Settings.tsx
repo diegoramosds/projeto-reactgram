@@ -13,11 +13,9 @@ import { useDispatch, useSelector } from "react-redux"
 //Redux
 import { getUserDetails } from "../../slices/userSlice"
 import { AppDispatch, RootState } from "../../store"
-import { delePhoto, getUserPhotos, publishPhoto, resetMessage, updatePhoto } from "../../slices/photoSlice"
+import { delePhoto, getUserPhotos, publishPhoto, resetMessage, updatePhoto } from '../../slices/photoSlice';
 
 const Settings = () => {
-    
-
     const {id} = useParams()
 
 
@@ -25,11 +23,11 @@ const Settings = () => {
 
     const {user, loading} = useSelector((state: RootState) => state.user)
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
-    const { photo,
-        photos, 
-        error:errorPhoto, 
-        loading:loadingPhoto, 
-        message:messagePhoto, 
+    const {
+        photos,
+        error:errorPhoto,
+        loading:loadingPhoto,
+        message:messagePhoto,
     } = useSelector((state: RootState) => state.photo)
 
     const [image, setImage] = useState<File | string>(String);
@@ -39,28 +37,37 @@ const Settings = () => {
     const [editImage, setEditImage] = useState<File | string>(String);
     const [editTitle, setEditTitle] = useState("");
 
+    const [deletePhotoModal, setDeletePhotoModal] = useState(false);
+
     //New form and edit form const const = useRef(second)
     const newPhotoForm =  useRef<HTMLDivElement | null>(null)
     const editPhotoForm = useRef<HTMLDivElement | null>(null)
 
     //Load user data
     useEffect(() => {
-    if (id) {
-        dispatch(getUserDetails(id));
-        dispatch(getUserPhotos(id));
-        
-    } 
-}, [dispatch, id]);
+    if (userAuth?._id) {
+        dispatch(getUserDetails(userAuth?._id));
+        dispatch(getUserPhotos(userAuth?._id));
+    }
+}, [dispatch, userAuth]);
 
     const resetComponentMessage = () => {
         setTimeout(() => {
             dispatch(resetMessage())
-          }, 2000)    
+        }, 2000)
     }
+
+    useEffect(() => {
+        if(deletePhotoModal) {
+          document.body.classList.add("overflow-hidden")
+        } else {
+          document.body.classList.remove("overflow-auto")
+        }
+        return () => document.body.classList.remove("overflow-hidden");
+      })
 
     const submitHandle = (e : React.FormEvent<HTMLFormElement>) => {
      e.preventDefault();
-
      type PhotoDataProps = {
         title: string,
         image: string | File,
@@ -74,7 +81,7 @@ const Settings = () => {
      //Build form data
      const formData = new FormData()
 
-    Object.keys(photoData).forEach((key) => 
+    Object.keys(photoData).forEach((key) =>
         formData.append(key, photoData[key as keyof PhotoDataProps])
     );
 
@@ -88,17 +95,19 @@ const Settings = () => {
     //Delete a photo
     const handleDelete = (id: string) => {
 
-       dispatch(delePhoto(id))
+    dispatch(delePhoto(id))
 
-      resetComponentMessage();
- }
+    setDeletePhotoModal(false);
+
+
+    resetComponentMessage();
+}
 
     const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
           const image = e.target.files[0]
   
-            setImage(image);
-      }
+            setImage(image);}
     }
 
 
@@ -144,7 +153,13 @@ const Settings = () => {
         resetComponentMessage();
     }
 
-    
+    const handleOpenModalDeletePhoto = () => {
+        setDeletePhotoModal(true)
+}
+    const handleCloseModalDeletePhoto = () => {
+        setDeletePhotoModal(false)
+}
+
     if(loading) {
         return <p>Carregando...</p>
     }
@@ -158,7 +173,6 @@ const Settings = () => {
 
             <div className="flex flex-col gap-6 ml-4">
                 <h2 className="text-xl font-bold">{user?.name}</h2>
-                <p>{user?.bio}</p>
                 <button><Link to={`/users/profile/${id}`}>Ver perfil</Link> </button>
             </div>
         </div>
@@ -202,27 +216,39 @@ const Settings = () => {
             <div className="w-full flex flex-col flex-wrap mt-5">
                 <h2 className="font-bold text-xl mb-5">Fotos publicadas</h2>
                 <div className="flex flex-wrap justify-center items-center gap-3">
-                    {photos && photos.map((photo) => (
-
-
+                {photos && photos.map((photo) => (
                     <div key={photo._id} className="flex flex-col w-36">
-                        {photo.image && (<img src={`${uploads}/photos/${photo.image}`} alt={photo.title}/>)}
-                       
+                        {photo.image && (<img src={`${uploads}/photos/${photo.image}`} alt={photo.title} className="h-1/2 rounded-lg"/>)}
                             {id === userAuth?._id ? (
-                               <div className="flex justify-around m-3 cursor-pointer text-lg">
+                            <div className="flex justify-around m-3 cursor-pointer text-lg">
                                 <Link to={`/photos/${photo._id}`}><BsFillEyeFill/></Link>
                                 <BsPencilFill onClick={() => handleEdit(photo)}/>
-                                <BsXLg onClick={() => handleDelete(photo._id)}/>
-                               </div>
-                                
-                            ) : 
+                                <BsXLg onClick={handleOpenModalDeletePhoto}/>
+                                {deletePhotoModal && (
+                                    <div className="fixed inset-0 bg-black/40 z-10">
+                                    <div className="w-5/12 h-1/5 mx-auto mt-20 z-20 bg-zinc-900 flex justify-center items-center flex-col rounded">
+                                    <h1>Tem certeza que deseja remover essa publicação</h1>
+                                        <div className="flex gap-10 mt-5">
+                                            <p className="bg-red-600 rounded px-5 hover:bg-red-700"
+                                            onClick={() => {
+                                                handleDelete(photo._id)
+                                            }}
+                                            >Sim
+                                            </p>
+                                            <p className="bg-sky-700 rounded px-5 hover:bg-sky-800"
+                                            onClick={handleCloseModalDeletePhoto}
+                                            >Não
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                )}
+                            </div>
+                            ) :
                             (
                             <Link to={`/photos/${photo._id}`}>Ver</Link>
                             )}
-
                     </div>
-
-
                     ))}
                     {photos.length === 0 && <p>Ainda não há publicações</p>}
                 </div>
