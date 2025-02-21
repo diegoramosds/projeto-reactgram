@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 
 // controller
-const { register, login, getCurrentUser, update, getUserById, getAllComments, followingUser, searchUser } = require("../controllers/UserController");
+const { register, login, getCurrentUser, update, getUserById, getAllComments, followingUser, searchUser, cleanupLikes } = require("../controllers/UserController");
 
 // middlewares
 const validate  = require("../middlewares/handleValidation")
@@ -20,6 +20,7 @@ router.get("/search", authGuard, searchUser);
 router.put("/", authGuard, imageUpload.single("profileImage"), userUpdateValidation(), validate, update),
 router.get("/:id", getUserById)
 router.put("/followers/:id", authGuard, followingUser)
+router.post("/cleanupLikes", authGuard, cleanupLikes);
 
 module.exports  = router
 

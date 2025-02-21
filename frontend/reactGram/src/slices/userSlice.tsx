@@ -47,6 +47,20 @@ const initialState: UserState = {
     likedPhotos: [],
 };
 
+// Cleanup likes
+export const clenupLikes = createAsyncThunk("/clenupLikes",
+    async (_, thunkAPI) => {
+        const token = (thunkAPI.getState() as RootState).auth.user?.token || "";
+        const data = await userService.cleanupLike(token);
+        //Check errors
+        if(data.errors) {
+            return  thunkAPI.rejectWithValue(data.errors[0]);
+        }
+        return data;
+
+    }
+);
+
 export const profile = createAsyncThunk("user/profile",
     async(user, thunkAPI) => {
 
@@ -122,6 +136,17 @@ export const userSlice = createSlice({
         builder.addCase(profile.pending, (state) => {
             state.loading = true;
             state.error = false;
+        })
+        .addCase(clenupLikes.fulfilled, (state, action) => {
+                    state.loading = false;
+                    state.success = true;
+                    state.error = null;
+                    state.likedPhotos = action.payload.likedPhotos;
+                    state.message = action.payload.message;
+        })
+        .addCase(clenupLikes.rejected, (state, action) => {
+                    state.loading = false;
+                    state.error = action.payload as string;
         })
         .addCase(profile.fulfilled, (state, action) => {
             state.loading = false;

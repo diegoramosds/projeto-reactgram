@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 
 import { BsFillEyeFill } from "react-icons/bs"
 import { useEffect } from "react"
-import { getUserDetails } from "../../slices/userSlice"
+import { getUserDetails, clenupLikes } from "../../slices/userSlice"
 
 export const Likes = () => {
 
@@ -18,6 +18,7 @@ export const Likes = () => {
     useEffect(() => {
         if(userAuth?._id){
         dispatch(getUserDetails(userAuth?._id))
+        dispatch(clenupLikes())
         }
     },[dispatch, userAuth])
 

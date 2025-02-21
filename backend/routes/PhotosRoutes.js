@@ -11,6 +11,7 @@ const validate  = require("../middlewares/handleValidation");
 const { imageUpload } = require("../middlewares/imageUpload");
 
 //routes
+
 router.post(
     "/",
     authGuard,

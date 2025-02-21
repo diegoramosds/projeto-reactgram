@@ -178,6 +178,38 @@ const register = async(req, res) =>  {
         return
         }}
 
+        // Check likes
+        const cleanupLikes = async (req, res) => {
+            try {
+                const user = await User.findById(req.user._id);
+        
+                if (!user) {
+                    return res.status(404).json({ errors: ["Usuário não encontrado."] });
+                }
+        
+                const validLikes = [];
+                for (const likedPhoto of user.likedPhotos) {
+                    const photoId = likedPhoto.photoId;
+        
+                    if (!photoId) continue;
+        
+                    const photoExists = await Photo.exists({ _id: new mongoose.Types.ObjectId(photoId) });
+                    if (photoExists) {
+                        validLikes.push(likedPhoto);
+                    }
+                }
+            await User.updateOne(
+                    { _id: user._id }, // Filtro
+                    { $set: { likedPhotos: validLikes }}
+                );
+        
+                res.status(200).json({ likedPhotos: validLikes });
+            } catch (error) {
+                console.error("Erro ao limpar likes inválidos:", error);
+                res.status(500).json({ errors: ["Erro ao limpar likes inválidos.", error] });
+            }
+        };
+
 module.exports = {
     register,
     login,
@@ -185,5 +217,6 @@ module.exports = {
     searchUser,
     update,
     getUserById,
-    followingUser
+    followingUser,
+    cleanupLikes
 }

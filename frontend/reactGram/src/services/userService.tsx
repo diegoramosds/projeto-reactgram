@@ -1,5 +1,19 @@
 import { api, requestConfig } from '../utils/config';
 
+const cleanupLike = async(token: string) => {
+    const config = requestConfig("POST", null, token)
+    
+      try {
+        const res = await fetch(api + "/users/cleanupLikes", config)
+        .then((res) => res.json())
+            .catch((err) => err);
+    
+            return res;
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
  const profile = async(data: unknown, token: string) => {
 
     const config = requestConfig("GET", data, token)
@@ -12,9 +26,8 @@ import { api, requestConfig } from '../utils/config';
         return res
     } catch (error) {
         console.log(error)
-    }    
- }
- 
+    }}
+
  const update = async(data: FormData, token: string) => {
 
     const config = requestConfig("PUT", data, token, true)
@@ -78,6 +91,7 @@ const followingUser = async(id: string, token: string) => {
 }
 
 const userService = {
+    cleanupLike,
     profile,
     update,
     getUserDetails,

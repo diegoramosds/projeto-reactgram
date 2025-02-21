@@ -14,7 +14,6 @@ const publishPhoto = async(data: object, token: string) => {
     } catch (error) {
         console.log(error)
     }
-    
 }
 
 //Get user photos
@@ -84,7 +83,6 @@ const getPhotoById = async(id: string | undefined, token: string) => {
 
   } catch (error) {
     console.log(error)
-    
   }
 }
 
@@ -96,19 +94,19 @@ const likePhoto = async (id: string, token: string) => {
       const res = await fetch(api + "/photos/like/" + id, config)
         .then((res) => res.json())
         .catch((err) => err);
-        
-  
+
       return res;
     } catch (error) {
       console.log(error);
     }
   };
 
+
   // Add Comments to a photo
   const comments = async(commentData: object, id: string | undefined, token: string) => {
-     const config = requestConfig("PUT", commentData, token);
+  const config = requestConfig("PUT", commentData, token);
 
-     try {
+  try {
       const res = await fetch(api + "/photos/comment/" + id, config)
       .then((res) => res.json())
       .catch((err) => err);
