@@ -39,7 +39,7 @@ const Home = () => {
   if(loading) {
     <p>Carregando</p>
   }
-
+  
   return (
     <div>
       {Array.isArray(photos) && photos.map((photo) => (
@@ -52,7 +52,7 @@ const Home = () => {
         </div>
       ))}
       {photos && photos.length === 0 && (
-        <p>Ainda não ha publicações <Link to={`/users/${user?._id}`}>Clique aqui</Link> e faça um publicação</p>
+        <p className="text-center mt-10">Ainda não ha publicações <Link to={`/users/${user?._id}`}>Clique aqui</Link> e faça um publicação</p>
       )}
     </div>
   )
