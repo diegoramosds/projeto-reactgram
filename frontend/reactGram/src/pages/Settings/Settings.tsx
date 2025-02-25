@@ -39,6 +39,8 @@ const Settings = () => {
 
     const [deletePhotoModal, setDeletePhotoModal] = useState(false);
 
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
     //New form and edit form const const = useRef(second)
     const newPhotoForm =  useRef<HTMLDivElement | null>(null)
     const editPhotoForm = useRef<HTMLDivElement | null>(null)
@@ -107,7 +109,9 @@ const Settings = () => {
         if (e.target.files && e.target.files[0]) {
           const image = e.target.files[0]
   
-            setImage(image);}
+            setImage(image);
+            setSelectedFile(image);
+    }
     }
 
 
@@ -166,29 +170,32 @@ const Settings = () => {
 
     return (
     <div className="w-2/4 mx-auto mt-6">
-        <div className="flex border-b border-zinc-700 pb-1 items-center ">
+           <div className="flex flex-col items-center gap-3">
                 {user?.profileImage && (
-                    <img src={`${uploads}/users/${user?.profileImage}`} alt={user.name}  className="w-40 h-40 rounded-full p-4"/>
+                    <img src={`${uploads}/users/${user?.profileImage}`} alt={user.name}  className="w-32 h-32 rounded-full p-4"/>
                 )}
-
-            <div className="flex flex-col gap-6 ml-4">
                 <h2 className="text-xl font-bold">{user?.name}</h2>
-                <button><Link to={`/users/profile/${id}`}>Ver perfil</Link> </button>
+                <p className="bg-slate-100 py-1 px-5 rounded-2xl hover:bg-slate-200"><Link to={`/users/profile/${id}`} className="text-black text-sm">Ver perfil</Link> </p>
             </div>
-        </div>
         <div className="m-4">
             {id === userAuth?._id && (
                 <>
-                <div ref={newPhotoForm} className="border-b border-zinc-700 mb-8">
+                <div ref={newPhotoForm} className="mb-16">
                     <h3>Compartilhe momentos</h3>
                     <form onSubmit={submitHandle}>
                         <label>
-                            <span>Titulo para a foto</span>
-                            <input type="text" placeholder="Insira um titulo" onChange={(e) => setTitle(e.target.value)} value={title || ""}/>
+                            <input type="text" placeholder="Insira um titulo" className="rounded-xl p-3 focus:ring-2 focus:ring-zinc-700" onChange={(e) => setTitle(e.target.value)} value={title || ""}/>
                         </label>
-                        <label>
-                            <span>Imagem</span>
-                            <input type="file" onChange={handleFile}/>
+                        <label className="mt-4 relative rounded-lg border border-dashed border-zinc-900 hover:border-zinc-600 transition-colors duration-200">
+                            <input type="file" className="absolute inset-0 opacity-0 w-full h-full" onChange={handleFile}/>
+                            <div className="p-8 text-center">
+                                <p className="">
+                                {selectedFile ? selectedFile.name : "Escolher Arquivo"}
+                                </p>
+                                <p className="text-sm mt-2">
+                                {!selectedFile && "Nenhum arquivo escolhido"}
+                                </p>
+                            </div>
                         </label>
                         {!loadingPhoto && <input type="submit" value="Postar" />}
                         {loadingPhoto && <input type="submit" disabled value="Aguarde..."  />}
@@ -213,17 +220,19 @@ const Settings = () => {
                 </>
             )}
 
-            <div className="w-full flex flex-col flex-wrap mt-5">
-                <h2 className="font-bold text-xl mb-5">Fotos publicadas</h2>
-                <div className="flex flex-wrap justify-center items-center gap-3">
+            <div className="">
+                <h2 className="font-bold text-xl mb-10">Fotos publicadas</h2>
+                <div className="">
                 {photos && photos.map((photo) => (
-                    <div key={photo._id} className="flex flex-col w-36">
-                        {photo.image && (<img src={`${uploads}/photos/${photo.image}`} alt={photo.title} className="h-1/2 rounded-lg"/>)}
+                    <div key={photo._id} className="relative aspect-square">
+                        {photo.image && (<img src={`${uploads}/photos/${photo.image}`} alt={photo.title} className="w-full h-full object-cover rounded-md"/>)}
                             {id === userAuth?._id ? (
-                            <div className="flex justify-around m-3 cursor-pointer text-lg">
-                                <Link to={`/photos/${photo._id}`}><BsFillEyeFill/></Link>
-                                <BsPencilFill onClick={() => handleEdit(photo)}/>
-                                <BsXLg onClick={handleOpenModalDeletePhoto}/>
+                            <div className="">
+                                <div className="absolute bottom-0 left-0 right-0">
+                                    <Link to={`/photos/${photo._id}`}><BsFillEyeFill/></Link>
+                                    <BsPencilFill onClick={() => handleEdit(photo)}/>
+                                    <BsXLg onClick={handleOpenModalDeletePhoto}/>
+                                </div>
                                 {deletePhotoModal && (
                                     <div className="fixed inset-0 bg-black/40 z-10">
                                     <div className="w-5/12 h-1/5 mx-auto mt-20 z-20 bg-zinc-900 flex justify-center items-center flex-col rounded">

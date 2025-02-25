@@ -24,7 +24,7 @@ function App() {
   }
 
   return (
-      <div  className='flex flex-col min-h-screen text-zinc-100 bg-zinc-950/70'>
+      <div  className='flex flex-col min-h-screen text-zinc-100 bg-zinc-950/80'>
       <BrowserRouter>
       <NavBar />
       <ScrollToTop />
