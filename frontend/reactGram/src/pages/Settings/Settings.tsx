@@ -219,48 +219,56 @@ const Settings = () => {
                 {messagePhoto && <Message msg={messagePhoto} type="success"></Message>}
                 </>
             )}
-
             <div className="">
                 <h2 className="font-bold text-xl mb-10">Fotos publicadas</h2>
-                <div className="">
-                {photos && photos.map((photo) => (
-                    <div key={photo._id} className="relative aspect-square">
-                        {photo.image && (<img src={`${uploads}/photos/${photo.image}`} alt={photo.title} className="w-full h-full object-cover rounded-md"/>)}
-                            {id === userAuth?._id ? (
-                            <div className="">
-                                <div className="absolute bottom-0 left-0 right-0">
-                                    <Link to={`/photos/${photo._id}`}><BsFillEyeFill/></Link>
-                                    <BsPencilFill onClick={() => handleEdit(photo)}/>
-                                    <BsXLg onClick={handleOpenModalDeletePhoto}/>
-                                </div>
-                                {deletePhotoModal && (
-                                    <div className="fixed inset-0 bg-black/40 z-10">
-                                    <div className="w-5/12 h-1/5 mx-auto mt-20 z-20 bg-zinc-900 flex justify-center items-center flex-col rounded">
-                                    <h1>Tem certeza que deseja remover essa publicação</h1>
-                                        <div className="flex gap-10 mt-5">
-                                            <p className="bg-red-600 rounded px-5 hover:bg-red-700"
-                                            onClick={() => {
-                                                handleDelete(photo._id)
-                                            }}
-                                            >Sim
-                                            </p>
-                                            <p className="bg-sky-700 rounded px-5 hover:bg-sky-800"
-                                            onClick={handleCloseModalDeletePhoto}
-                                            >Não
-                                            </p>
+                <div className="flex gap-8 flex-wrap">
+                    {photos && photos.map((photo) => (
+                        <div key={photo._id} className="relative group">
+                            {photo.image && (<img src={`${uploads}/photos/${photo.image}`} alt={photo.title} className="aspect-square rounded-xl overflow-hidden w-48 h-48 
+                    bg-secondary/50 transition-all duration-300 transform group-hover:scale-[1.02]"/>)}
+                                {id === userAuth?._id ? (
+                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 
+                    transition-opacity duration-300 flex items-center justify-center gap-4 rounded-xl photo-actions">
+
+                                        <p>
+                                            <Link to={`/photos/${photo._id}`}><BsFillEyeFill/></Link>
+                                        </p>
+                                        <p>
+                                            <BsPencilFill onClick={() => handleEdit(photo)}/>
+                                        </p>
+                                        <p>
+                                            <BsXLg onClick={handleOpenModalDeletePhoto}/>
+                                        </p>
+
+                                    {deletePhotoModal && (
+                                        <div className="fixed inset-0 bg-black/40 z-10">
+                                        <div className="w-5/12 h-1/5 mx-auto mt-20 z-20 bg-zinc-900 flex justify-center items-center flex-col rounded">
+                                        <h1>Tem certeza que deseja remover essa publicação</h1>
+                                            <div className="flex gap-10 mt-5">
+                                                <p className="bg-red-600 rounded px-5 hover:bg-red-700"
+                                                onClick={() => {
+                                                    handleDelete(photo._id)
+                                                }}
+                                                >Sim
+                                                </p>
+                                                <p className="bg-sky-700 rounded px-5 hover:bg-sky-800"
+                                                onClick={handleCloseModalDeletePhoto}
+                                                >Não
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
+                                    )}
                                 </div>
+                                ) :
+                                (
+                                <Link to={`/photos/${photo._id}`}>Ver</Link>
                                 )}
-                            </div>
-                            ) :
-                            (
-                            <Link to={`/photos/${photo._id}`}>Ver</Link>
-                            )}
-                    </div>
-                    ))}
-                    {photos.length === 0 && <p>Ainda não há publicações</p>}
+                        </div>
+                        ))}
                 </div>
+                    {photos.length === 0 && <p>Ainda não há publicações</p>}
+                
             </div>
         </div>
     </div>
