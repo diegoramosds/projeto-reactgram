@@ -218,13 +218,14 @@ const Settings = () => {
                 {errorPhoto && <Message msg={errorPhoto} type="error"></Message>}
                 {messagePhoto && <Message msg={messagePhoto} type="success"></Message>}
                 </>
+
             )}
             <div className="">
                 <h2 className="font-bold text-xl mb-10">Fotos publicadas</h2>
-                <div className="flex gap-8 flex-wrap">
+                <div className="flex gap-8 flex-wrap w-full h-full">
                     {photos && photos.map((photo) => (
-                        <div key={photo._id} className="relative group w-2/5">
-                            {photo.image && (<img src={`${uploads}/photos/${photo.image}`} alt={photo.title} className="aspect-square rounded-xl overflow-hidden 
+                        <div key={photo._id} className="relative group h-1/4">
+                            {photo.image && (<img src={`${uploads}/photos/${photo.image}`} alt={photo.title} className="aspect-square rounded-xl overflow-hidden
                     bg-secondary/50 transition-all duration-300 transform group-hover:scale-[1.02]0"/>)}
                                 {id === userAuth?._id ? (
                                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 
