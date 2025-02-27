@@ -218,30 +218,32 @@ const Settings = () => {
                 {errorPhoto && <Message msg={errorPhoto} type="error"></Message>}
                 {messagePhoto && <Message msg={messagePhoto} type="success"></Message>}
                 </>
-
             )}
             <div className="">
                 <h2 className="font-bold text-xl mb-10">Fotos publicadas</h2>
+                <h4 className=""></h4>
                 <div className="flex gap-8 flex-wrap w-full h-full">
                     {photos && photos.map((photo) => (
-                        <div key={photo._id} className="relative group h-1/4">
+                        <div key={photo._id} className="relative group w-1/3">
                             {photo.image && (<img src={`${uploads}/photos/${photo.image}`} alt={photo.title} className="aspect-square rounded-xl overflow-hidden
                     bg-secondary/50 transition-all duration-300 transform group-hover:scale-[1.02]0"/>)}
                                 {id === userAuth?._id ? (
                                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 
-                    transition-opacity duration-300 flex items-center justify-center gap-4 rounded-xl photo-actions">
+                    transition-opacity duration-300 flex items-center justify-center gap-4 rounded-xl">
 
-                                        <p>
-                                            <Link to={`/photos/${photo._id}`}><BsFillEyeFill/></Link>
-                                        </p>
-                                        <p>
-                                            <BsPencilFill onClick={() => handleEdit(photo)}/>
-                                        </p>
-                                        <p>
-                                            <BsXLg onClick={handleOpenModalDeletePhoto}/>
-                                        </p>
+                                        <div className="photo-actions flex gap-6">
+                                            <p>
+                                                <Link to={`/photos/${photo._id}`}><BsFillEyeFill/></Link>
+                                            </p>
+                                            <p>
+                                                <BsPencilFill onClick={() => handleEdit(photo)}/>
+                                            </p>
+                                            <p>
+                                                <BsXLg onClick={handleOpenModalDeletePhoto}/>
+                                            </p>
+                                        </div>
 
-                                    {deletePhotoModal && (
+                                        {deletePhotoModal && (
                                         <div className="fixed inset-0 bg-black/40 z-10">
                                         <div className="w-5/12 h-1/5 mx-auto mt-20 z-20 bg-zinc-900 flex justify-center items-center flex-col rounded">
                                         <h1>Tem certeza que deseja remover essa publicação</h1>
