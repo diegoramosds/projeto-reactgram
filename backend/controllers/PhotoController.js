@@ -24,8 +24,9 @@ const insertPhoto = async (req, res) => {
       title,
       userId: user._id,
       userName: user.name,
+      userImage: user.profileImage,
     });
-  
+
     // If user was photo sucessfully, return data
     if (!newPhoto) {
       res.status(422).json({
