@@ -39,16 +39,17 @@ const Home = () => {
   if(loading) {
     <p>Carregando</p>
   }
-  
+
   return (
     <div>
       {Array.isArray(photos) && photos.map((photo) => (
-        <div key={photo._id} className="w-2/4 mx-auto pb-10 mb-40 rounded-lg p-5">
+        <div key={photo._id} className="bg-zinc-900/30 w-[47%] h-screen mx-auto mt-20 rounded-xl shadow-md border border-zinc-900 
+        flex flex-col justify-between">
           <PhotoItem photo={photo}/>
           <LikeContainer photo={photo} user={user} handleLike={handleLike}/>
-          <Link to={`/photos/${photo._id}`}>
-          <p className="text-center mt-5 p-1  bg-sky-700/80 rounded w-2/4 mx-auto hover:bg-sky-700/100">Veja detalhes</p>
-          </Link>
+            <Link to={`/photos/${photo._id}`}>
+            <p className="text-center p-3 bg-zinc-900/70 text-sm hover:bg-zinc-900/74 hover:text-zinc-300 rounded-b-xl">Veja detalhes</p>
+            </Link>
         </div>
       ))}
       {photos && photos.length === 0 && (

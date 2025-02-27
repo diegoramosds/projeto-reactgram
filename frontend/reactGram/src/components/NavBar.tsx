@@ -69,16 +69,16 @@ const NavBar = () => {
   return (
     <>
     <nav className="flex justify-between items-center p-3 bg-zinc-950">
-      <Link to="/" className="text-zinc-100">ReactGram</Link>
+      <Link to="/" className="text-zinc-100 text-xl font-medium">ReactGram</Link>
       <form className="relative flex items-center" onSubmit={handleSearh}>
-        <BsSearch className="absolute left-3 top-3 text-zinc-400"/>
+        <BsSearch className="absolute left-3 top-3 text-zinc-500"/>
         <input type="text"
         placeholder="Pesquisar"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="pl-10 pr-4 py-2 rounded-md bg-zinc-800 text-zinc-100 border focus:outline-none focus:ring-2 focus:ring-zinc-700 focus:border-transparent md:pl-10 md:pr-4 md:py-2"/>
+        className="pl-10 pr-4 py-2 rounded-xl bg-zinc-900 text-zinc-200 border focus:outline-none focus:ring-2 focus:ring-zinc-800 focus:border-transparent md:pl-10 md:pr-10 md:py-2"/>
         </form>
-        <ul className="flex gap-2 items-center text-zinc-100 pr-3 md:gap-6 md:text-lg">
+        <ul className="flex gap-2 items-center text-zinc-100 pr-3 md:gap-7 md:text-xl">
           {auth ? (
             <>
             <li><NavLink to="/"> <BsHouseDoorFill /> </NavLink></li>
