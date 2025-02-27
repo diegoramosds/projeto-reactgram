@@ -221,7 +221,7 @@ const Settings = () => {
             )}
             <div className="">
                 <h2 className="font-bold text-xl mb-10">Fotos publicadas</h2>
-                <h4 className=""></h4>
+                <h4 className="font-bold text-sm mb-10">Clique sobre a imagem que deseja editar, vizualizar ou excluir</h4>
                 <div className="flex gap-8 flex-wrap w-full h-full">
                     {photos && photos.map((photo) => (
                         <div key={photo._id} className="relative group w-1/3">
