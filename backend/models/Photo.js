@@ -8,6 +8,7 @@ const photoSchema = new Schema({
    comments: Array,
    userId: {type: Schema.Types.ObjectId, ref: 'User'},
    userName: String,
+   userImage: String,
 }, {
     timestamps: true
 })
