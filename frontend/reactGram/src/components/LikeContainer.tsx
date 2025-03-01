@@ -21,7 +21,7 @@ interface LikeContainer {
 
 const LikeContainer = ({ photo, user, handleLike }: LikeContainer) => {
   return (
-<div className="flex flex-col items-center">
+<div className="flex flex-col items-center mt-7 mb-10">
   {photo.likes && user && (
           <div>
             <div className="photo-likes">

@@ -60,14 +60,15 @@ const Photo = () => {
   }
 
   return (
-    <div className="w-2/4 mt-0 mx-auto">
+    <div className="flex flex-col bg-zinc-900/30 w-[47%] mx-auto mt-20 rounded-xl shadow-md border border-zinc-900 
+      justify-between">
       <PhotoItem photo={photo} />
       <LikeContainer photo={photo} user={user} handleLike={handleLike}/>
       <div>
         {error && <Message msg={error} type="error"/>}
         {message && <Message msg={message} type="success"/>}
       </div>
-      <div>
+      <div className="p-6">
         <CommentItem
         commentText={commentText}
         handleComment={handleComment}
