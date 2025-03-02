@@ -1,7 +1,7 @@
 import { uploads } from "../../utils/config"
 
 //Components
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 
 //Hooks
 import { useEffect, useState } from "react"
@@ -12,9 +12,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { followingUser, getUserDetails, resetMessage } from '../../slices/userSlice';
 import { AppDispatch, RootState } from "../../store"
 import { getUserPhotos, likePhoto } from "../../slices/photoSlice"
-import PhotoItem from "../../components/PhotoItem"
 import LikeContainer from "../../components/LikeContainer"
 import ModalFollowers from "../../components/ModalFollowers";
+import PhotoItemProfile from "../../components/PhotoItemProfile";
+import PhotoItem from "../../components/PhotoItem";
 
 const Profile = () => {
 
@@ -91,7 +92,6 @@ interface PhotoProps {
       return () => document.body.classList.remove("overflow-hidden");
     }, [followersModal, followers, followingModal]);
 
-
     return (
     <div className="w-2/3 mx-auto mt-6">
         <div className="border-b border-zinc-700 pb-1">
@@ -146,14 +146,19 @@ interface PhotoProps {
 
           </div>
         </div>
-        <div className="m-4">
+        <div className="m-4 pb-20">
             <div className="w-full flex flex-col flex-wrap mt-5">
                 <h2 className="font-bold text-xl mb-5">Fotos publicadas</h2>
                 <div className="flex flex-wrap justify-center items-center gap-3">
                     {photos && photos.map((photo) => (
-                    <div key={photo._id} className="flex flex-col w-4/5">
+                    <div key={photo._id} className="flex flex-col
+                    bg-zinc-900/30 w-[60%] mx-auto mt-20 rounded-xl shadow-md border border-zinc-900 
+                      justify-between mb-48">
                         <PhotoItem photo={photo}/>
                         <LikeContainer handleLike={handleLike} photo={photo} user={userAuth}/>
+                        <Link to={`/photos/${photo._id}`}>
+                                    <p className="text-center p-3 bg-zinc-900/70 text-sm hover:bg-zinc-900/74 hover:text-zinc-300 rounded-b-xl">Veja detalhes</p>
+                        </Link>
                     </div>
                     ))}
                     {photos.length === 0 && <p>Ainda não há publicações</p>}
@@ -161,7 +166,6 @@ interface PhotoProps {
             </div>
         </div>
     </div>
-    )
-}
+    )}
 
 export default Profile
