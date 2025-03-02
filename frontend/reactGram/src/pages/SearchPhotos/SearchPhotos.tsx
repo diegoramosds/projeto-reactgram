@@ -9,7 +9,6 @@ import { Link } from "react-router-dom"
 const SearchPhotos = () => {
 
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
-    const {user} = useSelector((state: RootState) => state.user)
     const {photos} = useSelector((state: RootState) => state.photo)
 
     const dispatch: AppDispatch = useDispatch()

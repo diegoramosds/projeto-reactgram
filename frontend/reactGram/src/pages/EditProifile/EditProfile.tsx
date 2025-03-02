@@ -16,6 +16,8 @@ const EditProfile = () => {
   const [profileImage, setimageProfile] = useState<File | null>(null);
   const [bio, setBio] = useState("");
   const [password, setPassword] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
 
   const {loading, error, user, message, success} = useSelector((state: RootState) => state.user);
 
@@ -65,7 +67,7 @@ const EditProfile = () => {
         const image = e.target.files[0];
 
      setPreviewImage(image)
-
+     setSelectedFile(image);
      setimageProfile(image)
     }
   }
@@ -119,16 +121,25 @@ const EditProfile = () => {
               <input type="email" name="" placeholder="E-mail" disabled onChange={(e) => setEmail(e.target.value)} value={email || ""}/>
             </label>
 
-            <label>
-                <span>Imagem de perfil</span>
-                <input type="file" onChange={handleFile}/>
-             </label>
-             
+            <label className="mt-4 mb-4">
+                          <span>Foto de peril</span>
+                            <div className="relative rounded-lg border border-dashed border-zinc-900
+                            hover:border-zinc-600 transition-colors duration-200">
+                              <input type="file" className="absolute inset-0 opacity-0 w-full h-full" onChange={handleFile}/>
+                              <div className="p-8 text-center">
+                                  <p className="">
+                                  {selectedFile ? selectedFile.name : "Escolher Arquivo"}
+                                  </p>
+                                  <p className="text-sm mt-2">
+                                  {!selectedFile && "Nenhum arquivo escolhido"}
+                                  </p>
+                              </div>
+                            </div>
+                    </label>
              <label>
                 <span>Bio</span>
                 <input type="text" placeholder="Descrição do perfil" onChange={(e) => setBio(e.target.value)} value={bio || ""}/>
              </label>
-             
              <label>
                 <span>Quer alterar sua senha?</span>
                 <input type="password" name="" placeholder="Digite sua nova senha" onChange={(e) => setPassword(e.target.value)} value={password || ""}/>

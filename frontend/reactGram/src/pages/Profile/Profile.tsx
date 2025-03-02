@@ -14,7 +14,6 @@ import { AppDispatch, RootState } from "../../store"
 import { getUserPhotos, likePhoto } from "../../slices/photoSlice"
 import LikeContainer from "../../components/LikeContainer"
 import ModalFollowers from "../../components/ModalFollowers";
-import PhotoItemProfile from "../../components/PhotoItemProfile";
 import PhotoItem from "../../components/PhotoItem";
 
 const Profile = () => {

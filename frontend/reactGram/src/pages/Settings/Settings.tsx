@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { getUserDetails } from "../../slices/userSlice"
 import { AppDispatch, RootState } from "../../store"
 import { delePhoto, getUserPhotos, publishPhoto, resetMessage, updatePhoto } from '../../slices/photoSlice';
+import Loading from "../../components/Loading"
 
 const Settings = () => {
     const {id} = useParams()
@@ -165,12 +166,12 @@ const Settings = () => {
 }
 
     if(loading) {
-        return <p>Carregando...</p>
+        return <Loading />
     }
 
     return (
     <div className="w-2/4 mx-auto mt-6">
-           <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-3">
                 {user?.profileImage && (
                     <img src={`${uploads}/users/${user?.profileImage}`} alt={user.name}  className="w-32 h-32 rounded-full p-4"/>
                 )}

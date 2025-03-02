@@ -14,6 +14,7 @@ import { useResetComponetMessage } from "../../hooks/useResetComponentMessage";
 import { comments, getPhotoById, likePhoto } from "../../slices/photoSlice";
 import LikeContainer from "../../components/LikeContainer";
 import CommentItem from "../../components/CommentItem";
+import Loading from "../../components/Loading";
 
 const Photo = () => {
   const { id } = useParams();
@@ -56,7 +57,7 @@ const Photo = () => {
   }
 
   if(loading) {
-    return <p>Carregando...</p>
+    return <Loading />
   }
 
   return (
