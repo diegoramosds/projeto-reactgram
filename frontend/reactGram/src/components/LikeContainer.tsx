@@ -1,4 +1,6 @@
-import { BsHeart, BsHeartFill } from "react-icons/bs"
+import { BsEye, BsHeart, BsHeartFill } from "react-icons/bs"
+import { LuMessageCircle } from "react-icons/lu";
+import { Link } from "react-router-dom";
 
 
 interface Photo {
@@ -21,17 +23,23 @@ interface LikeContainer {
 
 const LikeContainer = ({ photo, user, handleLike }: LikeContainer) => {
   return (
-<div className="flex flex-col items-center mt-7 mb-10">
+<div className="m-4">
   {photo.likes && user && (
           <div>
-            <div className="photo-likes">
+            <div className="photo-likes flex gap-5">
               {photo.likes.includes(user._id) ? (
-                <BsHeartFill className="cursor-pointer text-white/80 rounded-full" size={36}  onClick={() => handleLike(photo)}/>
+                <BsHeartFill className="cursor-pointer text-red-800 rounded-full" size={36}  onClick={() => handleLike(photo)}/>
               ) : (
-                <BsHeart onClick={() => handleLike(photo)} className="cursor-pointer" size={36}/>
+                <BsHeart onClick={() => handleLike(photo)} className="cursor-pointer hover:fill-red-900" size={36}/>
               )}
+              <Link to={`/photos/${photo._id}`}>
+                <LuMessageCircle size={36}/>
+              </Link>
+              <Link to={`/photos/${photo._id}`}>
+                <BsEye size={36}/>
+              </Link>
             </div>
-            <p className="text-sm">{photo.likes.length} curtida(s)</p>
+            <p className="text-base mt-5">{photo.likes.length} curtida(s)</p>
           </div>
         )}
       </div>

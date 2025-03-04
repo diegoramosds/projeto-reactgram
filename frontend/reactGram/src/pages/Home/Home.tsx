@@ -44,7 +44,7 @@ const Home = () => {
   return (
     <div>
       {Array.isArray(photos) && photos.map((photo) => (
-        <div key={photo._id} className="bg-zinc-900/30 w-[45%] min-h-[750px] mx-auto mt-14 mb-32 rounded-xl shadow-md border border-zinc-900 
+        <div key={photo._id} className="bg-zinc-900/30 w-[45%] min-h-[680px] mx-auto mt-14 mb-32 rounded-xl shadow-md border border-zinc-900 
         flex flex-col justify-between">
           <PhotoItem photo={photo}/>
           <LikeContainer photo={photo} user={user} handleLike={handleLike}/>

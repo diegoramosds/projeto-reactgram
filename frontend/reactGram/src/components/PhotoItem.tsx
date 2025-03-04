@@ -31,7 +31,7 @@ interface Photo {
   };
 
   return (
-    <div className="w-full flex flex-col gap-6">
+    <div className="w-full flex flex-col">
         <div className="m-4 flex items-center gap-4">
         {photo.image && (
           <Link to={`/users/profile/${photo.userId}`}>
@@ -45,10 +45,14 @@ interface Photo {
             <p className="font-semibold text-zinc-400 text-sm">{formatDate(photo.createdAt)}</p>
           </div>
         </div>
-        {photo.image && (
-            <img src={`${uploads}/photos/${photo.image}`} alt={photo.title} className=""/>
-        )}
-        <p className="font-semibold text-zinc-200 text-base text-center w-11/12 mx-auto text-wrap">{photo.title}</p>
+        <div className="border-t border-zinc-900">
+          <p className="font-semibold text-zinc-200 text-base w-11/12 m-4 text-wrap">{photo.title}</p>
+          </div>
+        <div className="relative aspect-square bg-black/20 overflow-hidden">
+          {photo.image && (
+              <img src={`${uploads}/photos/${photo.image}`} alt={photo.title} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"/>
+          )}
+        </div>
     </div>
   )}
 
