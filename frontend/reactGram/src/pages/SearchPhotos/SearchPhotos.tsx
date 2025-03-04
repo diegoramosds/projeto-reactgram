@@ -23,9 +23,10 @@ const SearchPhotos = () => {
     };
 return (
     <div>
-        <div className='w-1/2 mx-auto pt-5'>
+        <div>
         {photos && photos.map((photo) =>(
-            <div key={photo._id}>
+            <div key={photo._id} className="bg-zinc-900/30 w-[40%] min-h-[680px] mx-auto mt-14 mb-32 rounded-xl shadow-md border border-zinc-900 
+        flex flex-col justify-between">
             <PhotoItem photo={photo} />
             <LikeContainer handleLike={handleLike} photo={photo} user={userAuth}/>
             </div>

@@ -15,6 +15,7 @@ import { getUserPhotos, likePhoto } from "../../slices/photoSlice"
 import LikeContainer from "../../components/LikeContainer"
 import ModalFollowers from "../../components/ModalFollowers";
 import PhotoItem from "../../components/PhotoItem";
+import { BiGrid } from "react-icons/bi";
 
 const Profile = () => {
 
@@ -92,30 +93,38 @@ interface PhotoProps {
     }, [followersModal, followers, followingModal]);
 
     return (
-    <div className="w-2/3 mx-auto mt-6">
-        <div className="border-b border-zinc-700 pb-1">
-          <div className="flex justify-between">
+    <div className="w-2/3 mx-auto mt-2">
+          <div className="flex flex-col gap-3">
                   {user?.profileImage && (
-                      <img src={`${uploads}/users/${user?.profileImage}`} alt={user.name}  className="w-40 h-40 rounded-full p-4"/>
+                      <img src={`${uploads}/users/${user?.profileImage}`} alt={user.name}  className="w-32 h-32 mx-auto rounded-full p-4 object-cover"/>
                   )}
-              <div className="flex gap-10 m-10 info-profile">
+              <div className="flex gap-3 flex-col items-center justify-center">
+              <h2 className="text-2xl font-medium">{user?.name}</h2>
+              <p className="text-base text-zinc-400">{user?.bio}</p>
+              </div>
+              {userAuth?._id === user?._id && (
+                <div className="flex justify-center">
+                <Link to='/settings'>
+                  <p className="border p-1 px-4 rounded-full cursor-pointer bg-zinc-200 hover:bg-zinc-100 transition-colors duration-200 text-zinc-900 font-medium">
+                    Editar perfil
+                  </p>
+                </Link>
+              </div>
+              )}
+              <div className="flex items-center justify-center gap-10 mt-4 info-profile">
                   <p>
-                    <span>{photos?.length || 0}</span> Publicações
+                    {photos?.length || 0} <span>Publicações</span> 
                   </p>
                   <p onClick={followersOpenModal}>
-                    <span>{user?.followers?.length || 0}</span> Seguidores
+                    {user?.followers?.length || 0} <span>Seguidores</span>
                   </p>
                   <p onClick={followingOpenModal}>
-                    <span>{user?.following?.length || 0}</span> Seguindo
+                    {user?.following?.length || 0} <span>Seguindo</span> 
                   </p>
               </div>
 
           </div>
           <div className="flex justify-between items-center  px-10 py-2">
-            <div className="m">
-              <h2>{user?.name}</h2>
-              <p>{user?.bio}</p>
-            </div>
             <div>
 
                 {user && userAuth?._id !== id  ? (
@@ -144,10 +153,11 @@ interface PhotoProps {
                             )}
 
           </div>
-        </div>
         <div className="m-4 pb-20">
-            <div className="w-full flex flex-col flex-wrap mt-5">
-                <h2 className="font-bold text-xl mb-5">Fotos publicadas</h2>
+            <div className="w-full flex flex-col flex-wrap">
+                <div className="border-t border-b border-zinc-900 p-4">
+                  <h2 className="flex items-center gap-1 justify-center text-lg w-1/6 mx-auto border-b-[3px] p-1"><BiGrid />Publicações</h2>
+                </div>
                 <div className="flex flex-wrap justify-center items-center gap-3">
                     {photos && photos.map((photo) => (
                     <div key={photo._id} className="flex flex-col

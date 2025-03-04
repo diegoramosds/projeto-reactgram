@@ -8,7 +8,7 @@ const SearchUsers = () => {
   const { user } = useSelector((state: RootState) => state.user);
 
   return (
-    <div>
+    <div className="mt-5 flex flex-col justify-center items-center">
       {user && Array.isArray(user) && user.length > 0 ? (
         user.map((u) => (
           <div key={u._id} className="flex items-center">
@@ -16,13 +16,21 @@ const SearchUsers = () => {
               <img
                 src={`${uploads}/users/${u.profileImage}`}
                 alt={u.name}
-                className="w-28 h-28 rounded-full p-4"
+                className="w-20 h-20 rounded-full p-4"
               />
             )}
-            <p>
-              <Link to={`/users/profile/${u._id}`}>{u.name}</Link>
-            </p>
-          </div>
+                <div className="flex justify-center items-center gap-5">
+                  <div>
+                    <p className="text-lg font-medium">
+                      <Link to={`/users/profile/${u._id}`}>{u.name}</Link>
+                    </p>
+                    <p className="text-zinc-400">{u.bio}</p>
+                  </div>
+                  <div>
+                    <p className="border rounded-full p-1 px-5">Seguir</p>
+                  </div>
+                </div>
+              </div>
         ))
       ) : (
         <p className="text-center mt-10">Não foi encontrado nenhum usuário</p>

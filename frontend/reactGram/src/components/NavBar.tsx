@@ -2,7 +2,8 @@ import {
   BsSearch,
   BsHouseDoorFill,
   BsFillPersonFill,
-  BsFillCameraFill } from "react-icons/bs"
+  BsFillCameraFill, 
+  BsX} from "react-icons/bs"
 import { HiEllipsisVertical, HiUserGroup } from "react-icons/hi2";
 
 import { Link, NavLink, useNavigate } from "react-router-dom"
@@ -15,7 +16,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { logout, reset } from "../slices/authSlice"
 import { AppDispatch, RootState } from "../store"
 import { useEffect, useState } from "react"
-import { CgClose } from "react-icons/cg";
 import { DiAptana } from "react-icons/di";
 import { BiMessageSquareAdd } from "react-icons/bi";
 import { FiLogOut } from "react-icons/fi";
@@ -102,37 +102,38 @@ const NavBar = () => {
         </ul>
     </nav>
     {user && modal && (
-            <div className="fixed inset-0 z-10 bg-black/90" onClick={() => closeModal()}>
-              <ul className="bg-zinc-950 w-1/3  h-full z-20 p-6 flex flex-col gap-8">
-                <div className="flex justify-end text-2xl pb-10">
-                    <li
-                    onClick={closeModal}><CgClose/>
-                    </li>
-                  </div>
-              <div className=" bg-zinc-900 rounded-md modal">
+            <div className="fixed inset-0 z-10 backdrop-blur-sm">
+              <ul className="w-1/4 mt-20 mx-auto z-20 p-4 gap-8 bg-zinc-900 rounded-xl modal animate-toTop">
+                <div className="flex justify-between text-xl p-2 pb-5">
+                  <h1>Opções</h1>
+                  <p className="hover:bg-zinc-800 rounded-full modal">
+                    <BsX size={26} onClick={() => closeModal()}/>
+                  </p>
+                </div>
+                <div className="">
                 <li>
                   <NavLink to={`/users/profile/${user._id}`}>
-                    <p>
+                    <p onClick={() => closeModal()}>
                     <span><BsFillPersonFill /></span>Perfil
                     </p>
                   </NavLink>
                     </li>
                   <li>
                     <NavLink to={"/photos/find"}>
-                      <p><span><BiMessageSquareAdd/> </span>Curtidas e Comentários</p>
+                      <p onClick={() => closeModal()}><span><BiMessageSquareAdd/> </span>Curtidas e Comentários</p>
                     </NavLink>
                   </li>
                   <li>
                     <NavLink to="/settings">
-                      <p><span><DiAptana /></span>Configuração e privacidade</p>
+                      <p onClick={() => closeModal()}><span><DiAptana /></span>Configuração e privacidade</p>
                     </NavLink>
                   </li>
                   <li>
                     <NavLink to="/search">
-                      <p><span><HiUserGroup /></span>Encontre usuários e/ou publicações</p>
+                      <p onClick={() => closeModal()}><span><HiUserGroup /></span>Encontre usuários e/ou publicações</p>
                     </NavLink>
                   </li>
-                  <li onClick={handleLogout}><p><span><FiLogOut /></span>Sair</p></li>
+                  <li onClick={handleLogout}><p className="text-red-500"><span><FiLogOut /></span>Sair</p></li>
               </div>
               </ul>
               </div>

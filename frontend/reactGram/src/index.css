@@ -65,15 +65,17 @@ button:hover,input[type="submit"]:hover {
 }
 
 .modal li {
-    @apply hover:bg-zinc-800 p-3 rounded-md
+    @apply hover:bg-zinc-800 p-3 rounded-md transition-colors duration-200
 }
 .modal li p {
     @apply flex items-center gap-2
 }
 .info-profile  p  {
-    @apply flex flex-col items-center cursor-pointer
+    @apply flex flex-col items-center cursor-pointer text-xl font-bold
 }
-
+.info-profile  span  {
+  @apply text-zinc-400 text-base font-normal
+}
 .photo-actions  p  {
     @apply flex flex-col items-center cursor-pointer rounded-full bg-white/10  hover:bg-white/20 
     transition-colors duration-200 p-2

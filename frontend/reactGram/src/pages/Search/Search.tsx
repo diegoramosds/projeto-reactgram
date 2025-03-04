@@ -70,7 +70,7 @@ const Search = () => {
         )}
       </div>
       {!search && (
-        <p className="text-center mt-10">
+        <p className="text-center text-xl mt-10">
           Busque por publicações e usuários aqui
         </p>
       )}

@@ -14,11 +14,17 @@ export default {
     },
     animation: {
       spin: 'spin 1s linear infinite',
+      toTop: 'toTop .4s ease-in',
+
     },
     keyframes: {
       spin: {
        '0%' : { transform:  'rotate(0deg)'},
        '100%' : { transform:  'rotate(360deg)'},
+      },
+      toTop: {
+        '0%' : { transform:  'translateY(2%)'},
+        '100%' : { transform:  'translateY(0)'},
       },
     },
   },
