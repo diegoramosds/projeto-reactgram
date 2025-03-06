@@ -5,10 +5,10 @@ import { Link } from "react-router-dom"
 
 
 const SearchUsers = () => {
-  const { user } = useSelector((state: RootState) => state.user);
+const { user } = useSelector((state: RootState) => state.user);
 
   return (
-    <div className="mt-5 flex flex-col justify-center items-center">
+    <div className="mt-10 flex flex-col">
       {user && Array.isArray(user) && user.length > 0 ? (
         user.map((u) => (
           <div key={u._id} className="flex items-center">
@@ -27,7 +27,7 @@ const SearchUsers = () => {
                     <p className="text-zinc-400">{u.bio}</p>
                   </div>
                   <div>
-                    <p className="border rounded-full p-1 px-5">Seguir</p>
+                    <p className="border bg-zinc-100 hover:bg-zinc-300 cursor-pointer text-zinc-900 rounded-full p-1 px-5">Seguir</p>
                   </div>
                 </div>
               </div>
