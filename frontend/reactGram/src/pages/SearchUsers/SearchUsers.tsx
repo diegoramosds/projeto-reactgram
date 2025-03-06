@@ -78,6 +78,7 @@ const SearchUsers = () => {
               rounded-full p-1 px-3"
                     onClick={() => handleFollowing(u._id)}
                   >
+                    
                     <span>
                       <BiUserCheck size={20} />
                     </span>
