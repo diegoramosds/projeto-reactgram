@@ -8,6 +8,7 @@ const SearchUsers = () => {
 const { user } = useSelector((state: RootState) => state.user);
 
   return (
+    
     <div className="mt-10 flex flex-col">
       {user && Array.isArray(user) && user.length > 0 ? (
         user.map((u) => (
