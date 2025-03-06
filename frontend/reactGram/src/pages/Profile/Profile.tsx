@@ -23,6 +23,7 @@ const Profile = () => {
 
     const dispatch: AppDispatch = useDispatch()
 
+
     const {user, followers} = useSelector((state: RootState) => state.user)
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
     const {photos} = useSelector((state: RootState) => state.photo)
