@@ -7,6 +7,7 @@ import { searchUser } from "../../slices/userSlice";
 import SearchPhotos from "../SearchPhotos/SearchPhotos";
 import SearchUsers from "../SearchUsers/SearchUsers";
 
+
 const Search = () => {
   const query = useQuery();
   const search = query.get("q");
