@@ -19,7 +19,6 @@ const { user } = useSelector((state: RootState) => state.user);
                 className="w-20 h-20 rounded-full p-4"
               />
             )}
-            
                 <div className="flex justify-center items-center gap-5">
                   <div>
                     <p className="text-lg font-medium">
