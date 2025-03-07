@@ -24,6 +24,7 @@ const ModalFollowers = ({user, closeModal, textInfo, dataType}: ModalProps) => {
 const data = user? user[dataType]: [];
 
 return (
+
         <div  className="fixed  backdrop-blur-sm inset-0 z-10">
             <div className=" w-1/2 min-h-[85%] mx-auto gap-10 mt-10 z-20 bg-zinc-950 rounded-lg flex-wrap text-wrap">
                     <p onClick={closeModal} className="flex justify-end p-5"><BiX size={30}/></p>

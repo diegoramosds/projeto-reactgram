@@ -80,10 +80,10 @@ const Search = () => {
         </p>
       )}
       <div>
-        {searchPhotos && <SearchPhotos />}
+        {searchPhotos && <SearchPhotos /> }
       </div>
       <div>
-        {searchUsers && <SearchUsers />}
+        {searchUsers && <SearchUsers /> }
       </div>
     </div>
   );

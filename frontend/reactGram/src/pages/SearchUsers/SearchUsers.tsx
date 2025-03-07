@@ -99,7 +99,7 @@ const SearchUsers = () => {
                 ) : (
                   <p
                     className="flex items-center gap-1 border bg-zinc-100 hover:bg-zinc-300 cursor-pointer text-zinc-900
-              rounded-full p-1 px-3"
+                    rounded-full p-1 px-3"
                     onClick={() => handleFollowing(u._id)}
                   >
                     <span>

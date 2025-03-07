@@ -7,7 +7,6 @@ import { Link, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-
 //Redux
 import { followingUser, getUserDetails, resetMessage } from '../../slices/userSlice';
 import { AppDispatch, RootState } from "../../store"

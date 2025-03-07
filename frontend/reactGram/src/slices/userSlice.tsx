@@ -47,6 +47,7 @@ const initialState: UserState = {
     likedPhotos: [],
 };
 
+
 // Cleanup likes
 export const clenupLikes = createAsyncThunk("/clenupLikes",
     async (_, thunkAPI) => {
