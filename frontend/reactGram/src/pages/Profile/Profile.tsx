@@ -15,7 +15,7 @@ import { getUserPhotos, likePhoto } from "../../slices/photoSlice"
 import LikeContainer from "../../components/LikeContainer"
 import ModalFollowers from "../../components/ModalFollowers";
 import PhotoItem from "../../components/PhotoItem";
-import { BiGrid } from "react-icons/bi";
+import { BiGrid, BiImage, BiUserCheck, BiUserPlus } from "react-icons/bi";
 
 const Profile = () => {
 
@@ -81,8 +81,6 @@ interface PhotoProps {
       setFollowingModal(false)
     }
 
-
-
     useEffect(() => {
       if (followersModal || followingModal) {
         document.body.classList.add("overflow-hidden");
@@ -125,13 +123,16 @@ interface PhotoProps {
               </div>
 
           </div>
-          <div className="flex justify-between items-center  px-10 py-2">
-            <div>
-
+          <div className="flex justify-end items-center  px-10 py-2">
+            <div className="flex items-center justify-center cursor-pointer">
                 {user && userAuth?._id !== id  ? (
                   Array.isArray(user?.followers) && user?.followers.some((follower) => follower.userId?.includes(userAuth?._id as string)) ?
-                  <button onClick={handleFollowing}>Seguindo</button>
-                    : <button onClick={handleFollowing}>Seguir +</button>
+                  <p className="flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 cursor-pointer text-zinc-300
+              rounded-full p-1 px-3" onClick={handleFollowing}><span>
+                    <BiUserCheck size={20}/></span>Seguindo</p>
+                    : <p className="flex items-center gap-1 border bg-zinc-100 hover:bg-zinc-300 cursor-pointer text-zinc-900
+              rounded-full p-1 px-3" onClick={handleFollowing}><span>
+                    <BiUserPlus size={20}/></span>Seguir</p>
                 ) : ""}
                 {/* {message && ( <Message msg={message} type="success"/>)}
                 {error && ( <Message msg={message} type="error"/>)} */}
@@ -156,7 +157,7 @@ interface PhotoProps {
           </div>
         <div className="m-4 pb-20">
             <div className="w-full flex flex-col flex-wrap">
-                <div className="border-t border-b border-zinc-900 p-4">
+                <div className="border-t border-b border-zinc-900 p-3">
                   <h2 className="flex items-center gap-1 justify-center text-lg w-1/6 mx-auto border-b-[3px] p-1"><BiGrid />Publicações</h2>
                 </div>
                 <div className="flex flex-wrap justify-center items-center gap-3">
@@ -171,7 +172,11 @@ interface PhotoProps {
                         </Link>
                     </div>
                     ))}
-                    {photos.length === 0 && <p>Ainda não há publicações</p>}
+                    {photos.length === 0 &&  (
+                      <p className="flex flex-col text-lg justify-center items-center mt-10">
+                                        <BiImage size={100}/>
+                                        Não há publicações
+                                        </p>)}
                 </div>
             </div>
         </div>

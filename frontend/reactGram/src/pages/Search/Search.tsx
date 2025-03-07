@@ -6,6 +6,7 @@ import { searchPhoto } from "../../slices/photoSlice";
 import { searchUser } from "../../slices/userSlice";
 import SearchPhotos from "../SearchPhotos/SearchPhotos";
 import SearchUsers from "../SearchUsers/SearchUsers";
+import { HiUserGroup } from "react-icons/hi2";
 
 
 const Search = () => {
@@ -48,13 +49,13 @@ const Search = () => {
 
   return (
     <div>
-      <div className="flex m-3 gap-5 justify-center">
+      <div className="flex mt-5 border-b border-zinc-900 w-1/2 mx-auto">
         {search && (
-          <div className="flex gap-5">
+          <div className="flex gap-8 text-lg">
             <p
               onClick={handlePhotos}
               className={
-                searchPhotos ? "text-sky-700/80 border-b border-sky-700" : ""
+                searchPhotos ? "text-zinc-200 border-b-2 border-zinc-200 p-3" : "text-zinc-400 p-3"
               }
             >
               Publicações
@@ -62,7 +63,7 @@ const Search = () => {
             <p
               onClick={handleUsers}
               className={
-                searchUsers ? "text-sky-700/80 border-b border-sky-700" : ""
+                searchUsers ? "text-zinc-200 border-b-2 border-zinc-200 p-3" : "text-zinc-400 p-3"
               }
             >
               Usuários
@@ -71,7 +72,10 @@ const Search = () => {
         )}
       </div>
       {!search && (
-        <p className="text-center text-xl mt-10">
+        <p  className="flex flex-col items-center text-xl mt-10 gap-3">
+          <span>
+            <HiUserGroup size={100}/>
+          </span>
           Busque por publicações e usuários aqui
         </p>
       )}

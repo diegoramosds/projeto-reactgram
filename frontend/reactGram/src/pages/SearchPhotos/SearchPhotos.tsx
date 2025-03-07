@@ -3,7 +3,7 @@ import { AppDispatch, RootState } from "../../store"
 import PhotoItem from "../../components/PhotoItem"
 import LikeContainer from "../../components/LikeContainer"
 import { likePhoto, resetMessage } from "../../slices/photoSlice"
-import { Link } from "react-router-dom"
+import { BiImage } from "react-icons/bi"
 
 
 const SearchPhotos = () => {
@@ -33,8 +33,11 @@ return (
         ))}
     </div>
         {photos && photos.length === 0 && (
-            <div>
-                <p className="text-center">Nao ha publicacoes relacionados a sua busca <Link to={`/users/${userAuth?._id}`}>Clique aqui e publique</Link></p>
+            <div className="">
+                <p className="flex flex-col text-lg justify-center items-center mt-10">
+                    <BiImage size={100}/>
+                    Não há publicações relacionado a sua busca
+                    </p>
             </div>
         )}
 </div>

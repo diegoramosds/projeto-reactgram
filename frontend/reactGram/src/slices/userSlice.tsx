@@ -26,7 +26,7 @@ interface LikedPhotosProps {
 }
 
 interface UserState {
-    user: User | null  ;
+    user: User | null;
     error: string | null | boolean;
     success: boolean;
     loading: boolean;
@@ -71,7 +71,7 @@ export const profile = createAsyncThunk("user/profile",
     }
 )
 
- export const updateProfile = createAsyncThunk("user/update", 
+export const updateProfile = createAsyncThunk("user/update", 
     async(user: FormData, thunkAPI) => {
         const token = (thunkAPI.getState() as RootState).auth.user?.token || ""
 

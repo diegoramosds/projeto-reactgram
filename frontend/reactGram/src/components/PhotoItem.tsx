@@ -21,11 +21,11 @@ interface Photo {
   const PhotoItem = ({ photo }: PhotoItemProps)=> {
 
     const formatDate = (dateString?: Date) => {
-      if (!dateString) return "Data inválida"; // Se a data for null/undefined, exibe mensagem
+      if (!dateString) return "Data inválida";
   
       const parsedDate = new Date(dateString);
   
-      if (isNaN(parsedDate.getTime())) return "Data inválida"; // Se a data for inválida, evita erro
+      if (isNaN(parsedDate.getTime())) return "Data inválida";
   
       return formatDistanceToNow(parsedDate, { locale: ptBR, addSuffix: true });
   };
@@ -48,9 +48,9 @@ interface Photo {
         <div className="border-t border-zinc-900">
           <p className="font-semibold text-zinc-200 text-base w-11/12 m-4 text-wrap">{photo.title}</p>
           </div>
-        <div className="relative aspect-square bg-black/20 overflow-hidden">
+        <div className="relative  bg-black/20 overflow-hidden">
           {photo.image && (
-              <img src={`${uploads}/photos/${photo.image}`} alt={photo.title} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"/>
+              <img src={`${uploads}/photos/${photo.image}`} alt={photo.title} className="w-full h-full object-cover transition-transform duration-500"/>
           )}
         </div>
     </div>
