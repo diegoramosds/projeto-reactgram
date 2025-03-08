@@ -35,6 +35,7 @@ const NavBar = () => {
   const handleLogout = () => {
     dispatch(logout())
     dispatch(reset());
+    setModal(false)
     navigate("/login")
     }
 
@@ -68,15 +69,15 @@ const NavBar = () => {
     }
   return (
     <>
-    <nav className="flex justify-between items-center p-3 bg-zinc-950">
+    <nav className="flex  w-full justify-around gap-32 items-center p-3 bg-zinc-950 border-b border-zinc-900/30">
       <Link to="/" className="text-zinc-100 text-xl font-medium">ReactGram</Link>
-      <form className="relative flex items-center" onSubmit={handleSearh}>
+      <form className="relative flex items-center justify-center" onSubmit={handleSearh}>
         <BsSearch className="absolute left-3 top-3 text-zinc-500"/>
         <input type="text"
         placeholder="Pesquisar"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="pl-10 pr-4 py-2 rounded-xl bg-zinc-900 text-zinc-200 border focus:outline-none focus:ring-2 focus:ring-zinc-800 focus:border-transparent md:pl-10 md:pr-10 md:py-2"/>
+        className="pl-10 pr-4 py-2 rounded-xl bg-zinc-900 text-zinc-200 border focus:outline-none focus:ring-2 focus:ring-zinc-800 focus:border-transparent md:pl-10 md:pr-16 md:py-2"/>
         </form>
         <ul className="flex gap-2 items-center text-zinc-100 pr-3 md:gap-7 md:text-xl">
           {auth ? (
@@ -110,29 +111,33 @@ const NavBar = () => {
                     <BsX size={26} onClick={() => closeModal()}/>
                   </p>
                 </div>
-                <div className="">
-                <li>
-                  <NavLink to={`/users/profile/${user._id}`}>
-                    <p onClick={() => closeModal()}>
+                <div>
+                <NavLink to={`/users/profile/${user._id}`} onClick={() => closeModal()}>
+                    <li> 
+                    <p >
                     <span><BsFillPersonFill /></span>Perfil
                     </p>
-                  </NavLink>
                     </li>
+                </NavLink>
+
+                  <NavLink to={"/photos/find"} onClick={() => closeModal()}>
                   <li>
-                    <NavLink to={"/photos/find"}>
-                      <p onClick={() => closeModal()}><span><BiMessageSquareAdd/> </span>Curtidas e Comentários</p>
-                    </NavLink>
+                      <p><span><BiMessageSquareAdd/> </span>Curtidas e Comentários</p>
                   </li>
+                  </NavLink>
+
+                  <NavLink to="/settings" onClick={() => closeModal()}>
+                    <li>
+                        <p><span><DiAptana /></span>Configuração e privacidade</p>
+                    </li>
+                  </NavLink>
+
+                  <NavLink to="/search" onClick={() => closeModal()}>
                   <li>
-                    <NavLink to="/settings">
-                      <p onClick={() => closeModal()}><span><DiAptana /></span>Configuração e privacidade</p>
-                    </NavLink>
+                      <p><span><HiUserGroup /></span>Encontre usuários e/ou publicações</p> 
                   </li>
-                  <li>
-                    <NavLink to="/search">
-                      <p onClick={() => closeModal()}><span><HiUserGroup /></span>Encontre usuários e/ou publicações</p>
-                    </NavLink>
-                  </li>
+                  </NavLink>
+
                   <li onClick={handleLogout}><p className="text-red-500"><span><FiLogOut /></span>Sair</p></li>
               </div>
               </ul>

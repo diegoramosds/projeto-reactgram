@@ -140,6 +140,9 @@ interface PhotoProps {
               <ModalFollowers
               closeModal={followersCloseModal}
               user={user}
+              userAuth={userAuth}
+              handleFollowing={handleFollowing}
+              textModal="Seguidores"
               textInfo="Esse usuário ainda não possui seguidores"
               dataType="followers"
               />
