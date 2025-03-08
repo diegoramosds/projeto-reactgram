@@ -32,6 +32,7 @@ function AnimatedRoutes() {
         exit={{ opacity: 0, x: 0, transition: { duration: 0.3, ease: "easeInOut" } }}
         className="flex-grow"
       >
+        
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={auth ? <Home /> : <Navigate to="/login" />} />
           <Route path="/register" element={!auth ? <Register /> : <Navigate to="/" />} />
