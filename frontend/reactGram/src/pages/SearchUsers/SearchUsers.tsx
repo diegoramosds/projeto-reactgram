@@ -59,7 +59,8 @@ const SearchUsers = () => {
         <div
             key={u._id}
             className="flex items-center justify-between w-5/12 mx-auto
-          border-t border-zinc-900/30 hover:bg-zinc-900/30 rounded-2xl px-2 first:border-transparent transition-all duration-200"
+          border-t border-zinc-900/30 hover:bg-zinc-900/30 rounded-2xl
+          px-2 first:border-transparent transition-all duration-200"
           >
             {u.profileImage && (
               <div className="flex items-center">

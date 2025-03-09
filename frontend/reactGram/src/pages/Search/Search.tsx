@@ -72,9 +72,9 @@ const Search = () => {
         )}
       </div>
       {!search && (
-        <p  className="flex flex-col items-center text-xl mt-10 gap-3">
+        <p  className="flex flex-col items-center text-lg mt-10 gap-3">
           <span>
-            <HiUserGroup size={100}/>
+            <HiUserGroup size={70}/>
           </span>
           Busque por publicações e usuários aqui
         </p>

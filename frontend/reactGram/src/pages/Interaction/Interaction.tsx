@@ -30,13 +30,13 @@ const Interaction = () => {
     setFindComments(false)
   }
   return (
-    <div className="flex justify-center flex-col gap-20 mt-5">
-        <div className="flex justify-center gap-10">
+    <div className="flex items-center flex-col gap-20 mt-5">
+        <div className="flex gap-10 border-b border-zinc-900 w-1/2 mx-auto">
           <h2 onClick={handleComments} className={
-                  findComments ? "text-sky-700/80 border-b border-sky-700" : ""
+                  findComments ? "text-zinc-200 border-b-2 border-zinc-200 p-3" : "text-zinc-400 p-3"
                 }>Comentários</h2>
           <h2 onClick={handleLikes} className={
-                  findLikes ? "text-sky-700/80 border-b border-sky-700" : ""
+                  findLikes ? "text-zinc-200 border-b-2 border-zinc-200 p-3" : "text-zinc-400 p-3"
                 }>Curtidas</h2>
         </div>
 

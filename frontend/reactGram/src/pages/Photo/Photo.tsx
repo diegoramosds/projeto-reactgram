@@ -1,5 +1,4 @@
 //Components
-import Message from "../../components/Message";
 import { useParams } from "react-router-dom";
 import PhotoItem from "../../components/PhotoItem";
 
@@ -24,7 +23,7 @@ const Photo = () => {
   const resetMessage = useResetComponetMessage(dispatch);
 
   const {user} = useSelector((state: RootState) => state.auth);
-  const {photo, error, loading, message} = useSelector((state: RootState) => state.photo);
+  const {photo, loading} = useSelector((state: RootState) => state.photo);
 
   //comments
   const [commentText, setCommentText] = useState("")
@@ -65,10 +64,6 @@ const Photo = () => {
       justify-between">
       <PhotoItem photo={photo} />
       <LikeContainer photo={photo} user={user} handleLike={handleLike}/>
-      <div>
-        {error && <Message msg={error} type="error"/>}
-        {message && <Message msg={message} type="success"/>}
-      </div>
       <div className="p-6">
         <CommentItem
         commentText={commentText}

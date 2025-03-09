@@ -14,7 +14,7 @@ import { getUserPhotos, likePhoto } from "../../slices/photoSlice"
 import LikeContainer from "../../components/LikeContainer"
 import ModalFollowers from "../../components/ModalFollowers";
 import PhotoItem from "../../components/PhotoItem";
-import { BiGrid, BiImage, BiUserCheck, BiUserPlus } from "react-icons/bi";
+import { BiGrid, BiImage, BiUserCheck, BiUserCircle, BiUserPlus } from "react-icons/bi";
 
 const Profile = () => {
 
@@ -93,8 +93,10 @@ interface PhotoProps {
     return (
     <div className="w-2/3 mx-auto mt-2">
           <div className="flex flex-col gap-3">
-                  {user?.profileImage && (
+                  {user?.profileImage ? (
                       <img src={`${uploads}/users/${user?.profileImage}`} alt={user.name}  className="w-32 h-32 mx-auto rounded-full p-4 object-cover"/>
+                  ) : (
+                    <BiUserCircle />
                   )}
               <div className="flex gap-3 flex-col items-center justify-center">
               <h2 className="text-2xl font-medium">{user?.name}</h2>
@@ -151,6 +153,9 @@ interface PhotoProps {
                         <ModalFollowers
                         closeModal={followingCloseModal}
                         user={user}
+                        userAuth={userAuth}
+                        handleFollowing={handleFollowing}
+                        textModal="Seguindo"
                         textInfo="Esse usuário ainda não segue ninguém"
                         dataType="following"
                         />

@@ -7,15 +7,15 @@ import { Link } from "react-router-dom";
 import { MdClose } from "react-icons/md";
 import { useResetComponetMessage } from "../../hooks/useResetComponentMessage";
 import { getUserDetails } from "../../slices/userSlice";
-import Message from "../../components/Message";
 import DeleteCommentModal from "../../components/DeleteCommentModal";
+import { LuMessageSquare } from "react-icons/lu";
 
 const Comments = () => {
     const dispatch: AppDispatch = useDispatch();
 
     const resetMessage = useResetComponetMessage(dispatch);
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
-    const {photo, message, error} = useSelector((state: RootState) => state.photo)
+    const {photo} = useSelector((state: RootState) => state.photo)
 
     const [deleteCommentModal, setDeleteCommentModal] = useState(false);
 
@@ -53,7 +53,7 @@ const Comments = () => {
       }
       return (
         <div>
-          {Array.isArray(photo.comments) && photo.comments.length > 0 && (
+          {Array.isArray(photo.comments) && photo.comments.length > 0 ? (
             photo.comments.map((comment) => (
               <div
                 key={comment._id}
@@ -82,9 +82,14 @@ const Comments = () => {
                 )}
               </div>
             ))
+          ) : (
+            <p className="flex flex-col gap-2 items-center text-center text-zinc-400 text-base">
+              <span>
+              <LuMessageSquare size={50} />
+              </span>
+              Você ainda não comentou em nenhuma publicação
+              </p>
           )}
-          {message && <Message msg={message} type="success"/>}
-          {error && <Message msg={error} type="error"/>}
         </div>
       );
 }

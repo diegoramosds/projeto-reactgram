@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 import { BsFillEyeFill } from "react-icons/bs"
 import { useEffect } from "react"
 import { getUserDetails, clenupLikes } from "../../slices/userSlice"
+import { LuHeart } from "react-icons/lu"
 
 export const Likes = () => {
 
@@ -24,7 +25,7 @@ export const Likes = () => {
 
 return (
     <div>
-        {user && user._id === userAuth?._id  &&(
+        {user && user._id === userAuth?._id  && user.likedPhotos.length > 0 ? (
         <div>
             {user.likedPhotos.map((liked) => (
                 <div key={liked.photoId} className="border-b border-zinc-900 m-5 p-3 flex justify-around items-center">
@@ -38,11 +39,14 @@ return (
                     </div>
                 </div>
             ))}
-            {user.likedPhotos.length === 0 && (
-                <p className="text-center">Você ainda não curtiu nenhuma publicação</p>
-            )}
-
         </div>
+        ) : (
+            <p className="flex flex-col gap-2 items-center text-center text-zinc-400 text-base">
+                        <span>
+                        <LuHeart size={50} />
+                        </span>
+                        Você ainda não curtiu nenhuma publicação
+                        </p>
         )}
     </div>
 )}
