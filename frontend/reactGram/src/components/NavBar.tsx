@@ -1,10 +1,8 @@
 import {
   BsSearch,
-  BsHouseDoorFill,
   BsFillPersonFill,
-  BsFillCameraFill, 
   BsX} from "react-icons/bs"
-import { HiEllipsisVertical, HiUserGroup } from "react-icons/hi2";
+import { HiEllipsisHorizontal, HiUserGroup } from "react-icons/hi2";
 
 import { Link, NavLink, useNavigate } from "react-router-dom"
 
@@ -17,12 +15,14 @@ import { logout, reset } from "../slices/authSlice"
 import { AppDispatch, RootState } from "../store"
 import { useEffect, useState } from "react"
 import { DiAptana } from "react-icons/di";
-import { BiMessageSquareAdd } from "react-icons/bi";
+import { BiCamera, BiHome, BiMessageSquareAdd } from "react-icons/bi";
 import { FiLogOut } from "react-icons/fi";
+import { uploads } from "../utils/config";
 
 const NavBar = () => {
   const {auth} = useAuth();
   const {user} = useSelector((state: RootState) => state.auth);
+  const {user: users} = useSelector((state: RootState) => state.user);
 
   const [search, setSearch] = useState("");
 
@@ -69,7 +69,7 @@ const NavBar = () => {
     }
   return (
     <>
-    <nav className="flex  w-full justify-around gap-32 items-center p-3 bg-zinc-950 border-b border-zinc-900/30">
+    <nav className="flex w-full justify-around gap-32 items-center p-3 bg-black/10 border-b border-zinc-900/20 shadow-sm">
       <Link to="/" className="text-zinc-100 text-xl font-medium">ReactGram</Link>
       <form className="relative flex items-center justify-center" onSubmit={handleSearh}>
         <BsSearch className="absolute left-3 top-3 text-zinc-500"/>
@@ -79,18 +79,25 @@ const NavBar = () => {
         onChange={(e) => setSearch(e.target.value)}
         className="pl-10 pr-4 py-2 rounded-xl bg-zinc-900 text-zinc-200 border focus:outline-none focus:ring-2 focus:ring-zinc-800 focus:border-transparent md:pl-10 md:pr-16 md:py-2"/>
         </form>
-        <ul className="flex gap-2 items-center text-zinc-100 pr-3 md:gap-7 md:text-xl">
+        <ul className="flex gap-2 items-center text-zinc-100 pr-3 md:gap-3 md:text-xl nav-icons">
           {auth ? (
             <>
-            <li><NavLink to="/"> <BsHouseDoorFill /> </NavLink></li>
+            <li><NavLink to="/"> <BiHome /> </NavLink></li>
             {user && (
               <NavLink to={`/users/${user._id}`}>
-                <BsFillCameraFill />
+                <BiCamera />
               </NavLink>
             )}
             <li>
-            <HiEllipsisVertical  onClick={handleModal}/>
+            <HiEllipsisHorizontal  onClick={handleModal}/>
             </li>
+
+            {users?.profileImage && (
+            <Link to={`users/profile/${user?._id}`}>
+              <img src={`${uploads}/users/${users?.profileImage}`} alt={users.name}  className="w-16 h-16
+              mx-auto rounded-full p-4 object-cover"/>
+            </Link>
+            )}
             </>
           )
           : (
