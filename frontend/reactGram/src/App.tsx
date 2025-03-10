@@ -52,7 +52,7 @@ function AnimatedRoutes() {
 function App() {
   return (
     <BrowserRouter>
-      <div className="flex flex-col min-h-screen text-zinc-100 bg-zinc-950/95">
+      <div className="flex flex-col min-h-screen text-zinc-100">
         <NavBar />
         <ScrollToTop />
         <AnimatedRoutes />
