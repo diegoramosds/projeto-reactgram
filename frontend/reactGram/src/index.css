@@ -64,6 +64,10 @@ button:hover,input[type="submit"]:hover {
     @apply hidden
 }
 
+.nav-icons svg{
+ @apply size-10 hover:bg-zinc-900  rounded-full p-2 transition-colors duration-200
+}
+
 .modal li {
     @apply hover:bg-zinc-800 p-3 rounded-md transition-colors duration-200
 }
@@ -85,7 +89,6 @@ button:hover,input[type="submit"]:hover {
     @apply flex flex-col items-center cursor-pointer rounded-full bg-white/10  hover:bg-white/20 
     transition-colors duration-200 p-2
 }
-
 
 .photo-likes svg{
     @apply cursor-pointer rounded-full  hover:bg-white/10
