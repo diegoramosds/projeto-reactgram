@@ -227,6 +227,7 @@ const deletePhoto = async(req, res) => {
                 photoImage: photo.image,
                 comment,
                 userName: user.name,
+                userImage: user.profileImage,
                 userId: user._id,
             }
 
