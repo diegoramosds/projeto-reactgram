@@ -68,7 +68,7 @@ const { user } = useSelector((state : RootState) => state.auth);
         <div>
           {Array.isArray(photo.comments) && (
               <>
-              <h3>comentários({photo.comments?.length})</h3>
+              <h3>Comentários({photo.comments?.length})</h3>
                 <form onSubmit={handleComment}>
                   <input type="text"
                   placeholder="Insira seu comentário..."
@@ -79,22 +79,28 @@ const { user } = useSelector((state : RootState) => state.auth);
                 </form>
                   {photo.comments?.length === 0 && <p>Não há comentarios...</p>}
                   {photo.comments.map((comment, i) => (
-                    <div key={i} className=" bg-zinc-800 text-zinc-400  border-zinc-800 rounded-lg m-2 px-2 flex items-center justify-between">
-                      <div>
+                    <div key={i} className=" bg-zinc-900 hover:bg-zinc-900/90 text-zinc-400
+                        border-zinc-800 rounded-lg m-2 p-1 px-2 mt-5 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
                         {comment.userImage && (
+                          <Link to={`/users/profile/${comment.userId}`}>
                         <img src={`${uploads}/users/${comment.userImage}`}
-                          alt={comment.userName} />
+                          alt={comment.userName} className="w-12 h-12 rounded-full"/>
+                          </Link>
                         )}
-                        <Link to={`/users/${comment.userId}`}>
-                            {comment.userName}:
-                        </Link>
-                        <div className="">
-                          {comment.comment}
+                        <div>
+                          <Link to={`/users/profile/${comment.userId}`}>
+                              <p className="text-base font-medium">{comment.userName}</p>
+                          </Link>
+                          <div>
+                            <p className="break-words w-96">{comment.comment}</p>
+                          </div>
                         </div>
                       </div>
                       <div className="cursor-pointer">
                         {comment.userId === user?._id && (
-                          <p onClick={handleOpenModalDeleteComment}><MdClose /></p>
+                          <p onClick={handleOpenModalDeleteComment} className="hover:bg-zinc-800 p-2 rounded-full
+                          transition-colors duration-200"><MdClose /></p>
                         )}
                         </div>
                         {deleteCommentModal && (

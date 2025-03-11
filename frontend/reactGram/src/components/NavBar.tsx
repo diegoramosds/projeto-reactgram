@@ -17,7 +17,7 @@ import { useEffect, useState } from "react"
 import { DiAptana } from "react-icons/di";
 import { BiCamera, BiHome, BiMessageSquareAdd } from "react-icons/bi";
 import { FiLogOut } from "react-icons/fi";
-import { uploads } from "../utils/config";
+import PhotoUser from "./PhotoUser";
 
 const NavBar = () => {
   const {auth} = useAuth();
@@ -91,13 +91,11 @@ const NavBar = () => {
             <li>
             <HiEllipsisHorizontal  onClick={handleModal}/>
             </li>
-
-            {users?.profileImage && (
+          {user?._id === users?._id && (
             <Link to={`users/profile/${user?._id}`}>
-              <img src={`${uploads}/users/${users?.profileImage}`} alt={users.name}  className="w-16 h-16
-              mx-auto rounded-full p-4 object-cover"/>
+              <PhotoUser user={users}/>
             </Link>
-            )}
+          )}
             </>
           )
           : (

@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom"
 import { uploads } from "../utils/config"
-import { BiUserCheck, BiUserPlus, BiX } from "react-icons/bi";
+import { BiUserCheck, BiUserCircle, BiUserPlus } from "react-icons/bi";
 import { CgArrowLeft, CgUserList } from "react-icons/cg";
 
 interface FollowersProps {
@@ -36,34 +36,38 @@ const data = user? user[dataType]: [];
 
 return (
 
-        <div  className="fixed  backdrop-blur-sm inset-0 z-10">
-            <div className=" w-4/12 min-h-[70%] mx-auto gap-10 mt-20 z-20 bg-zinc-900 rounded-2xl flex-wrap text-wrap">
-                    <div className="flex bg-zinc-800 p-3 rounded-t-2xl items-center justify-between">
-                        <p onClick={closeModal} className="flex items-center justify-center text-sm w-20 gap-1 m-3 rounded-full text-zinc-300/80 hover:bg-zinc-900"><CgArrowLeft size={18}/>Voltar</p>
-                        <p onClick={closeModal} className="text-lg font-medium">{textModal}</p>
-                        <p onClick={closeModal} className=""><BiX size={20}/></p>
+        <div className="fixed backdrop-blur-sm inset-0 z-10">
+            <div className="w-4/12 min-h-[70%] mx-auto gap-10 mt-20 z-20 bg-zinc-900 rounded-2xl flex-wrap text-wrap">
+                    <div className="flex items-center gap-20 bg-zinc-800/80 p-3 rounded-t-2xl mb-10">
+                        <p onClick={closeModal} className="flex items-center justify-center text-sm w-20 gap-1 m-3 p-1
+                        rounded-full text-zinc-300 hover:bg-zinc-900/40 hover:text-zinc-400"><CgArrowLeft size={18}/>Voltar</p>
+                        <p onClick={closeModal} className="text-lg font-bold text-zinc-200">{textModal}</p>
                     </div>
                     {data &&  data.map((item : Partial<FollowersProps>) => (
-                    <div className="flex items-center mt-5 border-t border-zinc-800 rounded-2xl px-2 transition-all
-                        duration-200 w-3/4 mx-auto p-2 hover:bg-zinc-950/20" key={item.userId}>
-                        <Link to={`/users/profile/${item.userId}`} className="flex items-center gap-3" onClick={closeModal}></Link>
-                        <div className="flex items-center gap-3 first:border-transparent">
-                        <img src={`${uploads}/users/${item.userImage}`} alt={item.userName} className="w-10 h-10 rounded-full" />
+                    <div className="flex items-center justify-between border-t border-zinc-800/20 rounded-2xl px-2 transition-all
+                        duration-200 w-11/12 mx-auto p-2 hover:bg-zinc-950/20 [&:nth-child(2)]:border-transparent" key={item.userId}>
+                        <div className="flex items-center gap-3">
+                        <Link to={`/users/profile/${item.userId}`} className="flex items-center gap-3" onClick={closeModal}>
+                        {item?.userImage ? (
+                            <img src={`${uploads}/users/${item.userImage}`} alt={item.userName}  className="w-10 h-10 mx-auto rounded-full "/>
+                        ) : (
+                            <BiUserCircle className="w-10 h-10"/>
+                        )}
                             <p className="font-medium">{item.userName}</p>
                             <p className="font-medium">{item.bio}</p>
+                        </Link>
                         </div>
                         <div className="ml-5">
                             {user && userAuth?._id !== id && item.userId !== userAuth?._id  ? (
-                                              Array.isArray(user?.followers) && user?.followers.some((follower) => follower.userId?.includes(userAuth?._id as string))?
-                                              <p className="flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 cursor-pointer text-zinc-300
-                                          rounded-full p-1 px-3" onClick={handleFollowing}><span>
+                                            Array.isArray(user?.followers) && user?.followers.some((follower) => follower.userId?.includes(userAuth?._id as string))?
+                                            <p className="flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 cursor-pointer text-zinc-300
+                                                rounded-full p-1 px-3" onClick={handleFollowing}><span>
                                                 <BiUserCheck size={20}/></span>Seguindo</p>
                                                 : <p className="flex items-center gap-1 border bg-zinc-100 hover:bg-zinc-300 cursor-pointer text-zinc-900
-                                          rounded-full p-1 px-3" onClick={handleFollowing}><span>
+                                                rounded-full p-1 px-3" onClick={handleFollowing}><span>
                                                 <BiUserPlus size={20}/></span>Seguir</p>
                                             ) : ""}
                         </div>
-                        
                     </div>
                 ))}
                 {data.length === 0 && <p className="flex flex-col items-center text-lg mt-10 justify-center text-center">

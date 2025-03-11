@@ -29,8 +29,8 @@ const handleTop = () => {
  return ( 
   <>
    {scrollTop && (
-    <div className="flex justify-end fixed right-10 bottom-5"> 
-        <GoArrowUp onClick={handleTop} className="border border-sky-700 rounded-full" size={28}/>
+    <div className="flex justify-end fixed right-10 bottom-5">
+        <GoArrowUp onClick={handleTop} className="border border-sky-700 rounded-full hover:bg-zinc-900" size={30}/>
     </div>
   )
   }
