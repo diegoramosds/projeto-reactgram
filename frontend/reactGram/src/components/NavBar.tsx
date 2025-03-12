@@ -57,11 +57,13 @@ const NavBar = () => {
     }
 
     useEffect(() => {
-      if(users?._id) {
-        dispatch(getUserDetails(users?._id));
+      if(user?._id) {
+        dispatch(getUserDetails(user?._id));
+        localStorage.setItem()
       }
 
-    }, [dispatch, users?._id]);
+
+    }, [dispatch, user?._id]);
 
     console.log("Usuário autenticado:", user);
     console.log("Usuário do estado global:", users);
@@ -112,7 +114,7 @@ const NavBar = () => {
 
              <Link to={`users/profile/${user?._id}`}>
               <PhotoUser user={users}/>
-              </Link> 
+              </Link>
               
             </>
           )
