@@ -29,7 +29,6 @@ const NavBar = () => {
 
   const [authUser, setAuthUser] = useState("");
 
-
   const [modal, setModal] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
