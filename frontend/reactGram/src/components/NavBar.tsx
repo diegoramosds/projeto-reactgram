@@ -27,6 +27,7 @@ const NavBar = () => {
 
   const [search, setSearch] = useState("");
 
+
   const [authUser, setAuthUser] = useState("");
 
   const [modal, setModal] = useState(false);
@@ -56,11 +57,11 @@ const NavBar = () => {
     }
 
     useEffect(() => {
-      if(user?._id) {
-        dispatch(getUserDetails(user?._id));
+      if(users?._id) {
+        dispatch(getUserDetails(users?._id));
       }
 
-    }, [dispatch, user?._id]);
+    }, [dispatch, users?._id]);
 
     console.log("Usuário autenticado:", user);
     console.log("Usuário do estado global:", users);
@@ -109,11 +110,9 @@ const NavBar = () => {
             <HiEllipsisHorizontal  onClick={handleModal}/>
             </li>
 
-            {users?._id === user?._id  && (
              <Link to={`users/profile/${user?._id}`}>
               <PhotoUser user={users}/>
               </Link> 
-            )}
 
               
             </>
