@@ -18,6 +18,7 @@ import { DiAptana } from "react-icons/di";
 import { BiCamera, BiHome, BiMessageSquareAdd } from "react-icons/bi";
 import { FiLogOut } from "react-icons/fi";
 import PhotoUser from "./PhotoUser";
+import { getUserDetails } from "../slices/userSlice";
 
 const NavBar = () => {
   const {auth} = useAuth();
@@ -25,6 +26,8 @@ const NavBar = () => {
   const {user: users} = useSelector((state: RootState) => state.user);
 
   const [search, setSearch] = useState("");
+
+  const [authUser, setAuthUser] = useState("");
 
 
   const [modal, setModal] = useState(false);
@@ -54,19 +57,34 @@ const NavBar = () => {
     }
 
     useEffect(() => {
+      if(user?._id) {
+        dispatch(getUserDetails(user?._id));
+      }
+
+    }, [dispatch, user?._id]);
+
+    console.log("Usuário autenticado:", user);
+    console.log("Usuário do estado global:", users);
+
+
+
+    useEffect(() => {
       if (modal) {
         document.body.classList.add("overflow-hidden");
       } else {
         document.body.classList.remove("overflow-hidden");
       }
 
+
+
       return () => document.body.classList.remove("overflow-hidden");
-    }, [modal]);
+    }, [dispatch, modal]);
 
     // close modal
     const closeModal = () => {
       setModal(false);
     }
+
   return (
     <>
     <nav className="flex w-full justify-around gap-32 items-center p-3 bg-black/10 border-b border-zinc-900/20 shadow-sm">
@@ -91,11 +109,14 @@ const NavBar = () => {
             <li>
             <HiEllipsisHorizontal  onClick={handleModal}/>
             </li>
-          {user?._id === users?._id && (
-            <Link to={`users/profile/${user?._id}`}>
+
+            {users?._id === auth  && (
+             <Link to={`users/profile/${user?._id}`}>
               <PhotoUser user={users}/>
-            </Link>
-          )}
+              </Link> 
+            )}
+
+              
             </>
           )
           : (

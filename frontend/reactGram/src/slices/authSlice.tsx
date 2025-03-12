@@ -3,7 +3,6 @@ import authService from "../services/authService";
 
 
  const user = JSON.parse(localStorage.getItem("user") as string )
- 
  interface User {
     _id:  string;
     token?: string; // token do usuário (opcional)
@@ -13,7 +12,7 @@ import authService from "../services/authService";
     confirmPassword?: string;
 }
 
- interface AuthState {
+interface AuthState {
     user: User | null; // Substitua por um tipo mais específico, se possível
     error: string | null | boolean; // Permitir que error seja uma string ou null
     success: boolean;
