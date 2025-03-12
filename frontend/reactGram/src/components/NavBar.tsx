@@ -110,7 +110,7 @@ const NavBar = () => {
             <HiEllipsisHorizontal  onClick={handleModal}/>
             </li>
 
-            {users?._id === auth  && (
+            {users?._id === user?._id  && (
              <Link to={`users/profile/${user?._id}`}>
               <PhotoUser user={users}/>
               </Link> 
