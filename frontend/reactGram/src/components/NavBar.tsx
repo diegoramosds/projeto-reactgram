@@ -27,9 +27,6 @@ const NavBar = () => {
 
   const [search, setSearch] = useState("");
 
-
-  const [authUser, setAuthUser] = useState("");
-
   const [modal, setModal] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
@@ -59,16 +56,12 @@ const NavBar = () => {
     useEffect(() => {
       if(user?._id) {
         dispatch(getUserDetails(user?._id));
-        localStorage.setItem()
       }
-
 
     }, [dispatch, user?._id]);
 
     console.log("Usuário autenticado:", user);
     console.log("Usuário do estado global:", users);
-
-
 
     useEffect(() => {
       if (modal) {
@@ -76,8 +69,6 @@ const NavBar = () => {
       } else {
         document.body.classList.remove("overflow-hidden");
       }
-
-
 
       return () => document.body.classList.remove("overflow-hidden");
     }, [dispatch, modal]);
