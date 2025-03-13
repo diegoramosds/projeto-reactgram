@@ -94,7 +94,6 @@ const NavBar = () => {
           {auth ? (
             <>
 
-            
             <li><NavLink to="/"> <BiHome /> </NavLink></li>
             {user && (
               <NavLink to={`/users/${user._id}`}>
