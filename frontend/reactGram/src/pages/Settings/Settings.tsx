@@ -15,6 +15,7 @@ import { getUserDetails } from "../../slices/userSlice"
 import { AppDispatch, RootState } from "../../store"
 import { delePhoto, getUserPhotos, publishPhoto, resetMessage, updatePhoto } from '../../slices/photoSlice';
 import Loading from "../../components/Loading"
+import PhotoUser from "../../components/PhotoUser"
 
 const Settings = () => {
     const {id} = useParams()
@@ -172,9 +173,7 @@ const Settings = () => {
     return (
     <div className="w-2/4 mx-auto mt-6">
         <div className="flex flex-col items-center gap-3">
-                {user?.profileImage && (
-                    <img src={`${uploads}/users/${user?.profileImage}`} alt={user.name}  className="w-32 h-32 rounded-full p-4"/>
-                )}
+                <PhotoUser user={user} sizeImage="100px" sizeIcon="100px"/>
                 <h2 className="text-xl font-bold">{user?.name}</h2>
                 <p className="bg-slate-100 py-1 px-5 rounded-2xl hover:bg-slate-200"><Link to={`/users/profile/${id}`} className="text-black text-sm">Ver perfil</Link> </p>
             </div>

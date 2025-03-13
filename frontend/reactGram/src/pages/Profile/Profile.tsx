@@ -92,7 +92,7 @@ interface PhotoProps {
     return (
     <div className="w-2/3 mx-auto mt-2">
           <div className="flex flex-col gap-3 items-center">
-                <PhotoUser user={user}/>
+                <PhotoUser user={user} sizeImage="150px" sizeIcon="100px"/>
               <div className="flex gap-3 flex-col items-center justify-center">
               <h2 className="text-2xl font-medium">{user?.name}</h2>
               <p className="text-base text-zinc-400">{user?.bio}</p>

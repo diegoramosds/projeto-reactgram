@@ -9,6 +9,7 @@ import LikeContainer from "../../components/LikeContainer";
 import { getAllPhotos, likePhoto } from "../../slices/photoSlice";
 import { useEffect } from "react";
 import Loading from "../../components/Loading";
+import { BiImage } from "react-icons/bi";
 
 const Home = () => {
 
@@ -54,7 +55,14 @@ const Home = () => {
         </div>
       ))}
       {photos && photos.length === 0 && (
-        <p className="text-center mt-10">Ainda não ha publicações <Link to={`/users/${user?._id}`}>Clique aqui</Link> e faça um publicação</p>
+        <p className="mt-10 text-center">
+          <span className="flex items-center justify-center">
+             <BiImage size={100}/>
+          </span>
+          Ainda não ha publicações <Link to={`/users/${user?._id}`} className="bg-clip-text text-transparent 
+          bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:bg-gradient-to-br 
+          transition-colors duration-200">Clique aqui</Link> e faça uma publicação
+        </p>
       )}
     </div>
   )

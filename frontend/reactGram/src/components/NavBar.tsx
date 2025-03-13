@@ -60,9 +60,6 @@ const NavBar = () => {
 
     }, [dispatch, user?._id]);
 
-    console.log("Usuário autenticado:", user);
-    console.log("Usuário do estado global:", users);
-
     useEffect(() => {
       if (modal) {
         document.body.classList.add("overflow-hidden");
@@ -105,9 +102,9 @@ const NavBar = () => {
             </li>
 
              <Link to={`users/profile/${user?._id}`}>
-              <PhotoUser user={users}/>
+              <PhotoUser user={user} sizeImage="60px" sizeIcon=""/>
               </Link>
-            
+
             </>
           )
           : (

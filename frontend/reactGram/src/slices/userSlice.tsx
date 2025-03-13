@@ -163,7 +163,14 @@ export const userSlice = createSlice({
             state.loading = false;
             state.success = true;
             state.error = null;
-            state.user = action.payload;
+
+            const userFromStorage = JSON.parse(localStorage.getItem("user") || "{}");
+
+            if(state.user) {
+            const updatedUser = {...userFromStorage, profileImage: action.payload.profileImage };
+            localStorage.setItem("user", JSON.stringify(updatedUser)); // Atualiza o localStorage
+            state.user = updatedUser
+            }
             state.message = "Usuário atualizado com sucesso!";
         })
         .addCase(updateProfile.rejected, (state, action) => {

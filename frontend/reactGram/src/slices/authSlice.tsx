@@ -109,8 +109,11 @@ export const authSlice = createSlice({
             state.loading = false;
             state.success = true;
             state.error = null;
-            state.user = action.payload; 
-          })
+
+            localStorage.setItem("user", JSON.stringify(action.payload));
+
+            state.user = action.payload;
+        })
         .addCase(login.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string;
