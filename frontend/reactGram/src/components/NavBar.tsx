@@ -17,13 +17,12 @@ import { useEffect, useState } from "react"
 import { DiAptana } from "react-icons/di";
 import { BiCamera, BiHome, BiMessageSquareAdd } from "react-icons/bi";
 import { FiLogOut } from "react-icons/fi";
-import PhotoUser from "./PhotoUser";
 import { getUserDetails } from "../slices/userSlice";
+import PhotoUser from "./PhotoUser";
 
 const NavBar = () => {
   const {auth} = useAuth();
   const {user} = useSelector((state: RootState) => state.auth);
-  const {user: users} = useSelector((state: RootState) => state.user);
 
   const [search, setSearch] = useState("");
 
@@ -47,6 +46,7 @@ const NavBar = () => {
     return navigate(`/search?q=${search}`)
     }
   }
+
 
     // modal
     const handleModal = () => {
