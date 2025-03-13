@@ -18,6 +18,7 @@ const PhotoUser = ({user}: PhotoUserProps) => {
 
 const dispatch: AppDispatch = useDispatch();
 
+
 return (
     <div className='flex items-center'>
         {user?.profileImage ?  (
