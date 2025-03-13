@@ -107,8 +107,7 @@ const NavBar = () => {
              <Link to={`users/profile/${user?._id}`}>
               <PhotoUser user={users}/>
               </Link>
-              
-              
+            
             </>
           )
           : (
