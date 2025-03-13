@@ -79,6 +79,7 @@ interface PhotoProps {
       setFollowingModal(false)
     }
 
+    
     useEffect(() => {
       if (followersModal || followingModal) {
         document.body.classList.add("overflow-hidden");
