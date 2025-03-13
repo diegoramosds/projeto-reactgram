@@ -93,6 +93,8 @@ const NavBar = () => {
         <ul className="flex gap-2 items-center text-zinc-100 pr-3 md:gap-3 md:text-xl nav-icons">
           {auth ? (
             <>
+
+            
             <li><NavLink to="/"> <BiHome /> </NavLink></li>
             {user && (
               <NavLink to={`/users/${user._id}`}>
