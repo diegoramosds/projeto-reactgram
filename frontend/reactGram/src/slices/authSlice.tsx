@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authService from "../services/authService";
 
-
  const user = JSON.parse(localStorage.getItem("user") as string )
  interface User {
     _id:  string;

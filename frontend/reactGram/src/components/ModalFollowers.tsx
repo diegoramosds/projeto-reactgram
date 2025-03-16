@@ -1,10 +1,7 @@
-import { Link, useParams } from "react-router-dom"
+import { Link, } from "react-router-dom"
 import { uploads } from "../utils/config"
-import { BiUserCheck, BiUserCircle, BiUserPlus } from "react-icons/bi";
+import { BiUserCircle } from "react-icons/bi";
 import { CgArrowLeft, CgUserList } from "react-icons/cg";
-import { followingUser, resetMessage } from "../slices/userSlice";
-import { AppDispatch } from "../store";
-import { useDispatch } from "react-redux";
 
 interface FollowersProps {
     userId?: string;
@@ -25,32 +22,28 @@ interface ModalProps {
     user: User | null;
     userAuth: UserAuth | null;
     closeModal: () => void ;
-    handleFollowing: () => void;
     textModal: string;
     textInfo: string;
     dataType: "followers" | "following";
 }
 
-const ModalFollowers = ({user, userAuth, closeModal, textModal, textInfo, dataType}: ModalProps) => {
+const ModalFollowers = ({user, closeModal, textModal, textInfo, dataType}: ModalProps) => {
 
-const {id} = useParams();
 
-const dispatch: AppDispatch = useDispatch()
+// const dispatch: AppDispatch = useDispatch()
 
 
 const data = user? user[dataType]: [];
 
-const handleFollowing = (userId: string) => {
-      dispatch(followingUser(userId as string));
+// const handleFollowing = (userId: string) => {
+//       dispatch(followingUser(userId as string));
 
-      setTimeout(() => {
-        dispatch(resetMessage())
-      }, 1000)
-    }
-
+//       setTimeout(() => {
+//         dispatch(resetMessage())
+//       }, 1000)
+//     }
 
 return (
-
         <div className="fixed backdrop-blur-sm inset-0 z-10">
             <div className="w-4/12 min-h-[70%] mx-auto gap-10 mt-20 z-20 bg-zinc-900 rounded-2xl flex-wrap text-wrap">
                     <div className="flex items-center gap-20 bg-zinc-800/80 p-3 rounded-t-2xl mb-10">
@@ -72,17 +65,18 @@ return (
                             <p className="font-medium">{item.bio}</p>
                         </Link>
                         </div>
-                        <div className="ml-5">
-                            {user && userAuth?._id !== id && item.userId !== userAuth?._id  ? (
-                                            Array.isArray(user?.followers) && user?.followers.some((follower) => follower.userId?.includes(userAuth?._id as string)) ?
-                                            <p className="flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 cursor-pointer text-zinc-300
+                        {/* <div className="ml-5">
+                            {user && item.userId !== userAuth?._id && item.userId !== id  ? (
+                                            user.followers.some((follower) => follower.userId?.includes(userAuth?._id as string)) ? (
+                                                <p className="flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 cursor-pointer text-zinc-300
                                                 rounded-full p-1 px-3" onClick={() => handleFollowing(item.userId as string)}><span>
                                                 <BiUserCheck size={20}/></span>Seguindo</p>
-                                                : <p className="flex items-center gap-1 border bg-zinc-100 hover:bg-zinc-300 cursor-pointer text-zinc-900
+                                            ) : (<p className="flex items-center gap-1 border bg-zinc-100 hover:bg-zinc-300 cursor-pointer text-zinc-900
                                                 rounded-full p-1 px-3" onClick={() => handleFollowing(item.userId as string)}><span>
-                                                <BiUserPlus size={20}/></span>Seguir</p>
+                                                <BiUserPlus size={20}/></span>Seguir</p>  )
+
                                             ) : ""}
-                        </div>
+                        </div> */}
                     </div>
                 ))}
                 {data.length === 0 && <p className="flex flex-col items-center text-lg mt-10 justify-center text-center">

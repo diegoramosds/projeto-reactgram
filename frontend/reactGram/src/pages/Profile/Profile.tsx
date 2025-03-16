@@ -148,7 +148,6 @@ interface PhotoProps {
                         closeModal={followingCloseModal}
                         user={user}
                         userAuth={userAuth}
-                        handleFollowing={handleFollowing}
                         textModal="Seguindo"
                         textInfo="Esse usuário ainda não segue ninguém"
                         dataType="following"
