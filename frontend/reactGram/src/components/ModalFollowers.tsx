@@ -2,6 +2,9 @@ import { Link, useParams } from "react-router-dom"
 import { uploads } from "../utils/config"
 import { BiUserCheck, BiUserCircle, BiUserPlus } from "react-icons/bi";
 import { CgArrowLeft, CgUserList } from "react-icons/cg";
+import { followingUser, resetMessage } from "../slices/userSlice";
+import { AppDispatch } from "../store";
+import { useDispatch } from "react-redux";
 
 interface FollowersProps {
     userId?: string;
@@ -28,11 +31,23 @@ interface ModalProps {
     dataType: "followers" | "following";
 }
 
-const ModalFollowers = ({user, userAuth, closeModal, handleFollowing, textModal, textInfo, dataType}: ModalProps) => {
+const ModalFollowers = ({user, userAuth, closeModal, textModal, textInfo, dataType}: ModalProps) => {
 
 const {id} = useParams();
 
+const dispatch: AppDispatch = useDispatch()
+
+
 const data = user? user[dataType]: [];
+
+const handleFollowing = (userId: string) => {
+      dispatch(followingUser(userId as string));
+
+      setTimeout(() => {
+        dispatch(resetMessage())
+      }, 1000)
+    }
+
 
 return (
 
@@ -59,12 +74,12 @@ return (
                         </div>
                         <div className="ml-5">
                             {user && userAuth?._id !== id && item.userId !== userAuth?._id  ? (
-                                            Array.isArray(user?.followers) && user?.followers.some((follower) => follower.userId?.includes(userAuth?._id as string))?
+                                            Array.isArray(user?.followers) && user?.followers.some((follower) => follower.userId?.includes(userAuth?._id as string)) ?
                                             <p className="flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 cursor-pointer text-zinc-300
-                                                rounded-full p-1 px-3" onClick={handleFollowing}><span>
+                                                rounded-full p-1 px-3" onClick={() => handleFollowing(item.userId as string)}><span>
                                                 <BiUserCheck size={20}/></span>Seguindo</p>
                                                 : <p className="flex items-center gap-1 border bg-zinc-100 hover:bg-zinc-300 cursor-pointer text-zinc-900
-                                                rounded-full p-1 px-3" onClick={handleFollowing}><span>
+                                                rounded-full p-1 px-3" onClick={() => handleFollowing(item.userId as string)}><span>
                                                 <BiUserPlus size={20}/></span>Seguir</p>
                                             ) : ""}
                         </div>

@@ -10,6 +10,7 @@ import { getAllPhotos, likePhoto } from "../../slices/photoSlice";
 import { useEffect } from "react";
 import Loading from "../../components/Loading";
 import { BiImage } from "react-icons/bi";
+import { getUserDetails } from "../../slices/userSlice";
 
 const Home = () => {
 
@@ -18,13 +19,14 @@ const Home = () => {
   const resetMessage = useResetComponetMessage(dispatch);
 
   const {user} = useSelector((state : RootState) => state.auth);
+  const {user: users} = useSelector((state : RootState) => state.user);
   const {loading, photos} = useSelector((state: RootState) => state.photo);
 
    //load photo data
   useEffect(() => {
     dispatch(getAllPhotos())
-
-  },[dispatch])
+    dispatch(getUserDetails(users?._id as string))
+  },[dispatch, users?._id])
 
 
   interface PhotoProps {

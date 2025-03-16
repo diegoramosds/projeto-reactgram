@@ -17,7 +17,6 @@ import { useEffect, useState } from "react"
 import { DiAptana } from "react-icons/di";
 import { BiCamera, BiHome, BiMessageSquareAdd } from "react-icons/bi";
 import { FiLogOut } from "react-icons/fi";
-import { getUserDetails } from "../slices/userSlice";
 import PhotoUser from "./PhotoUser";
 
 const NavBar = () => {
@@ -38,6 +37,25 @@ const NavBar = () => {
     navigate("/login")
     }
 
+    const [localStorageUser, setLocalStorageUser] = useState(JSON.parse(localStorage.getItem("user") || "{}"));
+
+    useEffect(() => {
+      if (user) {
+        setLocalStorageUser(user);
+      }
+    }, [user]);
+  
+    useEffect(() => {
+      const interval = setInterval(() => {
+        const updatedUser = JSON.parse(localStorage.getItem("user") || "{}");
+        if (updatedUser.profileImage !== localStorageUser.profileImage) {
+          setLocalStorageUser(updatedUser);
+        }
+      }, 500);
+  
+      return () => clearInterval(interval);
+    }, [localStorageUser]);
+
     // Search
     const handleSearh = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,18 +65,10 @@ const NavBar = () => {
     }
   }
 
-
     // modal
     const handleModal = () => {
       setModal(!modal)
     }
-
-    useEffect(() => {
-      if(user?._id) {
-        dispatch(getUserDetails(user?._id));
-      }
-
-    }, [dispatch, user?._id]);
 
     useEffect(() => {
       if (modal) {
@@ -79,7 +89,7 @@ const NavBar = () => {
     <>
     <nav className="flex w-full justify-around gap-32 items-center p-3 bg-black/10 border-b border-zinc-900/20 shadow-sm">
       <Link to="/" className="text-zinc-100 text-xl font-medium">ReactGram</Link>
-      <form className="relative flex items-center justify-center" onSubmit={handleSearh}>
+      <form className="relative flex items-center justify-center " onSubmit={handleSearh}>
         <BsSearch className="absolute left-3 top-3 text-zinc-500"/>
         <input type="text"
         placeholder="Pesquisar"
@@ -100,10 +110,11 @@ const NavBar = () => {
             <li>
             <HiEllipsisHorizontal  onClick={handleModal}/>
             </li>
-
-             <Link to={`users/profile/${user?._id}`}>
-              <PhotoUser user={user} sizeImage="60px" sizeIcon=""/>
-              </Link>
+            {user && (
+            <Link to={`users/profile/${user._id}`}>
+              <PhotoUser user={localStorageUser} sizeImage="60px" sizeIcon="24px" />
+            </Link>
+      )}
 
             </>
           )

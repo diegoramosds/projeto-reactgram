@@ -52,7 +52,7 @@ interface PhotoProps {
 
     //Start following
     const handleFollowing = () => {
-      dispatch(followingUser(id as string));
+      dispatch(followingUser(user?._id as string));
 
       setTimeout(() => {
         dispatch(resetMessage())
@@ -124,10 +124,10 @@ interface PhotoProps {
                 {user && userAuth?._id !== id  ? (
                   Array.isArray(user?.followers) && user?.followers.some((follower) => follower.userId?.includes(userAuth?._id as string)) ?
                   <p className="flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 cursor-pointer text-zinc-300
-              rounded-full p-1 px-3" onClick={handleFollowing}><span>
+                  rounded-full p-1 px-3" onClick={handleFollowing}><span>
                     <BiUserCheck size={20}/></span>Seguindo</p>
                     : <p className="flex items-center gap-1 border bg-zinc-100 hover:bg-zinc-300 cursor-pointer text-zinc-900
-              rounded-full p-1 px-3" onClick={handleFollowing}><span>
+                  rounded-full p-1 px-3" onClick={handleFollowing}><span>
                     <BiUserPlus size={20}/></span>Seguir</p>
                 ) : ""}
                 {/* {message && ( <Message msg={message} type="success"/>)}
@@ -138,7 +138,6 @@ interface PhotoProps {
               closeModal={followersCloseModal}
               user={user}
               userAuth={userAuth}
-              handleFollowing={handleFollowing}
               textModal="Seguidores"
               textInfo="Esse usuário ainda não possui seguidores"
               dataType="followers"

@@ -1,6 +1,5 @@
-import { asyncThunkCreator, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import photoService from "../services/photoService";
-import { reset } from "./authSlice";
 import { RootState } from "../store";
 
 interface commentDataProps {
