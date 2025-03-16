@@ -18,7 +18,7 @@ interface FormStyleProps {
 
 const FormStyle = ({ children, title, subtitle, handleSubmit, loading, linkTo, linkText, btnText, errorMessage, successMessage  }: FormStyleProps) => {
   return (
-    <div className="bg-black/20 w-2/5 mx-auto p-4 my-4 rounded-xl">
+    <div className="bg-black/20 w-11/12 mx-auto p-4 my-4 rounded-xl md:w-2/5">
       <div className="text-center w-11/12 mx-auto my-0">
       <h1 className="text-2xl font-bold pb-3">{title}</h1>
       <p className="text-zinc-400 pb-6">{subtitle}</p>

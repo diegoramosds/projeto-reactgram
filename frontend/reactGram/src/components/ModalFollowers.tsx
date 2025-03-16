@@ -45,7 +45,7 @@ const data = user? user[dataType]: [];
 
 return (
         <div className="fixed backdrop-blur-sm inset-0 z-10">
-            <div className="w-4/12 min-h-[70%] mx-auto gap-10 mt-20 z-20 bg-zinc-900 rounded-2xl flex-wrap text-wrap">
+            <div className="w-11/12 md:w-4/12 min-h-[80%] md:min-h-[70%] mx-auto gap-10 mt-20 z-20 bg-zinc-900 rounded-2xl flex-wrap text-wrap">
                     <div className="flex items-center gap-20 bg-zinc-800/80 p-3 rounded-t-2xl mb-10">
                         <p onClick={closeModal} className="flex items-center justify-center text-sm w-20 gap-1 m-3 p-1
                         rounded-full text-zinc-300 hover:bg-zinc-900/40 hover:text-zinc-400"><CgArrowLeft size={18}/>Voltar</p>

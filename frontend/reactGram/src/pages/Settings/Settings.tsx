@@ -171,17 +171,17 @@ const Settings = () => {
     }
 
     return (
-    <div className="w-2/4 mx-auto mt-6">
+    <div className="mx-auto mt-6 md:w-2/4">
         <div className="flex flex-col items-center gap-3">
                 <PhotoUser user={user} sizeImage="100px" sizeIcon="100px"/>
                 <h2 className="text-xl font-bold">{user?.name}</h2>
                 <p className="bg-slate-100 py-1 px-5 rounded-2xl hover:bg-slate-200"><Link to={`/users/profile/${id}`} className="text-black text-sm">Ver perfil</Link> </p>
             </div>
-        <div className="m-4">
+        <div className="m-4 mt-10 md:mt-0">
             {id === userAuth?._id && (
                 <>
                 <div ref={newPhotoForm} className="mb-16">
-                    <h3>Compartilhe momentos</h3>
+                    <h3 className="text-sm md:text-base">Compartilhe momentos</h3>
                     <form onSubmit={submitHandle}>
                         <label>
                             <input type="text" placeholder="Insira um titulo" className="rounded-xl p-3 focus:ring-2 focus:ring-zinc-700" onChange={(e) => setTitle(e.target.value)} value={title || ""}/>

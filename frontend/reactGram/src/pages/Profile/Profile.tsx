@@ -106,7 +106,7 @@ interface PhotoProps {
                 </Link>
               </div>
               )}
-              <div className="flex items-center justify-center gap-10 mt-4 info-profile">
+              <div className="flex items-center justify-center  gap-5 mt-4 info-profile md:gap-10">
                   <p>
                     {photos?.length || 0} <span>Publicações</span> 
                   </p>

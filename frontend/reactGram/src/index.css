@@ -82,7 +82,7 @@ button:hover,input[type="submit"]:hover {
     @apply flex gap-1 items-center cursor-pointer font-bold hover:text-zinc-300 transition-all duration-200
   }
 .info-profile  span  {
-  @apply text-zinc-400 text-base font-normal
+  @apply text-zinc-400 text-sm font-normal md:text-base
 }
 
 .photo-actions  p  {

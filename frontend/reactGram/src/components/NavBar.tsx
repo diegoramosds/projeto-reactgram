@@ -87,17 +87,20 @@ const NavBar = () => {
 
   return (
     <>
-    <nav className="flex w-full justify-around gap-32 items-center p-3 bg-black/10 border-b border-zinc-900/20 shadow-sm">
-      <Link to="/" className="text-zinc-100 text-xl font-medium">ReactGram</Link>
-      <form className="relative flex items-center justify-center " onSubmit={handleSearh}>
+    <nav className="flex w-full justify-between items-center p-3 bg-black/10 border-b border-zinc-900/20 shadow-sm md:justify-around md:gap-32">
+      <Link to="/" className="text-zinc-100 text-lg font-medium md:text-xl">ReactGram</Link>
+      {window.innerWidth > 650 && (
+         <form className="relative flex items-center justify-center " onSubmit={handleSearh}>
         <BsSearch className="absolute left-3 top-3 text-zinc-500"/>
         <input type="text"
         placeholder="Pesquisar"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="pl-10 pr-4 py-2 rounded-xl bg-zinc-900 text-zinc-200 border focus:outline-none focus:ring-2 focus:ring-zinc-800 focus:border-transparent md:pl-10 md:pr-16 md:py-2"/>
+        className="pl-10 pr-2 py-2 rounded-xl bg-zinc-900 text-zinc-200 border focus:outline-none focus:ring-2 focus:ring-zinc-800 focus:border-transparent md:pl-10 md:pr-16 md:py-2"/>
         </form>
-        <ul className="flex gap-2 items-center text-zinc-100 pr-3 md:gap-3 md:text-xl nav-icons">
+      )}
+     
+        <ul className="flex items-center text-zinc-100 pr-3 md:gap-3 md:text-xl nav-icons">
           {auth ? (
             <>
 
@@ -129,7 +132,7 @@ const NavBar = () => {
     </nav>
     {user && modal && (
             <div className="fixed inset-0 z-10 backdrop-blur-sm">
-              <ul className="w-1/4 mt-20 mx-auto z-20 p-4 gap-8 bg-zinc-900 rounded-xl modal animate-toTop">
+              <ul className="w-5/6 mt-20 mx-auto z-20 p-4 gap-8 bg-zinc-900 rounded-xl modal animate-toTop md:w-1/4">
                 <div className="flex justify-between text-xl p-2 pb-5">
                   <h1>Opções</h1>
                   <p className="hover:bg-zinc-800 rounded-full modal">
