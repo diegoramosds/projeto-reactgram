@@ -1,96 +1,53 @@
-import { useDispatch, useSelector } from "react-redux"
-import { AppDispatch, RootState } from '../../store';
-import { useEffect, useState } from "react";
-import { getAllComments, removeComment } from '../../slices/photoSlice';
-import { uploads } from "../../utils/config";
-import { Link } from "react-router-dom";
-import { MdClose } from "react-icons/md";
-import { useResetComponetMessage } from "../../hooks/useResetComponentMessage";
-import { getUserDetails } from "../../slices/userSlice";
-import DeleteCommentModal from "../../components/DeleteCommentModal";
-import { LuMessageSquare } from "react-icons/lu";
+interface CommentProps {
+    photoId: string;
+    _id: string;
+}
 
-const Comments = () => {
-    const dispatch: AppDispatch = useDispatch();
+interface ModalProps {
+    handleRemoveComment: (photoId: string, commentId: string) => void;
+    handleRemovePhoto: (photoId: string) => void;
+    comment: Partial<CommentProps>;
+    handleCloseModalDeleteComment: () => void;
+    isComment?: boolean;
+    photoId: string;
+}
 
-    const resetMessage = useResetComponetMessage(dispatch);
-    const {user: userAuth} = useSelector((state: RootState) => state.auth)
-    const {photo} = useSelector((state: RootState) => state.photo)
+const DeleteCommentModal = ({
+    handleRemoveComment,
+    comment,
+    photoId,
+    handleCloseModalDeleteComment,
+    handleRemovePhoto,
+    isComment,
+}: ModalProps) => {
+    console.log("isComment no modal:", isComment); // Verifique o valor recebido
 
-    const [deleteCommentModal, setDeleteCommentModal] = useState(false);
+    return (
+        <div className="fixed inset-0 backdrop-blur-sm z-10">
+            <div className="w-11/12 md:w-5/12 md:h-1/5 mx-auto mt-20 z-20 bg-zinc-900 flex justify-center items-center flex-col rounded-xl p-3">
+                <h1>Tem certeza que deseja remover este comentário?</h1>
+                <div className="flex gap-10 mt-5 cursor-pointer">
+                    {isComment && (
+                        <p
+                            className="bg-red-700 rounded px-6 hover:bg-red-600 text-zinc-300"
+                            onClick={() => {
+                                handleRemoveComment(comment.photoId as string, comment._id as string);
+                            }}
+                        >
+                            Sim
+                        </p>
+                    )}
 
-    useEffect(() => {
-      if (userAuth?._id) {
-        dispatch(getAllComments(userAuth._id))
-        dispatch(getUserDetails(userAuth?._id))
-      }
-    }, [dispatch, userAuth]);
-
-    useEffect(() => {
-      if(deleteCommentModal) {
-        document.body.classList.add("overflow-hidden")
-      } else {
-        document.body.classList.remove("overflow-auto")
-      }
-      return () => document.body.classList.remove("overflow-hidden");
-    })
-
-    const handleOpenModalDeleteComment = () => {
-      setDeleteCommentModal(true)
-    }
-
-    const handleCloseModalDeleteComment = () => {
-      setDeleteCommentModal(false)
-    }
-    const handleRemoveComment = (photoId: string, commentId: string) => {
-        const commentData = {
-        photoId,
-        commentId
-        }
-      dispatch(removeComment(commentData))
-      resetMessage();
-      setDeleteCommentModal(false);
-      }
-      return (
-        <div>
-          {Array.isArray(photo.comments) && photo.comments.length > 0 ? (
-            photo.comments.map((comment) => (
-              <div
-                key={comment._id}
-                className=""
-              >
-                {userAuth?._id === comment.userId && (
-                  <div className="m-5 flex items-center justify-around border-b rounded border-zinc-900">
-                    <p>Comentário: {comment.comment}</p>
-                      <Link to={`/photos/${comment.photoId}`}>
-                        <img
-                          src={`${uploads}/photos/${comment.photoImage}`}
-                          alt=""
-                          className="h-20 w-24 rounded-full"
-                        />
-                      </Link>
-                    <p>
-                      <MdClose onClick={handleOpenModalDeleteComment} className="cursor-pointer"/>
+                    <p
+                        className="bg-zinc-300 rounded px-5 hover:bg-zinc-200 text-zinc-700"
+                        onClick={handleCloseModalDeleteComment}
+                    >
+                        Não
                     </p>
                 </div>
-                )}
-                {deleteCommentModal && (
-                  <DeleteCommentModal
-                  comment={comment}
-                  handleCloseModalDeleteComment={handleCloseModalDeleteComment}
-                  handleRemoveComment={handleRemoveComment}/>
-                )}
-              </div>
-            ))
-          ) : (
-            <p className="flex flex-col gap-2 items-center text-center text-zinc-400 text-base">
-              <span>
-              <LuMessageSquare size={50} />
-              </span>
-              Você ainda não comentou em nenhuma publicação
-              </p>
-          )}
+            </div>
         </div>
-      );
-}
-export default Comments
+    );
+};
+
+export default DeleteCommentModal;
