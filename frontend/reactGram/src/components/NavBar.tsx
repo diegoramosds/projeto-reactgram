@@ -87,7 +87,7 @@ const NavBar = () => {
 
   return (
     <>
-    <nav className="flex w-full justify-between items-center p-3 bg-black/10 border-b border-zinc-900/20 shadow-sm md:justify-around md:gap-32">
+    <nav className="flex fixed z-10 w-full justify-between items-center p-3 bg-black border-b border-zinc-900/20 shadow-sm md:justify-around md:gap-32">
       <Link to="/" className="text-zinc-100 text-lg font-medium md:text-xl">ReactGram</Link>
       {window.innerWidth > 650 && (
          <form className="relative flex items-center justify-center " onSubmit={handleSearh}>
@@ -118,21 +118,23 @@ const NavBar = () => {
               <PhotoUser user={localStorageUser} sizeImage="60px" sizeIcon="24px" />
             </Link>
       )}
-
             </>
           )
           : (
             <>
-          <li><NavLink to="/login"> Entrar </NavLink> </li>
-          <li> <NavLink to="/register"> Cadastrar </NavLink></li>
+          <div className="flex gap-3 ">
+            <li><NavLink to="/login"> Entrar </NavLink> </li>
+            <li> <NavLink to="/register"> Cadastrar </NavLink></li>
+          </div>
           </>
           )
           }
         </ul>
     </nav>
+    <div className="h-24"></div>
     {user && modal && (
             <div className="fixed inset-0 z-10 backdrop-blur-sm">
-              <ul className="w-5/6 mt-20 mx-auto z-20 p-4 gap-8 bg-zinc-900 rounded-xl modal animate-toTop md:w-1/4">
+              <ul className="w-5/6 relative  mt-20 mx-auto z-20 p-4 gap-8 bg-zinc-900 rounded-xl modal animate-toTop md:w-1/4">
                 <div className="flex justify-between text-xl p-2 pb-5">
                   <h1>Opções</h1>
                   <p className="hover:bg-zinc-800 rounded-full modal">
