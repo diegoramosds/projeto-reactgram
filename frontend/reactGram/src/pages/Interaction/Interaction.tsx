@@ -31,7 +31,7 @@ const Interaction = () => {
   }
   return (
     <div className="flex items-center flex-col gap-20 mt-5">
-        <div className="flex gap-10 border-b border-zinc-900 w-1/2 mx-auto">
+        <div className="flex gap-10 border-b border-zinc-900 md:w-1/2 mx-auto">
           <h2 onClick={handleComments} className={
                   findComments ? "text-zinc-200 border-b-2 border-zinc-200 p-3" : "text-zinc-400 p-3"
                 }>Comentários</h2>

@@ -60,7 +60,7 @@ const Photo = () => {
   }
 
   return (
-    <div className="flex flex-col bg-zinc-900/30 w-[47%] mx-auto mt-20 rounded-xl shadow-md border border-zinc-900 
+    <div className="flex flex-col bg-zinc-900/30 w-11/12 md:w-[47%] mx-auto mt-20 rounded-xl shadow-md border border-zinc-900 
       justify-between">
       <PhotoItem photo={photo} />
       <LikeContainer photo={photo} user={user} handleLike={handleLike}/>

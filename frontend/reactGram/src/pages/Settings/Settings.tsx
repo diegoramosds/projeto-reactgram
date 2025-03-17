@@ -16,6 +16,7 @@ import { AppDispatch, RootState } from "../../store"
 import { delePhoto, getUserPhotos, publishPhoto, resetMessage, updatePhoto } from '../../slices/photoSlice';
 import Loading from "../../components/Loading"
 import PhotoUser from "../../components/PhotoUser"
+import DeleteCommentModal from "../../components/DeleteCommentModal"
 
 const Settings = () => {
     const {id} = useParams()
@@ -224,11 +225,11 @@ const Settings = () => {
                 <h4 className="font-bold text-sm mb-10">Clique sobre a imagem que deseja editar, vizualizar ou excluir</h4>
                 <div className="flex gap-8 flex-wrap w-full h-full">
                     {photos && photos.map((photo) => (
-                        <div key={photo._id} className="relative group w-1/3">
+                        <div key={photo._id} className="relative group w-3/5 md:w-1/3">
                             {photo.image && (<img src={`${uploads}/photos/${photo.image}`} alt={photo.title} className="aspect-square rounded-xl overflow-hidden
-                    bg-secondary/50 transition-all duration-300 transform group-hover:scale-[1.02]0"/>)}
+                    bg-secondary/50 transition-all duration-300 transform group-hover:scale-[1.02]"/>)}
                                 {id === userAuth?._id ? (
-                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 
+                                <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 
                     transition-opacity duration-300 flex items-center justify-center gap-4 rounded-xl">
 
                                         <div className="photo-actions flex gap-6">
@@ -243,7 +244,17 @@ const Settings = () => {
                                             </p>
                                         </div>
 
-                                        {deletePhotoModal && (
+                                        {/* {deletePhotoModal && (
+                                            <DeleteCommentModal
+                                            handleCloseModalDeleteComment={handleCloseModalDeletePhoto}
+                                            handleRemoveComment={""}
+                                             
+                                            handleRemovePhoto={handleDelete}
+                                            comment={""}
+                                            photoId={photo._id} />
+                                            )} */}
+
+                                        {/* {deletePhotoModal && (
                                         <div className="fixed inset-0 bg-black/40 z-10">
                                         <div className="w-5/12 h-1/5 mx-auto mt-20 z-20 bg-zinc-900 flex justify-center items-center flex-col rounded">
                                         <h1>Tem certeza que deseja remover essa publicação</h1>
@@ -261,7 +272,7 @@ const Settings = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    )}
+                                    )} */}
                                 </div>
                                 ) :
                                 (
