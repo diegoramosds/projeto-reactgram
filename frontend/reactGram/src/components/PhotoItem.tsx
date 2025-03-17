@@ -33,9 +33,9 @@ const PhotoItem = ({ photo }: PhotoItemProps) => {
       <div className="m-2 flex items-center gap-2">
         <div>
           <Link to={`/users/profile/${photo.userId}`}>
-            {photo.userId === user?._id ? (
-              <img 
-                src={`${uploads}/users/${user?.profileImage}`} 
+            {photo.userId === user?._id && user.profileImage ? (
+              <img
+                src={`${uploads}/users/${user?.profileImage}`}
                 alt={photo.userName} 
                 className="w-16 h-16 mx-auto rounded-full p-4 object-cover"
               />
