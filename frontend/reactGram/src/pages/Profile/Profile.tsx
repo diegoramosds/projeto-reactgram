@@ -90,7 +90,7 @@ interface PhotoProps {
     }, [followersModal, followers, followingModal]);
 
     return (
-    <div className="md:w-2/3 mx-auto mt-2">
+    <div className="w-2/3 mx-auto mt-2">
           <div className="flex flex-col gap-3 items-center">
                 <PhotoUser user={user} sizeImage="150px" sizeIcon="100px"/>
               <div className="flex gap-3 flex-col items-center justify-center">
@@ -156,14 +156,14 @@ interface PhotoProps {
 
           </div>
         <div className="m-4 pb-20">
-            <div className="flex flex-col flex-wrap">
+            <div className="w-full flex flex-col flex-wrap">
                 <div className="border-t border-b border-zinc-900 p-3">
                   <h2 className="flex items-center gap-1 justify-center text-lg w-1/6 mx-auto border-b-[3px] p-1"><BiGrid />Publicações</h2>
                 </div>
                 <div className="flex flex-wrap justify-center items-center gap-3">
                     {photos && photos.map((photo) => (
                     <div key={photo._id} className="flex flex-col
-                    bg-zinc-900/30 md:w-[60%] mx-auto mt-20 rounded-xl shadow-md border border-zinc-900
+                    bg-zinc-900/30 w-[60%] mx-auto mt-20 rounded-xl shadow-md border border-zinc-900 
                       justify-between mb-48">
                         <PhotoItem photo={photo}/>
                         <LikeContainer handleLike={handleLike} photo={photo} user={userAuth}/>

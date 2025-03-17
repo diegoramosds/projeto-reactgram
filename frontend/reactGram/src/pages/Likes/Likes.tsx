@@ -28,11 +28,11 @@ return (
         {user && user._id === userAuth?._id  && user.likedPhotos.length > 0 ? (
         <div>
             {user.likedPhotos.map((liked) => (
-                <div key={liked.photoId} className="border-b w-full border-zinc-900 m-2 flex justify-between items-center gap-10">
+                <div key={liked.photoId} className="border-b border-zinc-900 m-5 p-3 flex justify-around items-center">
                 <img
                         src={`${uploads}/photos/${liked.photoImage}`}
                         alt=""
-                        className="w-16 h-16 md:w-24 md:h-24 rounded-full"
+                        className="h-20 w-24 rounded-full"
                     />
                     <div>
                         <Link to={`/photos/${liked.photoId}`}> <p><BsFillEyeFill/></p></Link>

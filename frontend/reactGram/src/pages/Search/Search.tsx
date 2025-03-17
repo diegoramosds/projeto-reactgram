@@ -7,8 +7,6 @@ import { searchUser } from "../../slices/userSlice";
 import SearchPhotos from "../SearchPhotos/SearchPhotos";
 import SearchUsers from "../SearchUsers/SearchUsers";
 import { HiUserGroup } from "react-icons/hi2";
-import { useNavigate } from "react-router-dom";
-import { BsSearch } from "react-icons/bs";
 
 
 const Search = () => {
@@ -49,21 +47,9 @@ const Search = () => {
     setSearchUsers(false);
   };
 
-    const [searchInput, setSearch] = useState("");
-  
-    const navigate = useNavigate();
-  
-      // Search
-      const handleSearh = (e:React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setSearch("")
-        if(searchInput) {
-        return navigate(`/search?q=${searchInput}`)
-        }
-      }
   return (
     <div>
-      <div className="flex mt-5 p-2 w-11/12 md:w-1/2 mx-auto">
+      <div className="flex mt-5 border-b border-zinc-900 w-1/2 mx-auto">
         {search && (
           <div className="flex gap-8 text-lg">
             <p
@@ -85,18 +71,8 @@ const Search = () => {
           </div>
         )}
       </div>
-      {window.innerWidth < 650 && !searchUsers &&  !searchPhotos && (
-        <form className="relative flex items-center justify-center border-b border-zinc-900" onSubmit={handleSearh}>
-                <BsSearch className="absolute left-[60%] top-3 text-zinc-500"/>
-                <input type="text"
-                placeholder="Pesquisar"
-                value={searchInput}
-                onChange={(e) => setSearch(e.target.value)}
-                className="pl-10 pr-2 py-2 rounded-xl bg-zinc-900 text-zinc-200 border focus:outline-none focus:ring-2 focus:ring-zinc-800 focus:border-transparent md:pl-10 md:pr-16 md:py-2"/>
-                </form>
-      )}
       {!search && (
-        <p  className="flex flex-col items-center mt-10 md:text-lg gap-3 ">
+        <p  className="flex flex-col items-center text-lg mt-10 gap-3">
           <span>
             <HiUserGroup size={70}/>
           </span>
