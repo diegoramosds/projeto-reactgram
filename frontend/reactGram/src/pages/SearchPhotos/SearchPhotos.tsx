@@ -25,7 +25,7 @@ return (
     <div>
         <div>
         {photos && photos.map((photo) =>(
-            <div key={photo._id} className="bg-zinc-900/30 w-[40%] min-h-[680px] mx-auto mt-14 mb-32 rounded-xl shadow-md border border-zinc-900 
+            <div key={photo._id} className="bg-zinc-900/30 w-11/12 md:w-[40%] md:min-h-[680px] mx-auto mt-14 mb-32 rounded-xl shadow-md border border-zinc-900 
         flex flex-col justify-between">
             <PhotoItem photo={photo} />
             <LikeContainer handleLike={handleLike} photo={photo} user={userAuth}/>
@@ -34,7 +34,7 @@ return (
     </div>
         {photos && photos.length === 0 && (
             <div className="">
-                <p className="flex flex-col text-lg justify-center items-center mt-10">
+                <p className="flex flex-col md:text-lg p-0.5 justify-center items-center mt-10">
                     <BiImage size={100}/>
                     Não há publicações relacionado a sua busca
                     </p>
