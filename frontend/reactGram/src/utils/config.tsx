@@ -1,5 +1,5 @@
-export const api = "http://localhost:5000/api";
-export const uploads = "http://localhost:5000/uploads";
+export const api = "https://api-reactgram-z3xu.onrender.com/api";
+export const uploads = "https://api-reactgram-z3xu.onrender.com/uploads";
 
 export const requestConfig = (
   method: string,

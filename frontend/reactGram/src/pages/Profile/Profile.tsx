@@ -8,12 +8,12 @@ import { useDispatch, useSelector } from "react-redux"
 //Redux
 import { followingUser, getUserDetails, resetMessage } from '../../slices/userSlice';
 import { AppDispatch, RootState } from "../../store"
-import { getUserPhotos, likePhoto } from "../../slices/photoSlice"
-import LikeContainer from "../../components/LikeContainer"
+import { getUserPhotos } from "../../slices/photoSlice"
 import ModalFollowers from "../../components/ModalFollowers";
-import PhotoItem from "../../components/PhotoItem";
 import { BiGrid, BiImage, BiUserCheck, BiUserPlus } from "react-icons/bi";
 import PhotoUser from "../../components/PhotoUser";
+import PostCard from "../../components/PostCard";
+import Loading from "../../components/Loading";
 
 const Profile = () => {
 
@@ -25,8 +25,11 @@ const Profile = () => {
     const {user, followers} = useSelector((state: RootState) => state.user)
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
     const {photos} = useSelector((state: RootState) => state.photo)
+
     const [followersModal, setFollowersModal] = useState(false);
     const [followingModal, setFollowingModal] = useState(false);
+    const [visibleCount, setVisibleCount] = useState(5);
+    const [photoLoading, setLoading] = useState(false);
 
     //Load user data
     useEffect(() => {
@@ -36,21 +39,18 @@ const Profile = () => {
     }
 }, [dispatch, id, followers]);
 
-interface PhotoProps {
-  _id: string,
-}
+    useEffect(() => {
+      if (visibleCount < photos.length) {
+        setLoading(true)
+        const timer = setTimeout(() => {
+          setVisibleCount(prev => prev + 5);
+          setLoading(false)
+        }, 2000)
 
-//Insert like
-  const handleLike = (photo: Partial<PhotoProps>) => {
-    dispatch(likePhoto(photo._id!))
-  };
-
-    // if(loading) {
-    //     return <p>Carregando...</p>
-    // }
-
-
-    //Start following
+      return () => clearTimeout(timer);
+        }
+    },[photos.length, visibleCount])
+ //Start following
     const handleFollowing = () => {
       dispatch(followingUser(user?._id as string));
 
@@ -130,8 +130,7 @@ interface PhotoProps {
                   rounded-full p-1 px-3" onClick={handleFollowing}><span>
                     <BiUserPlus size={20}/></span>Seguir</p>
                 ) : ""}
-                {/* {message && ( <Message msg={message} type="success"/>)}
-                {error && ( <Message msg={message} type="error"/>)} */}
+
             </div>
             {followersModal && (
               <ModalFollowers
@@ -153,33 +152,27 @@ interface PhotoProps {
                         dataType="following"
                         />
                             )}
-
           </div>
-        <div className="m-4 pb-20">
             <div className="flex flex-col flex-wrap">
                 <div className="border-t border-b border-zinc-900 p-3">
                   <h2 className="flex items-center gap-1 justify-center text-lg w-1/6 mx-auto border-b-[3px] p-1"><BiGrid />Publicações</h2>
                 </div>
-                <div className="flex flex-wrap justify-center items-center gap-3">
-                    {photos && photos.map((photo) => (
-                    <div key={photo._id} className="flex flex-col
-                    bg-zinc-900/30 md:w-[60%] mx-auto mt-20 rounded-xl shadow-md border border-zinc-900
-                      justify-between mb-48">
-                        <PhotoItem photo={photo}/>
-                        <LikeContainer handleLike={handleLike} photo={photo} user={userAuth}/>
-                        <Link to={`/photos/${photo._id}`}>
-                                    <p className="text-center p-3 bg-zinc-900/70 text-sm hover:bg-zinc-900/74 hover:text-zinc-300 rounded-b-xl">Veja detalhes</p>
-                        </Link>
+                <div className="">
+                    {photos && photos.slice(0, visibleCount).map((photo) => (
+                    <div key={photo._id} className="">
+                        <PostCard photo={photo} isPhotoDetail={false}/>
                     </div>
                     ))}
                     {photos.length === 0 &&  (
                       <p className="flex flex-col text-lg justify-center items-center mt-10">
                                         <BiImage size={100}/>
                                         Não há publicações
-                                        </p>)}
+                      </p>)}
                 </div>
             </div>
-        </div>
+            {photoLoading && (
+                          <Loading />
+                        )}
     </div>
     )}
 

@@ -4,9 +4,10 @@ import { uploads } from "../../utils/config"
 import { Link } from "react-router-dom"
 
 import { BsFillEyeFill } from "react-icons/bs"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { getUserDetails, clenupLikes } from "../../slices/userSlice"
 import { LuHeart } from "react-icons/lu"
+import Loading from "../../components/Loading"
 
 export const Likes = () => {
 
@@ -14,6 +15,22 @@ export const Likes = () => {
 
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
     const {user} = useSelector((state: RootState) => state.user)
+
+
+     const [visibleCount, setVisibleCount] = useState(5);
+     const [photoLoading, setLoading] = useState(false);
+    
+        useEffect(() => {
+          if (user?.likedPhotos && visibleCount < user?.likedPhotos.length) {
+            setLoading(true)
+            const timer = setTimeout(() => {
+              setVisibleCount(prev => prev + 5);
+              setLoading(false)
+            }, 2000)
+    
+          return () => clearTimeout(timer);
+            }
+        },[user?.likedPhotos, visibleCount])
 
       //load user data
     useEffect(() => {
@@ -24,11 +41,11 @@ export const Likes = () => {
     },[dispatch, userAuth])
 
 return (
-    <div>
+    <div className="w-full">
         {user && user._id === userAuth?._id  && user.likedPhotos.length > 0 ? (
         <div>
-            {user.likedPhotos.map((liked) => (
-                <div key={liked.photoId} className="border-b w-full border-zinc-900 m-2 flex justify-between items-center gap-10">
+            {user.likedPhotos.slice(0, visibleCount).map((liked) => (
+                <div key={liked.photoId} className="border-b w-1/2 mx-auto border-zinc-900 m-2 flex justify-around items-center md:gap-36">
                 <img
                         src={`${uploads}/photos/${liked.photoImage}`}
                         alt=""
@@ -48,5 +65,8 @@ return (
                         Você ainda não curtiu nenhuma publicação
                         </p>
         )}
+        {photoLoading && (
+          <Loading />
+          )}
     </div>
 )}

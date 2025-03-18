@@ -4,12 +4,30 @@ import PhotoItem from "../../components/PhotoItem"
 import LikeContainer from "../../components/LikeContainer"
 import { likePhoto, resetMessage } from "../../slices/photoSlice"
 import { BiImage } from "react-icons/bi"
+import { useEffect, useState } from "react"
+import Loading from "../../components/Loading"
 
 
 const SearchPhotos = () => {
 
     const {user: userAuth} = useSelector((state: RootState) => state.auth)
-    const {photos} = useSelector((state: RootState) => state.photo)
+    const {photos} = useSelector((state: RootState) => state.photo);
+
+     const [visibleCount, setVisibleCount] = useState(5);
+     const [photoLoading, setLoading] = useState(false);
+    
+        useEffect(() => {
+          if (photos && visibleCount < photos.length) {
+            setLoading(true)
+            const timer = setTimeout(() => {
+              setVisibleCount(prev => prev + 5);
+              setLoading(false)
+            }, 2000)
+    
+          return () => clearTimeout(timer);
+            }
+        },[photos, visibleCount])
+    
 
     const dispatch: AppDispatch = useDispatch()
 
@@ -24,7 +42,7 @@ const SearchPhotos = () => {
 return (
     <div>
         <div>
-        {photos && photos.map((photo) =>(
+        {photos && photos.slice(0, visibleCount).map((photo) =>(
             <div key={photo._id} className="bg-zinc-900/30 w-11/12 md:w-[40%] md:min-h-[680px] mx-auto mt-14 mb-32 rounded-xl shadow-md border border-zinc-900 
         flex flex-col justify-between">
             <PhotoItem photo={photo} />
@@ -40,6 +58,9 @@ return (
                     </p>
             </div>
         )}
+        {photoLoading && (
+          <Loading />
+          )}
 </div>
 )
 }

@@ -1,32 +1,21 @@
 //Components
 import { useParams } from "react-router-dom";
-import PhotoItem from "../../components/PhotoItem";
-
 
 //hooks
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { useResetComponetMessage } from "../../hooks/useResetComponentMessage";
 
 //redux
-import { comments, getPhotoById, likePhoto } from "../../slices/photoSlice";
-import LikeContainer from "../../components/LikeContainer";
-import CommentItem from "../../components/CommentItem";
-import Loading from "../../components/Loading";
+import PostCard from "../../components/PostCard";
+import { getPhotoById } from "../../slices/photoSlice";
 
 const Photo = () => {
   const { id } = useParams();
 
   const dispatch: AppDispatch = useDispatch();
 
-  const resetMessage = useResetComponetMessage(dispatch);
-
-  const {user} = useSelector((state: RootState) => state.auth);
-  const {photo, loading} = useSelector((state: RootState) => state.photo);
-
-  //comments
-  const [commentText, setCommentText] = useState("")
+  const {photo} = useSelector((state: RootState) => state.photo);
 
   //load photo data
   useEffect(() => {
@@ -34,43 +23,9 @@ const Photo = () => {
 
   },[dispatch, id])
 
-  //Insert like
-  const handleLike = () => {
-    dispatch(likePhoto(photo._id!))
-
-    resetMessage();
-  };
-  //Insert comment
-  const handleComment = (e: React.ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const commentData = {
-      comment: commentText,
-      id: photo._id
-    }
-    dispatch(comments(commentData))
-
-    setCommentText("");
-
-    resetMessage();
-  }
-
-  if(loading) {
-    return <Loading />
-  }
-
   return (
-    <div className="flex flex-col bg-zinc-900/30 w-11/12 md:w-[47%] mx-auto mt-20 rounded-xl shadow-md border border-zinc-900 
-      justify-between">
-      <PhotoItem photo={photo} />
-      <LikeContainer photo={photo} user={user} handleLike={handleLike}/>
-      <div className="p-6">
-        <CommentItem
-        commentText={commentText}
-        handleComment={handleComment}
-        photo={photo}
-        setCommentText={setCommentText}/>
-      </div>
+    <div className="">
+      <PostCard photo={photo} isPhotoDetail={true}/>
     </div>
   )
 }

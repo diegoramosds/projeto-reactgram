@@ -6,6 +6,7 @@ import { BiUserCheck, BiUserPlus } from "react-icons/bi";
 import { followingUser, resetMessage } from "../../slices/userSlice";
 import { useEffect, useState } from "react";
 import { TbUsers } from "react-icons/tb";
+import Loading from "../../components/Loading";
 
 const SearchUsers = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -20,6 +21,21 @@ const SearchUsers = () => {
   }
 
   const [localUsers, setLocalUsers] = useState<User[]>(Array.isArray(users) ? users : []);
+
+  const [visibleCount, setVisibleCount] = useState(5);
+  const [photoLoading, setLoading] = useState(false);
+
+      useEffect(() => {
+        if (localUsers && visibleCount < localUsers.length) {
+          setLoading(true)
+          const timer = setTimeout(() => {
+            setVisibleCount(prev => prev + 5);
+            setLoading(false)
+          }, 2000)
+
+        return () => clearTimeout(timer);
+          }
+      },[localUsers, visibleCount])
 
   useEffect(() => {
     setLocalUsers(Array.isArray(users) ? users : []);
@@ -41,7 +57,7 @@ const SearchUsers = () => {
                   )
                 : [
                   ...(user.followers ?? []),
-                    { userId: userAuth?._id as string }, // Garantir que userId seja do tipo string
+                    { userId: userAuth?._id as string },
                   ],
             }
           : user
@@ -55,7 +71,7 @@ const SearchUsers = () => {
   return (
     <div className="mt-10">
       {localUsers.length > 0 ? (
-        localUsers.map((u) => (
+        localUsers.slice(0, visibleCount).map((u) => (
         <div
             key={u._id}
             className="flex items-center justify-between w-11/12 md:w-5/12 mx-auto
@@ -123,6 +139,9 @@ const SearchUsers = () => {
           Não foi encontrado nenhum usuário
                   </p>
       )}
+      {photoLoading && (
+          <Loading />
+          )}
     </div>
   );
 };
