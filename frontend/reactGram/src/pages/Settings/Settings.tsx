@@ -244,15 +244,15 @@ const Settings = () => {
                                             </p>
                                         </div>
 
-                                        {/* {deletePhotoModal && (
+                                        {deletePhotoModal && (
                                             <DeleteCommentModal
                                             handleCloseModalDeleteComment={handleCloseModalDeletePhoto}
-                                            handleRemoveComment={""}
-                                             
+                                            handleRemoveComment={() => {}}
+                                            isComment={false}
                                             handleRemovePhoto={handleDelete}
-                                            comment={""}
+                                            comment={{}}
                                             photoId={photo._id} />
-                                            )} */}
+                                            )}
 
                                         {/* {deletePhotoModal && (
                                         <div className="fixed inset-0 bg-black/40 z-10">
