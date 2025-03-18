@@ -93,7 +93,7 @@ const { user } = useSelector((state : RootState) => state.auth);
                               <p className="text-base font-medium">{comment.userName}</p>
                           </Link>
                           <div>
-                            <p className="break-words w-96">{comment.comment}</p>
+                            <p className="break-words w-10 md:w-96">{comment.comment}</p>
                           </div>
                         </div>
                       </div>
@@ -106,6 +106,9 @@ const { user } = useSelector((state : RootState) => state.auth);
                         {deleteCommentModal && (
                           <DeleteCommentModal
                           comment={comment}
+                          isComment={true}
+                          photoId=""
+                          handleRemovePhoto={() => {}}
                           handleCloseModalDeleteComment={handleCloseModalDeleteComment}
                           handleRemoveComment={handleRemoveComment}/>
                         )}
