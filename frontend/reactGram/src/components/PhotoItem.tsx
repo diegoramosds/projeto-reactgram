@@ -28,6 +28,7 @@ const PhotoItem = ({ photo }: PhotoItemProps) => {
     return formatDistanceToNow(parsedDate, { locale: ptBR, addSuffix: true });
   };
 
+  
   return (
     <div className="w-full flex flex-col">
       <div className="m-2 flex items-center gap-2">
