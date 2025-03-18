@@ -98,13 +98,19 @@ const NavBar = () => {
         onChange={(e) => setSearch(e.target.value)}
         className="pl-10 pr-2 py-2 rounded-xl bg-zinc-900 text-zinc-200 border focus:outline-none focus:ring-2 focus:ring-zinc-800 focus:border-transparent md:pl-10 md:pr-16 md:py-2"/>
         </form>
-      )}
-     
+    )}
         <ul className="flex items-center text-zinc-100 pr-3 md:gap-3 md:text-xl nav-icons">
           {auth ? (
             <>
 
             <li><NavLink to="/"> <BiHome /> </NavLink></li>
+            {window.innerWidth < 650 && (
+            
+              <NavLink to='/search'>
+                <BsSearch />
+              </NavLink>
+            )}
+
             {user && (
               <NavLink to={`/users/${user._id}`}>
                 <BiCamera />
