@@ -133,7 +133,7 @@ const NavBar = () => {
     </nav>
     <div className="h-24"></div>
     {user && modal && (
-            <div className="fixed inset-0 z-10 backdrop-blur-sm">
+            <div className="fixed inset-0 z-10 backdrop-blur-sm overflow-y-auto">
               <ul className="w-5/6 relative  mt-20 mx-auto z-20 p-4 gap-8 bg-zinc-900 rounded-xl modal animate-toTop md:w-1/4">
                 <div className="flex justify-between text-xl p-2 pb-5">
                   <h1>Opções</h1>
