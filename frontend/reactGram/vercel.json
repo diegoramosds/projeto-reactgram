@@ -1,0 +1,15 @@
+{
+    "builds": [
+      {
+        "src": "dist/index.html",
+        "use": "@vercel/static"
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "/:path*",
+        "destination": "/index.html"
+      }
+    ]
+  }
+  
