@@ -5,6 +5,7 @@ import { ptBR } from 'date-fns/locale';
 import { BiUserCircle } from "react-icons/bi";
 
 interface Photo {
+  _id: string
   title: string;
   image: string | File;
   userId: string;
@@ -28,8 +29,8 @@ const PhotoItem = ({ photo }: PhotoItemProps) => {
     return formatDistanceToNow(parsedDate, { locale: ptBR, addSuffix: true });
   };
 
-  
   return (
+
     <div className="w-full flex flex-col">
       <div className="m-2 flex items-center gap-2">
         <div>
@@ -37,7 +38,7 @@ const PhotoItem = ({ photo }: PhotoItemProps) => {
             {photo.userId === user?._id && user.profileImage ? (
               <img
                 src={`${uploads}/users/${user?.profileImage}`}
-                alt={photo.userName} 
+                alt={photo.userName}
                 className="w-16 h-16 mx-auto rounded-full p-4 object-cover"
               />
             ) : (
