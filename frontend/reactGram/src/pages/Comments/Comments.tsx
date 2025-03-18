@@ -9,6 +9,7 @@ import { useResetComponetMessage } from "../../hooks/useResetComponentMessage";
 import { getUserDetails } from "../../slices/userSlice";
 import DeleteCommentModal from "../../components/DeleteCommentModal";
 import { LuMessageSquare } from "react-icons/lu";
+import Loading from "../../components/Loading";
 
 const Comments = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -18,6 +19,21 @@ const Comments = () => {
     const {photo} = useSelector((state: RootState) => state.photo)
 
     const [deleteCommentModal, setDeleteCommentModal] = useState(false);
+    const [visibleCount, setVisibleCount] = useState(5);
+    const [photoLoading, setLoading] = useState(false);
+
+    useEffect(() => {
+      if (photo.comments && visibleCount < photo.comments.length) {
+        setLoading(true)
+        const timer = setTimeout(() => {
+          setVisibleCount(prev => prev + 5);
+          setLoading(false)
+        }, 2000)
+
+      return () => clearTimeout(timer);
+        }
+    },[photo.comments, visibleCount])
+
 
     useEffect(() => {
       if (userAuth?._id) {
@@ -54,7 +70,7 @@ const Comments = () => {
       return (
         <div>
           {Array.isArray(photo.comments) && photo.comments.length > 0 ? (
-            photo.comments.map((comment) => (
+            photo.comments.slice(0, visibleCount).map((comment) => (
               <div
                 key={comment._id}
                 className=""
@@ -92,6 +108,9 @@ const Comments = () => {
               </span>
               Você ainda não comentou em nenhuma publicação
               </p>
+          )}
+          {photoLoading && (
+          <Loading />
           )}
         </div>
       );
