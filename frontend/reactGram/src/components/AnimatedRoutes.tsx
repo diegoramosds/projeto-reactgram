@@ -14,7 +14,11 @@ import { useAuth } from "../hooks/useAuth";
 const pageVariants = {
   initial: { opacity: 0, x: 50 },
   animate: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } },
-  exit: { opacity: 0, x: -50, transition: { duration: 0.5, ease: "easeInOut" } },
+  exit: {
+    opacity: 0,
+    x: -50,
+    transition: { duration: 0.5, ease: "easeInOut" },
+  },
 };
 
 const AnimatedRoutes = () => {
@@ -32,15 +36,42 @@ const AnimatedRoutes = () => {
         className="w-full h-full"
       >
         <Routes location={location}>
-          <Route path="/" element={auth ? <Home /> : <Navigate to="/login" />} />
-          <Route path="/register" element={!auth ? <Register /> : <Navigate to="/" />} />
-          <Route path="/login" element={!auth ? <Login /> : <Navigate to="/" />} />
-          <Route path="/settings" element={auth ? <EditProfile /> : <Navigate to="/" />} />
-          <Route path="/users/profile/:id" element={auth ? <Settings /> : <Navigate to="/" />} />
-          <Route path="/users/:id" element={auth ? <Profile /> : <Navigate to="/" />} />
-          <Route path="/search" element={auth ? <Search /> : <Navigate to="/" />} />
-          <Route path="/photos/:id" element={auth ? <Photo /> : <Navigate to="/" />} />
-          <Route path="/photos/find/" element={auth ? <Interaction /> : <Navigate to="/" />} />
+          <Route
+            path="/"
+            element={auth ? <Home /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/register"
+            element={!auth ? <Register /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/login"
+            element={!auth ? <Login /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/settings"
+            element={auth ? <EditProfile /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/users/profile/:id"
+            element={auth ? <Settings /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/users/:id"
+            element={auth ? <Profile /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/search"
+            element={auth ? <Search /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/photos/:id"
+            element={auth ? <Photo /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/photos/find/"
+            element={auth ? <Interaction /> : <Navigate to="/" />}
+          />
         </Routes>
       </motion.div>
     </AnimatePresence>
