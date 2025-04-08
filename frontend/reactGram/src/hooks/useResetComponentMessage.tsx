@@ -2,9 +2,9 @@ import { resetMessage } from "../slices/photoSlice";
 import { AppDispatch } from "../store";
 
 export const useResetComponetMessage = (dispatch: AppDispatch) => {
- return () => {
+  return () => {
     setTimeout(() => {
-        dispatch(resetMessage());
+      dispatch(resetMessage());
     }, 2000);
- };
+  };
 };

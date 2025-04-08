@@ -1,17 +1,15 @@
 //Components
-import Message from "../../components/Message"
+import Message from "../../components/Message";
 
-
-//Hooks 
-import { useState, useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { login, reset } from "../../slices/authSlice"
-import FormStyle from "../../components/FormStyle"
-import { RootState } from "../../store"
+//Hooks
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { login, reset } from "../../slices/authSlice";
+import FormStyle from "../../components/FormStyle";
+import { RootState } from "../../store";
 
 //Redux
 import type { AppDispatch } from "../../store";
-
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -19,36 +17,49 @@ const Login = () => {
 
   const dispatch: AppDispatch = useDispatch();
 
-  const {loading, error} = useSelector((state: RootState) => state.auth)
+  const { loading, error } = useSelector((state: RootState) => state.auth);
 
   const user = {
     email,
     password,
-  }
+  };
 
-  const handleSubmit = (e : React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(user)
+    console.log(user);
 
-    dispatch(login(user))
-};
+    dispatch(login(user));
+  };
   // Clean all auth states
   useEffect(() => {
     dispatch(reset());
-  }, [dispatch])
+  }, [dispatch]);
 
   return (
-    <FormStyle  title="Faça login"
-    subtitle="Faça seu login"
-    handleSubmit={handleSubmit}
-    loading={loading} 
-    linkTo="/register"
-    linkText="Não tem conta?" 
-    btnText="Entrar"
-    errorMessage={error && <Message msg={error} type="error"/>}>
-       <input type="email" placeholder="E-mail" onChange={(e) => setEmail(e.target.value)} value={email || ""}/>
-       <input type="password"  placeholder="Senha" onChange={(e) => setPassword(e.target.value)} value={password || ""}/>     
-    </FormStyle>  
-  )}
+    <FormStyle
+      title="Faça login"
+      subtitle="Faça seu login"
+      handleSubmit={handleSubmit}
+      loading={loading}
+      linkTo="/register"
+      linkText="Não tem conta?"
+      btnText="Entrar"
+      errorMessage={error && <Message msg={error} type="error" />}
+    >
+      <input
+        type="email"
+        placeholder="E-mail"
+        onChange={(e) => setEmail(e.target.value)}
+        value={email || ""}
+      />
+      <input
+        type="password"
+        placeholder="Senha"
+        onChange={(e) => setPassword(e.target.value)}
+        value={password || ""}
+      />
+    </FormStyle>
+  );
+};
 
-export default Login
+export default Login;

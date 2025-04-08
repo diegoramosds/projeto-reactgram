@@ -1,102 +1,99 @@
-import { api, requestConfig } from '../utils/config';
+import { api, requestConfig } from "../utils/config";
 
-const cleanupLike = async(token: string) => {
-    const config = requestConfig("POST", null, token)
-    
-      try {
-        const res = await fetch(api + "/users/cleanupLikes", config)
-        .then((res) => res.json())
-            .catch((err) => err);
-    
-            return res;
-      } catch (error) {
-        console.log(error)
-      }
-    }
+const cleanupLike = async (token: string) => {
+  const config = requestConfig("POST", null, token);
 
- const profile = async(data: unknown, token: string) => {
+  try {
+    const res = await fetch(api + "/users/cleanupLikes", config)
+      .then((res) => res.json())
+      .catch((err) => err);
 
-    const config = requestConfig("GET", data, token)
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-    try {
-        const res = await fetch(api + "/users/settings", config)
-        .then((res) => res.json())
-        .catch((err) => err)
+const profile = async (data: unknown, token: string) => {
+  const config = requestConfig("GET", data, token);
 
-        return res
-    } catch (error) {
-        console.log(error)
-    }}
+  try {
+    const res = await fetch(api + "/users/settings", config)
+      .then((res) => res.json())
+      .catch((err) => err);
 
- const update = async(data: FormData, token: string) => {
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-    const config = requestConfig("PUT", data, token, true)
+const update = async (data: FormData, token: string) => {
+  const config = requestConfig("PUT", data, token, true);
 
-    try {
-        const res = await fetch(api + "/users/", config)
-        .then((res) => res.json())
-        .catch((err) => err)
+  try {
+    const res = await fetch(api + "/users/", config)
+      .then((res) => res.json())
+      .catch((err) => err);
 
-        return res
-    } catch (error) {
-        console.log(error)   
-    }
- }
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
- //Get user details
-const getUserDetails = async(id:string) => {
+//Get user details
+const getUserDetails = async (id: string) => {
+  const config = requestConfig("GET");
 
+  try {
+    const res = await fetch(api + "/users/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
 
-    const config = requestConfig("GET")
-
-    try {
-        const res = await fetch(api + "/users/" + id, config)
-        .then((res) => res.json())
-        .catch((err) => err);
-
-        return res
-    } catch (error) {
-        console.log(error)
-    }
-}
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // Search user
-const searchUser = async(searchData: string | null, token: string) => {
-    const config = requestConfig("GET", null, token)
-    
-    try {
-        const res = await fetch(api + "/users/search?q=" + searchData, config)
-        .then((res) => res.json())
-        .catch((err) => err)
+const searchUser = async (searchData: string | null, token: string) => {
+  const config = requestConfig("GET", null, token);
 
-        return res;
-    } catch (error) {
-        console.log(error)
-    }
-}
+  try {
+    const res = await fetch(api + "/users/search?q=" + searchData, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // Starting follower
-const followingUser = async(id: string, token: string) => {
-    const config = requestConfig("PUT", null, token)
+const followingUser = async (id: string, token: string) => {
+  const config = requestConfig("PUT", null, token);
 
-    try {
-        const res = await fetch(api + "/users/followers/" + id, config)
-        .then((res) => res.json())
-        .catch((err) => err)
+  try {
+    const res = await fetch(api + "/users/followers/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
 
-        return res
-    } catch (error) {
-        console.log(error);
-    }
-}
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const userService = {
-    cleanupLike,
-    profile,
-    update,
-    getUserDetails,
-    searchUser,
-    followingUser,
-}
+  cleanupLike,
+  profile,
+  update,
+  getUserDetails,
+  searchUser,
+  followingUser,
+};
 
 export default userService;

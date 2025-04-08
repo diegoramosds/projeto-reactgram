@@ -15,19 +15,18 @@ const Photo = () => {
 
   const dispatch: AppDispatch = useDispatch();
 
-  const {photo} = useSelector((state: RootState) => state.photo);
+  const { photo } = useSelector((state: RootState) => state.photo);
 
   //load photo data
   useEffect(() => {
-  dispatch(getPhotoById(id))
-
-  },[dispatch, id])
+    dispatch(getPhotoById(id));
+  }, [dispatch, id]);
 
   return (
-    <div className="">
-      <PostCard photo={photo} isPhotoDetail={true}/>
+    <div className=" mx-auto md:w-3/4">
+      <PostCard photo={photo} isPhotoDetail={true} />
     </div>
-  )
-}
+  );
+};
 
 export default Photo;
