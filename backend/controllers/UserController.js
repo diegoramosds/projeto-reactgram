@@ -49,7 +49,8 @@ const register = async (req, res) => {
       token: genarateToken(newUser._id),
     });
   } catch (err) {
-    res.status(500).json({ errors: ["Erro no registro"] });
+    console.error("Erro no register:", err);
+    res.status(500).json({ errors: ["Erro interno no servidor"] });
   }
 };
 
@@ -77,7 +78,8 @@ const login = async (req, res) => {
       token: genarateToken(user._id),
     });
   } catch (err) {
-    res.status(500).json({ errors: ["Erro interno no login"] });
+    console.error("Erro no login:", err);
+    res.status(500).json({ errors: ["Erro interno no servidor"] });
   }
 };
 
