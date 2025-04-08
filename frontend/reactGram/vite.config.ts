@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: "dist",
-    emptyOutDir: true
+    emptyOutDir: true,
   },
-  base: "./" // Garante que os caminhos dos arquivos JS e CSS sejam corretos
+  base: "./", // Garante que os caminhos dos arquivos JS e CSS sejam corretos
 });
