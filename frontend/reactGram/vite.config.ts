@@ -7,5 +7,5 @@ export default defineConfig({
     outDir: "dist",
     emptyOutDir: true,
   },
-  base: "./", // Garante que os caminhos dos arquivos JS e CSS sejam corretos
+  base: "/",
 });
