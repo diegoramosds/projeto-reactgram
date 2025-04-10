@@ -1,5 +1,3 @@
-import { uploads } from "../../utils/config";
-
 //Components
 import Message from "../../components/Message";
 import { Link, useParams } from "react-router-dom";
@@ -219,10 +217,16 @@ const Settings = () => {
               </form>
             </div>
 
-            <div className="hide" ref={editPhotoForm}>
-              <p>Editando</p>
+            <div className="hide mt-5" ref={editPhotoForm}>
+              <h3 className="text-xl font-semibold">
+                Alterar informações da imagem
+              </h3>
               {editImage && (
-                <img src={`${uploads}/photos/${editImage}`} alt={editTitle} />
+                <img
+                  src={`${editImage}`}
+                  alt={editTitle}
+                  className="w-full h-96 object-cover"
+                />
               )}
               <form onSubmit={handleUpdate}>
                 <input
@@ -243,7 +247,7 @@ const Settings = () => {
           </>
         )}
         <div className="">
-          <h2 className="font-bold text-xl mb-10">Fotos publicadas</h2>
+          <h2 className="font-bold text-xl mb-10 mt-5">Fotos publicadas</h2>
           <h4 className="font-bold text-sm mb-10">
             Clique sobre a imagem que deseja editar, vizualizar ou excluir
           </h4>
@@ -266,16 +270,17 @@ const Settings = () => {
                     transition-opacity duration-300 flex items-center justify-center gap-4 rounded-xl"
                     >
                       <div className="photo-actions flex gap-6">
-                        <p>
-                          <Link to={`/photos/${photo._id}`}>
+                        <Link to={`/photos/${photo._id}`}>
+                          <p>
                             <BsFillEyeFill />
-                          </Link>
+                          </p>
+                        </Link>
+
+                        <p onClick={() => handleEdit(photo)}>
+                          <BsPencilFill />
                         </p>
-                        <p>
-                          <BsPencilFill onClick={() => handleEdit(photo)} />
-                        </p>
-                        <p>
-                          <BsXLg onClick={handleOpenModalDeletePhoto} />
+                        <p onClick={handleOpenModalDeletePhoto}>
+                          <BsXLg />
                         </p>
                       </div>
 
