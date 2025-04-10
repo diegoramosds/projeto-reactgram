@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { uploads } from "../utils/config";
 
 import { MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
