@@ -3,6 +3,7 @@ import { uploads } from "../utils/config";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { BiUserCircle } from "react-icons/bi";
+
 interface Photo {
   _id: string;
   title: string;
@@ -27,6 +28,12 @@ const PhotoItem = ({ photo }: PhotoItemProps) => {
     const parsedDate = new Date(dateString);
     if (isNaN(parsedDate.getTime())) return "Data inválida";
     return formatDistanceToNow(parsedDate, { locale: ptBR, addSuffix: true });
+  };
+
+  // 👇 Verifica se a imagem é uma URL completa (Cloudinary) ou local
+  const getImageSrc = (image: string | undefined) => {
+    if (!image) return "";
+    return image.startsWith("http") ? image : `${uploads}/photos/${image}`;
   };
 
   return (
@@ -73,7 +80,7 @@ const PhotoItem = ({ photo }: PhotoItemProps) => {
       <div className="relative bg-black/20 overflow-hidden">
         {photo.image && (
           <img
-            src={`${uploads}/photos/${photo.image}`}
+            src={getImageSrc(photo.image as string)}
             alt={photo.title}
             className="w-full h-full object-cover transition-transform duration-500"
           />
