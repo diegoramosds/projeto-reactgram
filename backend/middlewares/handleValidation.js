@@ -1,29 +1,32 @@
 const fs = require("fs");
-const { validationResult } = require("express-validator");
+const {validationResult} = require("express-validator")
 
-const validate = (req, res, next) => {
-  const errors = validationResult(req);
+const validate =  (req, res, next) => {
 
-  if (errors.isEmpty()) {
-    return next();
-  }
+    const errors = validationResult(req)
 
-  const extractedErrors = [];
+    if(errors.isEmpty()) {
+        return next()
+    }
 
-  errors.array().map((err) => extractedErrors.push(err.msg));
+    const extractedErrors = []
 
-  // Verifica se existe um arquivo de imagem e o remove se houver erros
-  if (req.file) {
-    fs.unlink(`./uploads/photos/${req.file.filename}`, (err) => {
-      if (err) {
-        console.error("Erro ao remover o arquivo:", err);
-      }
-    });
-  }
+    errors.array().map((err) => extractedErrors.push(err.msg));
 
-  return res.status(422).json({
-    errors: extractedErrors,
-  });
-};
+    // Verifica se existe um arquivo de imagem e o remove se houver erros
+    if (req.file) {
+        fs.unlink(`./uploads/photos/${req.file.filename}`, (err) => {
+            if (err) {
+                console.error("Erro ao remover o arquivo:", err);
+            }
+        });
+    }
 
-module.exports = validate;
+    return  res.status(422).json({
+        errors: extractedErrors
+    
+    })
+
+}
+
+module.exports = validate

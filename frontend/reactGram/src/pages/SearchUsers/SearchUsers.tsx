@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import { uploads } from "../../utils/config";
 import { AppDispatch, RootState } from "../../store";
 import { Link } from "react-router-dom";
 import { BiUser, BiUserCheck, BiUserPlus } from "react-icons/bi";
@@ -90,8 +89,8 @@ const SearchUsers = () => {
                   <Link to={`/users/profile/${u._id}`}>
                     {u.profileImage ? (
                       <img
-                        src={`${uploads}/users/${u.profileImage}`}
-                        alt={u.name}
+                        src={u.profileImage}
+                        alt={`Foto de perfil de ${u.name}`}
                         className="w-20 h-20 rounded-full p-4"
                       />
                     ) : (

@@ -5,7 +5,6 @@ import FormStyle from "../../components/FormStyle";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { profile, resetMessage, updateProfile } from "../../slices/userSlice";
-import { uploads } from "../../utils/config";
 import Message from "../../components/Message";
 
 const EditProfile = () => {
@@ -103,9 +102,7 @@ const EditProfile = () => {
       {user && (user.profileImage || previewImage) && (
         <img
           src={
-            previewImage
-              ? URL.createObjectURL(previewImage)
-              : `${uploads}/users/${user.profileImage}`
+            previewImage ? URL.createObjectURL(previewImage) : user.profileImage
           }
           alt={user ? user.name : "User profile"}
           className="w-40 h-40 rounded-full m-auto mb-10"

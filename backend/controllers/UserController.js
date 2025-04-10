@@ -105,7 +105,7 @@ const update = async (req, res) => {
 
   let = profileImage = null;
   if (req.file) {
-    profileImage = req.file.filename;
+    profileImage = req.file.path;
   }
   const reqUser = req.user;
   const user = await User.findById(

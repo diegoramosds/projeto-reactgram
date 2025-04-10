@@ -96,7 +96,7 @@ const CommentItem = ({
                 {comment.userImage ? (
                   <Link to={`/users/profile/${comment.userId}`}>
                     <img
-                      src={`${uploads}/users/${comment.userImage}`}
+                      src={comment.userImage}
                       alt={comment.userName}
                       className="w-12 h-12 rounded-full"
                     />

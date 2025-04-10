@@ -12,15 +12,12 @@ interface PhotoUserProps {
   sizeIcon: string;
 }
 
-// 👇 Função auxiliar para decidir se é local ou URL
 const getProfileImageSrc = (image: string) => {
   if (!image) return "";
   if (image.startsWith("http")) return image;
 
-  // Fallback caso use imagens locais ainda
   return `${uploads}/${image}`;
 };
-
 
 const PhotoUser = ({ user, sizeImage, sizeIcon }: PhotoUserProps) => {
   return (
@@ -30,7 +27,7 @@ const PhotoUser = ({ user, sizeImage, sizeIcon }: PhotoUserProps) => {
           src={getProfileImageSrc(user.profileImage)}
           alt={user.name}
           style={{ width: sizeImage, height: sizeImage }}
-          className="mx-auto rounded-full object-cover"
+          className="mx-auto rounded-full"
         />
       ) : (
         <BiUserCircle size={parseInt(sizeIcon)} />

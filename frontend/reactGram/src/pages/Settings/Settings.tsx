@@ -251,14 +251,15 @@ const Settings = () => {
             {photos &&
               photos.map((photo) => (
                 <div key={photo._id} className="relative group w-3/5 md:w-1/3">
-                  {photo.image && (
+                  {typeof photo.image === "string" && (
                     <img
-                      src={`${uploads}/photos/${photo.image}`}
+                      src={photo.image}
                       alt={photo.title}
                       className="aspect-square rounded-xl overflow-hidden
-                    bg-secondary/50 transition-all duration-300 transform group-hover:scale-[1.02]"
+      bg-secondary/50 transition-all duration-300 transform group-hover:scale-[1.02]"
                     />
                   )}
+
                   {id === userAuth?._id ? (
                     <div
                       className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 

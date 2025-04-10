@@ -48,13 +48,16 @@ export const Likes = () => {
               className="border-b w-1/2 mx-auto border-zinc-900 m-2 flex justify-around items-center md:gap-36"
             >
               <img
-                src={`${uploads}/photos/${liked.photoImage}`}
+                src={
+                  liked.photoImage?.startsWith("http")
+                    ? liked.photoImage
+                    : `${uploads}/photos/${liked.photoImage}`
+                }
                 alt=""
                 className="w-16 h-16 md:w-24 md:h-24 rounded-full"
               />
               <div>
                 <Link to={`/photos/${liked.photoId}`}>
-                  {" "}
                   <p>
                     <BsFillEyeFill />
                   </p>

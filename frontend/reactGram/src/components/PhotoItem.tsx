@@ -30,28 +30,29 @@ const PhotoItem = ({ photo }: PhotoItemProps) => {
     return formatDistanceToNow(parsedDate, { locale: ptBR, addSuffix: true });
   };
 
-  // 👇 Verifica se a imagem é uma URL completa (Cloudinary) ou local
   const getImageSrc = (image: string | undefined) => {
     if (!image) return "";
     return image.startsWith("http") ? image : `${uploads}/photos/${image}`;
   };
+
+  const getProfileImageSrc = (image: string | undefined) => {
+    if (!image) return "";
+    return image.startsWith("http") ? image : `${uploads}/users/${image}`;
+  };
+
+  const isCurrentUser = photo.userId?._id === user?._id;
+  const profileImage = isCurrentUser ? user?.profileImage : photo.userId?.profileImage;
 
   return (
     <div className="w-full flex flex-col">
       <div className="m-2 flex items-center gap-2">
         <div>
           <Link to={`/users/profile/${photo.userId?._id}`}>
-            {photo.userId?._id === user?._id && user.profileImage ? (
+            {profileImage ? (
               <img
-                src={`${uploads}/users/${user.profileImage}`}
+                src={getProfileImageSrc(profileImage)}
                 alt={photo.userId?.name}
-                className="w-16 h-16 mx-auto rounded-full p-4 object-cover"
-              />
-            ) : photo.userId?.profileImage ? (
-              <img
-                src={`${uploads}/users/${photo.userId.profileImage}`}
-                alt={photo.userId.name}
-                className="w-16 h-16 mx-auto rounded-full p-4 object-cover"
+                className="w-10 h-10 rounded-full"
               />
             ) : (
               <BiUserCircle size={30} className="m-1" />
@@ -61,8 +62,8 @@ const PhotoItem = ({ photo }: PhotoItemProps) => {
         <div>
           <p>
             <Link
-              to={`/users/profile/${photo.userId}`}
-              className="text-lg font-extrabold text-zinc-200 text-cent"
+              to={`/users/profile/${photo.userId?._id}`}
+              className="text-lg font-extrabold text-zinc-200"
             >
               {photo.userId?.name}
             </Link>
@@ -72,11 +73,13 @@ const PhotoItem = ({ photo }: PhotoItemProps) => {
           </p>
         </div>
       </div>
+
       <div className="border-t border-zinc-900">
         <p className="font-semibold text-zinc-200 text-base w-11/12 m-4 ml-7 break-words">
           {photo.title}
         </p>
       </div>
+
       <div className="relative bg-black/20 overflow-hidden">
         {photo.image && (
           <img

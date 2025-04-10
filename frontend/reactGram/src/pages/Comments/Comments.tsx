@@ -76,7 +76,11 @@ const Comments = () => {
                 <p>Comentário: {comment.comment}</p>
                 <Link to={`/photos/${comment.photoId}`}>
                   <img
-                    src={`${uploads}/photos/${comment.photoImage}`}
+                    src={
+                      comment.photoImage?.startsWith("http")
+                        ? comment.photoImage
+                        : `${uploads}/photos/${comment.photoImage}`
+                    }
                     alt=""
                     className="h-20 w-24 rounded-full"
                   />
@@ -89,6 +93,7 @@ const Comments = () => {
                 </p>
               </div>
             )}
+
             {deleteCommentModal && (
               <DeleteCommentModal
                 comment={comment}
