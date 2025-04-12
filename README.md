@@ -105,8 +105,8 @@ git clone https://github.com/diegoramosds/projeto-alunos .git
 
 2️⃣ Acesse o diretório da aplicação React no terminal.
 bash
-cd projeto-agenda reactGram
-
+cd frontend
+cd reactGram
 
 3️⃣ Execute  para instalar as dependências do projeto.
 bash
