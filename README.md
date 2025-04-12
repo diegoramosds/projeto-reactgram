@@ -73,55 +73,55 @@ Antes de começar, certifique-se de ter instalado:
 
 <br>  
 
+
 ## ▶️ Passo a Passo  
 
-## ▶️ Back-end
+### 🛠 **Executando a API**  
 
 1️⃣ **Clone o repositório**:  
 ```bash
-git clone https://github.com/diegoramosds/projeto-alunos .git
+git clone https://github.com/diegoramosds/projeto-reactgram.git
+
 ```
-2️⃣ Acesse o diretório da aplicação React no terminal.
+
+2️⃣ **Acesse o diretório da API** no terminal.
 ```bash
 cd backend
 ```
 
-3️⃣ Execute  para instalar as dependências do projeto.
+3️⃣ Execute para instalar as dependências do projeto.
 ```bash
 npm install
 ```
 
-4️⃣ Execute  para iniciar o servidor de desenvolvimento:
+4️⃣ Execute para iniciar o servidor da API.
 ```bash
 npm run server
 ```
 
-## ▶️ Front-end
+5️⃣ Aguarde até que a API esteja rodando e ouvindo requisições na porta especificada.
 
-1️⃣ **Clone o repositório**:  
-```bash
-git clone https://github.com/diegoramosds/projeto-alunos .git
-```
+<br>
 
-2️⃣ Acesse o diretório da aplicação React no terminal.
+### 💻 **Executando a Aplicação React** 
+
+1️⃣ Acesse o diretório da aplicação React no terminal.
 ```bash
 cd frontend
 cd reactGram
 ```
-3️⃣ Execute  para instalar as dependências do projeto.
-``` bash
+
+2️⃣ Execute  para instalar as dependências do projeto.
+```bash
 npm install
 ```
 
-4️⃣ Execute  para iniciar o servidor de desenvolvimento:
+3️⃣ Execute  para iniciar o servidor de desenvolvimento:
 ```bash
 npm run dev
 ```
+4️⃣ Aguarde até que a aplicação seja compilada e inicie no navegador.
 
-5️⃣ Aguarde até que a aplicação seja compilada e inicie no navegador.
-
-6️⃣ Acesse a aplicação pelo navegador no endereço fornecido pelo terminal.
-
-
+5️⃣ Acesse a aplicação pelo navegador no endereço fornecido pelo terminal.
 
 
