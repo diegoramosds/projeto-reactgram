@@ -73,15 +73,15 @@ Antes de começar, certifique-se de ter instalado:
 
 ## ▶️ Passo a Passo  
 
+## ▶️ Back-end
 
 1️⃣ **Clone o repositório**:  
 bash
 git clone https://github.com/diegoramosds/projeto-alunos .git
 
-
 2️⃣ Acesse o diretório da aplicação React no terminal.
 bash
-cd projeto-agenda
+cd backend
 
 
 3️⃣ Execute  para instalar as dependências do projeto.
@@ -91,7 +91,29 @@ npm install
 
 4️⃣ Execute  para iniciar o servidor de desenvolvimento:
 bash
-npm start
+npm run server
+
+
+## ▶️ Front-end
+
+1️⃣ **Clone o repositório**:  
+bash
+git clone https://github.com/diegoramosds/projeto-alunos .git
+
+
+2️⃣ Acesse o diretório da aplicação React no terminal.
+bash
+cd projeto-agenda reactGram
+
+
+3️⃣ Execute  para instalar as dependências do projeto.
+bash
+npm install
+
+
+4️⃣ Execute  para iniciar o servidor de desenvolvimento:
+bash
+npm run dev
 
 5️⃣ Aguarde até que a aplicação seja compilada e inicie no navegador.
 
