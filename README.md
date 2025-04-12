@@ -11,6 +11,8 @@ https://github.com/user-attachments/assets/xxxxxxxxxxxxxxxxxxxxxx
 ## 💻 Sobre o Projeto  
 
 O **ReactGram** é uma aplicação web de compartilhamento de fotos desenvolvida como projeto pessoal durante um curso de React. A plataforma permite que usuários criem contas, façam upload de imagens, interajam com outras postagens através de curtidas e comentários e atualizem seus perfis.  
+
+
 ---  
 
 <br>  
