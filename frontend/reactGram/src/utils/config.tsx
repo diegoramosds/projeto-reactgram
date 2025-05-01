@@ -13,9 +13,9 @@ export const requestConfig = (
     headers: {},
   };
 
-  // Verifica se é um upload de imagem
+
   if (image && data instanceof FormData) {
-    config.body = data as FormData; // Para uploads, usa FormData
+    config.body = data as FormData;
   } else if (data !== null && method !== "DELETE") {
     // Para requisições com JSON, exceto DELETE
     config.body = JSON.stringify(data);
@@ -23,7 +23,7 @@ export const requestConfig = (
       "application/json";
   }
 
-  // Adiciona o token ao cabeçalho, se disponível
+
   if (token) {
     (config.headers as Record<string, string>)["Authorization"] =
       `Bearer ${token}`;
