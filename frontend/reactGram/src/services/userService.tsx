@@ -1,3 +1,4 @@
+import { logout } from "../slices/authSlice";
 import { api, requestConfig } from "../utils/config";
 
 const cleanupLike = async (token: string) => {
@@ -65,6 +66,12 @@ const searchUser = async (searchData: string | null, token: string) => {
     const res = await fetch(api + "/users/search?q=" + searchData, config)
       .then((res) => res.json())
       .catch((err) => err);
+
+    if (res.status === 401) {
+      logout();
+      window.location.href = "/login";
+      return;
+    }
 
     return res;
   } catch (error) {

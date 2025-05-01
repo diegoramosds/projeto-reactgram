@@ -19,7 +19,6 @@ const DeleteCommentModal = ({
   handleRemovePhoto,
   isComment,
 }: ModalProps) => {
-  console.log("isComment:", Boolean(isComment)); // Para ver se ele realmente está como true ou false
 
   return (
     <div className="fixed inset-0 backdrop-blur-sm z-10">

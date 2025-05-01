@@ -31,11 +31,6 @@ const login = async (data: unknown) => {
       .then((res) => res.json())
       .catch((err) => err);
 
-    if (res.status === 401) {
-      logout();
-      return;
-    }
-
     if (res) {
       localStorage.setItem("user", JSON.stringify(res));
     }
