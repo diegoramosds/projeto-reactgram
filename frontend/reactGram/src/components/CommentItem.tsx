@@ -89,7 +89,7 @@ const CommentItem = ({
             <div
               key={i}
               className=" bg-zinc-900 hover:bg-zinc-900/90 text-zinc-400
-                        border-zinc-800 rounded-lg m-2 p-1 px-2 mt-5 flex items-center justify-between"
+                        border-zinc-800 rounded-lg p-1 px-1 mt-5 flex items-center justify-between"
             >
               <div className="flex items-center gap-2">
                 {comment.userImage ? (
@@ -110,7 +110,7 @@ const CommentItem = ({
                     <p className="text-base font-medium">{comment.userName}</p>
                   </Link>
                   <div>
-                    <p className="break-words w-10 md:w-96">
+                    <p className="break-words w-40 md:w-96">
                       {comment.comment}
                     </p>
                   </div>
