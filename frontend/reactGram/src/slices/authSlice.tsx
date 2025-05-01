@@ -4,24 +4,24 @@ import authService from "../services/authService";
 const user = JSON.parse(localStorage.getItem("user") as string);
 interface User {
   _id: string;
-  token?: string; // token do usuário (opcional)
-  name?: string; // Nome do usuário (opcional)
-  email?: string; // Email do usuário (opcional)
-  password: string; // Senha do usuário
+  token?: string;
+  name?: string;
+  email?: string;
+  password: string;
   confirmPassword?: string;
 }
 
 interface AuthState {
-  user: User | null; // Substitua por um tipo mais específico, se possível
-  error: string | null | boolean; // Permitir que error seja uma string ou null
+  user: User | null;
+  error: string | null | boolean;
   success: boolean;
   loading: boolean;
 }
 
-// Estado inicial com error como null
+
 const initialState: AuthState = {
   user: user ? user : null,
-  error: false, // Inicialize como null
+  error: false,
   success: false,
   loading: false,
 };
