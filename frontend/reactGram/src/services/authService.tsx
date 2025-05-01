@@ -19,6 +19,7 @@ const register = async (data: unknown) => {
 };
 const logout = () => {
   localStorage.removeItem("user");
+  window.location.href = "/login";
 };
 
 // Sign in a user
@@ -29,6 +30,11 @@ const login = async (data: unknown) => {
     const res = await fetch(api + "/users/login", config)
       .then((res) => res.json())
       .catch((err) => err);
+
+    if (res.status === 401) {
+      logout();
+      return;
+    }
 
     if (res) {
       localStorage.setItem("user", JSON.stringify(res));
