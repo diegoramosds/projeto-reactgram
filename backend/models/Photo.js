@@ -4,6 +4,10 @@ const { Schema } = mongoose;
 const photoSchema = new Schema(
   {
     image: String,
+    public_id: {
+      type: String,
+      required: true,
+    },
     title: String,
     likes: Array,
     comments: Array,

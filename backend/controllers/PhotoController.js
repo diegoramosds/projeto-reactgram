@@ -3,79 +3,87 @@ const User = require("../models/User");
 
 const { mongoose } = require("mongoose");
 
-const fs = require("fs");
-
 const cloudinary = require("../config/cloudinary");
 
 const insertPhoto = async (req, res) => {
   const { title } = req.body;
   const user = req.user;
 
-  // Verifica se veio uma imagem
   if (!req.file) {
     return res.status(422).json({ errors: ["A imagem é obrigatória!"] });
   }
 
-  // A URL da imagem já vem de req.file.path, graças ao CloudinaryStorage
-  const imageUrl = req.file.path;
-
   try {
+    // Verifique se o arquivo tem um caminho válido
+    if (!req.file.path) {
+      return res.status(422).json({ errors: ["Caminho do arquivo inválido"] });
+    }
+
+    // Adicione opções de upload
+    const uploadOptions = {
+      folder: "reactgram",
+      resource_type: "auto",
+    };
+
+
+    const uploadResult = await cloudinary.uploader.upload(
+      req.file.path,
+      uploadOptions
+    );
+
     const photo = await Photo.create({
-      image: imageUrl,
+      image: uploadResult.secure_url,
+      public_id: uploadResult.public_id,
       title,
       userId: user._id,
     });
 
     res.status(201).json(photo);
   } catch (error) {
-    res.status(500).json({ errors: ["Erro ao criar a foto."] });
+    console.error("Erro no upload:", error);
+    res.status(500).json({
+      errors: ["Erro ao processar a imagem"],
+      details:
+        process.env.NODE_ENV === "development" ? error.message : undefined,
+    });
   }
 };
+
 // Remove a photo from DB
 const deletePhoto = async (req, res) => {
   const { id } = req.params;
-
   const reqUser = req.user;
 
   try {
-    const photo = await Photo.findById(new mongoose.Types.ObjectId(id));
-    // Check if photo  exist
-    if (!photo) {
-      res.status(404).json({ errors: ["Foto não encontrada"] });
-      return;
-    }
-    // Check if like exist
-    if (photo.userId)
-      if (!photo.userId.equals(reqUser._id)) {
-        res.status(422).json({
-          errors: ["Ocorreu um erro, por favor tente novamente mais tarde"],
-        });
-        return;
-      }
-    const completeFile = `/uploads/photos/${photo.image}`;
+    const photo = await Photo.findById(id);
 
-    fs.unlink(`./${completeFile}`, (err) => {
-      if (err) {
-        res.status(422).json({
-          errors: ["Ocorreu um erro, por favor tente novamente mais tarde."],
-        });
-        return;
-      }
-    });
+    if (!photo) {
+      return res.status(404).json({ errors: ["Foto não encontrada"] });
+    }
+
+    if (!photo.userId.equals(reqUser._id)) {
+      return res.status(422).json({
+        errors: ["Você não tem permissão para deletar esta foto"],
+      });
+    }
+
+    if (photo.public_id) {
+      await cloudinary.uploader.destroy(photo.public_id);
+    }
 
     await Photo.findByIdAndDelete(photo._id);
 
-    // Remove the photo from all users' likedPhotos
     await User.updateMany(
-      { "likedPhotos.photoId": photo._id }, // Find users who liked the photo
+      { "likedPhotos.photoId": photo._id },
       { $pull: { likedPhotos: { photoId: photo._id } } }
     );
+
     res
       .status(200)
       .json({ id: photo._id, message: "Foto excluída com sucesso." });
   } catch (error) {
-    res.status(404).json({ errors: ["Foto não encontrada"] });
-    return;
+    console.error(error);
+    res.status(500).json({ errors: ["Erro ao excluir a foto."] });
   }
 };
 
