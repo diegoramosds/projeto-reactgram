@@ -34,17 +34,14 @@ const ModalFollowers = ({
   textInfo,
   dataType,
 }: ModalProps) => {
-  // const dispatch: AppDispatch = useDispatch()
+
+    const getProfileImageSrc = (image: string | undefined) => {
+      if (!image) return "";
+      return image.startsWith("http") ? image : `${uploads}/users/${image}`;
+    };
+
 
   const data = user ? user[dataType] : [];
-
-  // const handleFollowing = (userId: string) => {
-  //       dispatch(followingUser(userId as string));
-
-  //       setTimeout(() => {
-  //         dispatch(resetMessage())
-  //       }, 1000)
-  //     }
 
   return (
     <div className="fixed backdrop-blur-sm inset-0 z-10 overflow-y-auto">
@@ -77,7 +74,7 @@ const ModalFollowers = ({
                   <div className="flex items-center gap-3">
                     {item?.userImage ? (
                       <img
-                        src={`${uploads}/users/${item.userImage}`}
+                        src={getProfileImageSrc(item.userImage)}
                         alt={item.userName}
                         className="w-10 h-10 mx-auto rounded-full "
                       />
@@ -87,17 +84,6 @@ const ModalFollowers = ({
                     <p className="font-medium">{item.userName}</p>
                     <p className="font-medium">{item.bio}</p>
                   </div>
-                  {/* <div className="ml-5">
-                                {user && item.userId !== userAuth?._id && item.userId !== id  ? (
-                                                user.followers.some((follower) => follower.userId?.includes(userAuth?._id as string)) ? (
-                                                    <p className="flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 cursor-pointer text-zinc-300
-                                                    rounded-full p-1 px-3" onClick={() => handleFollowing(item.userId as string)}><span>
-                                                    <BiUserCheck size={20}/></span>Seguindo</p>
-                                                ) : (<p className="flex items-center gap-1 border bg-zinc-100 hover:bg-zinc-300 cursor-pointer text-zinc-900
-                                                    rounded-full p-1 px-3" onClick={() => handleFollowing(item.userId as string)}><span>
-                                                    <BiUserPlus size={20}/></span>Seguir</p>  )
-                                                ) : ""}
-                            </div> */}
                 </div>
               </Link>
             </div>
