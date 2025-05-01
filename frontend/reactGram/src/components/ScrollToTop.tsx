@@ -1,43 +1,14 @@
-import { useEffect, useState } from "react";
-import { GoArrowUp } from "react-icons/go";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const ScrollToTop = () => {
-  const [scrollTop, setScrollTop] = useState(false);
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (
-        document.body.scrollTop > 40 ||
-        document.documentElement.scrollTop > 40
-      ) {
-        setScrollTop(true);
-      } else {
-        setScrollTop(false);
-      }
-    };
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
-    window.addEventListener("scroll", handleScroll);
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const handleTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  return (
-    <>
-      {scrollTop && (
-        <div className="flex justify-end fixed right-10 bottom-5">
-          <GoArrowUp
-            onClick={handleTop}
-            className="border border-sky-700 rounded-full hover:bg-zinc-900"
-            size={30}
-          />
-        </div>
-      )}
-    </>
-  );
+  return null;
 };
 
 export default ScrollToTop;
