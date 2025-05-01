@@ -26,9 +26,9 @@ const EditProfile = () => {
     //Gather user data from states
     type UserData = {
       name: string;
-      profileImage?: string | File; // Propriedade opcional
-      bio?: string; // Propriedade opcional
-      password?: string; // Propriedade opcional
+      profileImage?: string | File;
+      bio?: string;
+      password?: string;
     };
 
     const userData: UserData = {
