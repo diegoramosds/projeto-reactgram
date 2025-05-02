@@ -178,7 +178,6 @@ export const userSlice = createSlice({
           };
           localStorage.setItem("user", JSON.stringify(updatedUser));
           state.user = updatedUser;
-          state.user = updatedUser;
         }
         state.message = "Usuário atualizado com sucesso!";
       })
