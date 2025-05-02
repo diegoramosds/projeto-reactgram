@@ -34,12 +34,13 @@ const ModalFollowers = ({
   textInfo,
   dataType,
 }: ModalProps) => {
-
-    const getProfileImageSrc = (image: string | undefined) => {
-      if (!image) return "";
-      return image.startsWith("http") ? image : `${uploads}/users/${image}`;
-    };
-
+  const getProfileImageSrc = (image: string | undefined) => {
+    if (!image) return "";
+    const baseUrl =  image.startsWith("http")
+      ? image
+      : `${uploads}/users/${image}`;
+    return `${baseUrl}?t=${new Date().getTime()}`;
+  };
 
   const data = user ? user[dataType] : [];
 
