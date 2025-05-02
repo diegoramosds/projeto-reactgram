@@ -55,6 +55,7 @@ const EditProfile = () => {
     });
 
     await dispatch(updateProfile(formData));
+    await dispatch(profile());
 
     setTimeout(() => {
       dispatch(resetMessage());
