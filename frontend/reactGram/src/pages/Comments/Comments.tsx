@@ -96,6 +96,7 @@ const Comments = () => {
 
             {deleteCommentModal && (
               <DeleteCommentModal
+                commentText="Tem certeza que deseja remover este comentário?"
                 comment={comment}
                 isComment={true}
                 handleRemovePhoto={() => {}}
