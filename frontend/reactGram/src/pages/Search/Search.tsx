@@ -106,7 +106,7 @@ const Search = () => {
           <span>
             <HiUserGroup size={70} />
           </span>
-          Busque por publicações e usuários aqui
+          Busque por publicações e usuários no pesquisar acima
         </p>
       )}
       <div>{searchPhotos && <SearchPhotos />}</div>
