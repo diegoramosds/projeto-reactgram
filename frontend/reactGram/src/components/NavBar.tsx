@@ -45,8 +45,8 @@ const NavBar = () => {
   }, [user]);
   useEffect(() => {
     const interval = setInterval(() => {
-      const updatedUserStr = localStorage.getItem("user") || "{}";
-      const updatedUser = JSON.parse(updatedUserStr);
+      const updatedUserString = localStorage.getItem("user") || "{}";
+      const updatedUser = JSON.parse(updatedUserString);
 
       if (JSON.stringify(updatedUser) !== JSON.stringify(localStorageUser)) {
         setLocalStorageUser(updatedUser);
