@@ -9,24 +9,25 @@ interface ModalProps {
   handleCloseModalDeleteComment: () => void;
   isComment?: boolean;
   photoId: string;
+  commentText: string;
 }
 
 const DeleteCommentModal = ({
   handleRemoveComment,
   comment,
+  commentText,
   photoId,
   handleCloseModalDeleteComment,
   handleRemovePhoto,
   isComment,
 }: ModalProps) => {
-
   return (
     <div className="fixed inset-0 backdrop-blur-sm z-10">
       <div
         className="w-11/12 md:w-5/12 md:min-h-28 mx-auto mt-20 z-20 bg-zinc-900 flex j
                       ustify-center items-center flex-col rounded-xl p-3"
       >
-        <h1>Tem certeza que deseja remover este comentário?</h1>
+        <h1>{commentText}</h1>
         <div className="flex gap-10 mt-5 cursor-pointer">
           {isComment ? (
             <p
@@ -34,7 +35,7 @@ const DeleteCommentModal = ({
               onClick={() => {
                 handleRemoveComment(
                   comment.photoId as string,
-                  comment._id as string,
+                  comment._id as string
                 );
               }}
             >
