@@ -129,6 +129,7 @@ const CommentItem = ({
               </div>
               {deleteCommentModal && (
                 <DeleteCommentModal
+                  commentText="Deseja remover este comentário?"
                   comment={comment}
                   isComment={true}
                   photoId=""
