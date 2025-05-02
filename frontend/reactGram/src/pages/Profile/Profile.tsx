@@ -23,7 +23,6 @@ const Profile = () => {
   const { id } = useParams();
 
   const dispatch: AppDispatch = useDispatch();
-
   const { user, followers } = useSelector((state: RootState) => state.user);
   const { user: userAuth } = useSelector((state: RootState) => state.auth);
   const { photos } = useSelector((state: RootState) => state.photo);
@@ -52,10 +51,11 @@ const Profile = () => {
       return () => clearTimeout(timer);
     }
   }, [photos.length, visibleCount]);
-  //Start following
-  const handleFollowing = () => {
-    dispatch(followingUser(user?._id as string));
 
+  //Start following
+  const handleFollowing = async () => {
+    await dispatch(followingUser(user?._id as string));
+    dispatch(getUserDetails(id as string));
     setTimeout(() => {
       dispatch(resetMessage());
     }, 1000);
@@ -127,7 +127,7 @@ const Profile = () => {
           {user && userAuth?._id !== id ? (
             Array.isArray(user?.followers) &&
             user?.followers.some((follower) =>
-              follower.userId?.includes(userAuth?._id as string),
+              follower.userId?.includes(userAuth?._id as string)
             ) ? (
               <p
                 className="flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 cursor-pointer text-zinc-300
