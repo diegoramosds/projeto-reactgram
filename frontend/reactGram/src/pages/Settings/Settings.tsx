@@ -293,6 +293,7 @@ const Settings = () => {
                           isComment={false}
                           handleRemovePhoto={handleDelete}
                           comment={{}}
+                          commentText="Deseja realmente excluir a foto?"
                           photoId={photo._id}
                         />
                       )}
