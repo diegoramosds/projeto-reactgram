@@ -4,7 +4,7 @@ import FormStyle from "../../components/FormStyle";
 //Hooks
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { profile, resetMessage, updateProfile } from "../../slices/userSlice";
+import { getUserDetails, profile, resetMessage, updateProfile } from "../../slices/userSlice";
 import Message from "../../components/Message";
 
 const EditProfile = () => {
@@ -55,6 +55,7 @@ const EditProfile = () => {
     });
 
     await dispatch(updateProfile(formData));
+    dispatch(getUserDetails(user?._id as string));
     await dispatch(profile());
 
     setTimeout(() => {
