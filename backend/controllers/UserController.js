@@ -122,6 +122,18 @@ const update = async (req, res) => {
   }
   if (profileImage) {
     user.profileImage = profileImage;
+
+    await User.updateMany(
+      { "followers.userId": user._id },
+      { $set: { "followers.$[elem].userImage": profileImage } },
+      { arrayFilters: [{ "elem.userId": user._id }] }
+    );
+
+    await User.updateMany(
+      { "following.userId": user._id },
+      { $set: { "following.$[elem].userImage": profileImage } },
+      { arrayFilters: [{ "elem.userId": user._id }] }
+    );
   }
   if (bio) {
     user.bio = bio;
@@ -135,7 +147,6 @@ const update = async (req, res) => {
 // Get user by id
 const getUserById = async (req, res) => {
   const { id } = req.params;
-
   try {
     const user = await User.findById(new mongoose.Types.ObjectId(id)).select(
       "-password"
