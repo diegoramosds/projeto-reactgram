@@ -80,7 +80,7 @@ const SearchUsers = () => {
           return (
             <div
               key={u._id}
-              className="flex items-center justify-between w-11/12 md:w-5/12 mx-auto
+              className="flex items-center justify-between w-full md:w-5/12 mx-auto
         border-t border-zinc-900/30 hover:bg-zinc-900/30 rounded-2xl
         px-2 first:border-transparent transition-all duration-200"
             >
@@ -104,7 +104,9 @@ const SearchUsers = () => {
                   <p className="text-lg font-medium">
                     <Link to={`/users/profile/${u._id}`}>{u.name}</Link>
                   </p>
-                  <p className="text-zinc-400 break-all">{u.bio}</p>
+                  <p className="text-zinc-400 break-all text-sm md:text-base">
+                    {u.bio}
+                  </p>
                 </div>
               </div>
 
@@ -114,7 +116,7 @@ const SearchUsers = () => {
                     {isFollowing ? (
                       <span
                         className="flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 cursor-pointer text-zinc-300
-                rounded-full p-1 px-3"
+                rounded-full p-1 px-1 md:px-3"
                         onClick={() => handleFollowing(u._id)}
                       >
                         <BiUserCheck size={20} />
@@ -123,7 +125,7 @@ const SearchUsers = () => {
                     ) : (
                       <span
                         className="flex items-center gap-1 border bg-zinc-100 hover:bg-zinc-300 cursor-pointer text-zinc-900
-                rounded-full p-1 px-3"
+                rounded-full p-1 px-1 md:px-3"
                         onClick={() => handleFollowing(u._id)}
                       >
                         <BiUserPlus size={20} />
