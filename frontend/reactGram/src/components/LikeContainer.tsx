@@ -26,44 +26,59 @@ const LikeContainer = ({ photo, user, handleLike }: LikeContainer) => {
 
   return (
     <div className="p-4">
-      {photo.likes && user ? (
-        <div>
-          <div className="photo-likes flex gap-5">
-            {userLiked ? (
-              <BsHeartFill
-                className="cursor-pointer text-red-800 rounded-full"
-                size={36}
-                onClick={() => handleLike(photo)}
-                aria-label="Descurtir"
-              />
-            ) : (
-              <BsHeart
-                onClick={() => handleLike(photo)}
-                className="cursor-pointer hover:fill-red-900"
-                size={36}
-                aria-label="Curtir"
-              />
-            )}
+      <div className="photo-likes flex gap-5 items-center">
+        {photo.likes && user ? (
+          userLiked ? (
+            <BsHeartFill
+              className="cursor-pointer text-red-800 w-9 h-9"
+              size={36}
+              onClick={() => handleLike(photo)}
+              aria-label="Descurtir"
+            />
+          ) : (
+            <BsHeart
+              className="cursor-pointer hover:fill-red-900 w-9 h-9"
+              size={36}
+              onClick={() => handleLike(photo)}
+              aria-label="Curtir"
+            />
+          )
+        ) : (
+          <BsHeart className="w-9 h-9 opacity-30" size={36} />
+        )}
+
+        {photo._id ? (
+          <>
             <Link
               to={`/photos/${photo._id}`}
               aria-label={`Comentários na foto ${photo.title}`}
             >
-              <LuMessageCircle size={36} />
+              <LuMessageCircle className="w-9 h-9" size={36} />
             </Link>
             <Link
               to={`/photos/${photo._id}`}
               aria-label={`Ver foto ${photo.title}`}
             >
-              <BsEye size={36} />
+              <BsEye className="w-9 h-9" size={36} />
             </Link>
-          </div>
-          <p className="text-base mt-5 min-h-[1.5rem]">
+          </>
+        ) : (
+          <>
+            <LuMessageCircle className="w-9 h-9 opacity-30" size={36} />
+            <BsEye className="w-9 h-9 opacity-30" size={36} />
+          </>
+        )}
+      </div>
+
+      <p className="text-base mt-5 h-[1.5rem]">
+        {photo.likes ? (
+          <>
             {likesCount} curtida{likesCount !== 1 ? "s" : ""}
-          </p>
-        </div>
-      ) : (
-        <p className="text-base mt-5 min-h-[1.5rem]">0 curtidas</p>
-      )}
+          </>
+        ) : (
+          "0 curtidas"
+        )}
+      </p>
     </div>
   );
 };
