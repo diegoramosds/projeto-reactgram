@@ -88,19 +88,22 @@ const PhotoItem = ({ photo }: PhotoItemProps) => {
         </p>
       </div>
 
-      <div className="relative bg-black/20 overflow-hidden">
-        {photo.image && (
-          <img
-            src={getImageSrc(photo.image as string)}
-            alt={photo.title}
-            className="w-full max-h-[600px] object-cover transition-transform duration-500"
-            srcSet={`
-              ${getImageSrc(photo.image as string)} 720w,
-              ${getImageSrc(photo.image as string).replace("/w_720", "/w_1080")} 1080w,
-              ${getImageSrc(photo.image as string).replace("/w_720", "/w_1440")} 1440w
-            `}
-          />
-        )}
+      <div className="relative w-full bg-zinc-900 overflow-hidden">
+        <img
+          src={getImageSrc(photo.image as string)}
+          alt={photo.title}
+          className="w-full max-h-[500px] object-cover"
+          width="1280"
+          height="600"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+          srcSet={`
+      ${getImageSrc(photo.image as string)} 720w,
+      ${getImageSrc(photo.image as string).replace("/w_720", "/w_1080")} 1080w,
+      ${getImageSrc(photo.image as string).replace("/w_720", "/w_1440")} 1440w
+    `}
+        />
       </div>
     </div>
   );
