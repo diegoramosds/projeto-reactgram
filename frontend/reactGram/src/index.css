@@ -9,6 +9,7 @@ a {
   @apply text-white no-underline;
 }
 
+
 .active {
   @apply font-bold;
 }
