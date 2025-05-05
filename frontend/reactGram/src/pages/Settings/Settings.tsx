@@ -270,16 +270,29 @@ const Settings = () => {
                     transition-opacity duration-300 flex items-center justify-center gap-4 rounded-xl"
                     >
                       <div className="photo-actions flex gap-6">
-                        <Link to={`/photos/${photo._id}`}>
+                        <Link
+                          to={`/photos/${photo._id}`}
+                          aria-label={`Ver foto ${photo.title}`}
+                        >
                           <p>
                             <BsFillEyeFill />
                           </p>
                         </Link>
 
-                        <p onClick={() => handleEdit(photo)}>
+                        <p
+                          onClick={() => handleEdit(photo)}
+                          aria-label={`Editar foto ${photo.title}`}
+                          role="button"
+                          tabIndex={0}
+                        >
                           <BsPencilFill />
                         </p>
-                        <p onClick={handleOpenModalDeletePhoto}>
+                        <p
+                          onClick={handleOpenModalDeletePhoto}
+                          aria-label={`Excluir foto ${photo.title}`}
+                          role="button"
+                          tabIndex={0}
+                        >
                           <BsXLg />
                         </p>
                       </div>

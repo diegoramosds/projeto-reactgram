@@ -1,13 +1,12 @@
 import { BsSearch, BsFillPersonFill, BsX } from "react-icons/bs";
 import { HiEllipsisHorizontal, HiUserGroup } from "react-icons/hi2";
-
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
-//Hooks
+// Hooks
 import { useAuth } from "../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 
-//Redux
+// Redux
 import { logout, reset } from "../slices/authSlice";
 import { AppDispatch, RootState } from "../store";
 import { useEffect, useState } from "react";
@@ -21,7 +20,6 @@ const NavBar = () => {
   const { user } = useSelector((state: RootState) => state.auth);
 
   const [search, setSearch] = useState("");
-
   const [modal, setModal] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
@@ -43,6 +41,7 @@ const NavBar = () => {
       setLocalStorageUser(user);
     }
   }, [user]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       const updatedUserString = localStorage.getItem("user") || "{}";
@@ -65,7 +64,7 @@ const NavBar = () => {
     }
   };
 
-  // modal
+  // Modal
   const handleModal = () => {
     setModal(!modal);
   };
@@ -80,7 +79,7 @@ const NavBar = () => {
     return () => document.body.classList.remove("overflow-hidden");
   }, [dispatch, modal]);
 
-  // close modal
+  // Close modal
   const closeModal = () => {
     setModal(false);
   };
@@ -110,27 +109,34 @@ const NavBar = () => {
           {auth ? (
             <>
               <li>
-                <NavLink to="/">
-                  {" "}
-                  <BiHome />{" "}
+                <NavLink to="/" aria-label="Página inicial">
+                  <BiHome />
                 </NavLink>
               </li>
               {window.innerWidth < 650 && (
-                <NavLink to="/search">
+                <NavLink to="/search" aria-label="Pesquisar">
                   <BsSearch />
                 </NavLink>
               )}
-
               {user && (
-                <NavLink to={`/users/${user._id}`}>
+                <NavLink
+                  to={`/users/${user._id}`}
+                  aria-label="Perfil de usuário"
+                >
                   <BiCamera />
                 </NavLink>
               )}
               <li>
-                <HiEllipsisHorizontal onClick={handleModal} />
+                <HiEllipsisHorizontal
+                  onClick={handleModal}
+                  aria-label="Abrir menu de opções"
+                />
               </li>
               {user && (
-                <Link to={`users/profile/${user._id}`}>
+                <Link
+                  to={`users/profile/${user._id}`}
+                  aria-label="Ver perfil do usuário"
+                >
                   <PhotoUser
                     user={localStorageUser}
                     sizeImage="30px"
@@ -141,13 +147,16 @@ const NavBar = () => {
             </>
           ) : (
             <>
-              <div className="flex gap-3 ">
+              <div className="flex gap-3">
                 <li>
-                  <NavLink to="/login"> Entrar </NavLink>{" "}
+                  <NavLink to="/login" aria-label="Entrar">
+                    Entrar
+                  </NavLink>
                 </li>
                 <li>
-                  {" "}
-                  <NavLink to="/register"> Cadastrar </NavLink>
+                  <NavLink to="/register" aria-label="Cadastrar">
+                    Cadastrar
+                  </NavLink>
                 </li>
               </div>
             </>
@@ -168,6 +177,7 @@ const NavBar = () => {
               <NavLink
                 to={`/users/profile/${user._id}`}
                 onClick={() => closeModal()}
+                aria-label="Ver perfil de usuário"
               >
                 <li>
                   <p>
@@ -179,18 +189,26 @@ const NavBar = () => {
                 </li>
               </NavLink>
 
-              <NavLink to={"/photos/find"} onClick={() => closeModal()}>
+              <NavLink
+                to={"/photos/find"}
+                onClick={() => closeModal()}
+                aria-label="Curtidas e comentários"
+              >
                 <li>
                   <p>
                     <span>
-                      <BiMessageSquareAdd />{" "}
+                      <BiMessageSquareAdd />
                     </span>
                     Curtidas e Comentários
                   </p>
                 </li>
               </NavLink>
 
-              <NavLink to="/settings" onClick={() => closeModal()}>
+              <NavLink
+                to="/settings"
+                onClick={() => closeModal()}
+                aria-label="Configurações e privacidade"
+              >
                 <li>
                   <p>
                     <span>
@@ -201,7 +219,11 @@ const NavBar = () => {
                 </li>
               </NavLink>
 
-              <NavLink to="/search" onClick={() => closeModal()}>
+              <NavLink
+                to="/search"
+                onClick={() => closeModal()}
+                aria-label="Buscar usuários e publicações"
+              >
                 <li>
                   <p>
                     <span>
@@ -212,7 +234,7 @@ const NavBar = () => {
                 </li>
               </NavLink>
 
-              <li onClick={handleLogout}>
+              <li onClick={handleLogout} aria-label="Sair">
                 <p className="text-red-500">
                   <span>
                     <FiLogOut />
