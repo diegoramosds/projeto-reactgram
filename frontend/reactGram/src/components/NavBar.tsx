@@ -114,17 +114,21 @@ const NavBar = () => {
                 </NavLink>
               </li>
               {window.innerWidth < 650 && (
-                <NavLink to="/search" aria-label="Pesquisar">
-                  <BsSearch />
-                </NavLink>
+                <li>
+                  <NavLink to="/search" aria-label="Pesquisar">
+                    <BsSearch />
+                  </NavLink>
+                </li>
               )}
               {user && (
-                <NavLink
-                  to={`/users/${user._id}`}
-                  aria-label="Perfil de usuário"
-                >
-                  <BiCamera />
-                </NavLink>
+                <li>
+                  <NavLink
+                    to={`/users/${user._id}`}
+                    aria-label="Perfil de usuário"
+                  >
+                    <BiCamera />
+                  </NavLink>
+                </li>
               )}
               <li>
                 <HiEllipsisHorizontal
@@ -133,16 +137,18 @@ const NavBar = () => {
                 />
               </li>
               {user && (
-                <Link
-                  to={`users/profile/${user._id}`}
-                  aria-label="Ver perfil do usuário"
-                >
-                  <PhotoUser
-                    user={localStorageUser}
-                    sizeImage="30px"
-                    sizeIcon="24px"
-                  />
-                </Link>
+                <li>
+                  <Link
+                    to={`users/profile/${user._id}`}
+                    aria-label="Ver perfil do usuário"
+                  >
+                    <PhotoUser
+                      user={localStorageUser}
+                      sizeImage="30px"
+                      sizeIcon="24px"
+                    />
+                  </Link>
+                </li>
               )}
             </>
           ) : (
@@ -166,7 +172,7 @@ const NavBar = () => {
       <div className="h-24"></div>
       {user && modal && (
         <div className="fixed inset-0 z-10 backdrop-blur-sm overflow-y-auto">
-          <ul className="w-5/6 relative  mt-20 mx-auto z-20 p-4 gap-8 bg-zinc-900 rounded-xl modal animate-toTop md:w-1/4">
+          <ul className="w-5/6 relative mt-20 mx-auto z-20 p-4 gap-8 bg-zinc-900 rounded-xl modal animate-toTop md:w-1/4">
             <div className="flex justify-between text-xl p-2 pb-5">
               <h1>Opções</h1>
               <p className="hover:bg-zinc-800 rounded-full modal">
@@ -174,65 +180,65 @@ const NavBar = () => {
               </p>
             </div>
             <div>
-              <NavLink
-                to={`/users/profile/${user._id}`}
-                onClick={() => closeModal()}
-                aria-label="Ver perfil de usuário"
-              >
-                <li>
+              <li>
+                <NavLink
+                  to={`/users/profile/${user._id}`}
+                  onClick={() => closeModal()}
+                  aria-label="Ver perfil de usuário"
+                >
                   <p>
                     <span>
                       <BsFillPersonFill />
                     </span>
                     Perfil
                   </p>
-                </li>
-              </NavLink>
+                </NavLink>
+              </li>
 
-              <NavLink
-                to={"/photos/find"}
-                onClick={() => closeModal()}
-                aria-label="Curtidas e comentários"
-              >
-                <li>
+              <li>
+                <NavLink
+                  to={"/photos/find"}
+                  onClick={() => closeModal()}
+                  aria-label="Curtidas e comentários"
+                >
                   <p>
                     <span>
                       <BiMessageSquareAdd />
                     </span>
                     Curtidas e Comentários
                   </p>
-                </li>
-              </NavLink>
+                </NavLink>
+              </li>
 
-              <NavLink
-                to="/settings"
-                onClick={() => closeModal()}
-                aria-label="Configurações e privacidade"
-              >
-                <li>
+              <li>
+                <NavLink
+                  to="/settings"
+                  onClick={() => closeModal()}
+                  aria-label="Configurações e privacidade"
+                >
                   <p>
                     <span>
                       <DiAptana />
                     </span>
                     Configuração e privacidade
                   </p>
-                </li>
-              </NavLink>
+                </NavLink>
+              </li>
 
-              <NavLink
-                to="/search"
-                onClick={() => closeModal()}
-                aria-label="Buscar usuários e publicações"
-              >
-                <li>
+              <li>
+                <NavLink
+                  to="/search"
+                  onClick={() => closeModal()}
+                  aria-label="Buscar usuários e publicações"
+                >
                   <p>
                     <span>
                       <HiUserGroup />
                     </span>
                     Encontre usuários e/ou publicações
                   </p>
-                </li>
-              </NavLink>
+                </NavLink>
+              </li>
 
               <li onClick={handleLogout} aria-label="Sair">
                 <p className="text-red-500">
