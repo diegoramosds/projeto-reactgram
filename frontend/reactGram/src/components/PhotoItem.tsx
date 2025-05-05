@@ -32,16 +32,24 @@ const PhotoItem = ({ photo }: PhotoItemProps) => {
 
   const getImageSrc = (image: string | undefined) => {
     if (!image) return "";
-    return image.startsWith("http") ? image : `${uploads}/photos/${image}`;
+    const baseUrl = image.startsWith("http")
+      ? image
+      : `${uploads}/photos/${image}`;
+    return baseUrl.replace("/upload/", "/upload/w_720,f_auto,q_auto/");
   };
 
   const getProfileImageSrc = (image: string | undefined) => {
     if (!image) return "";
-    return image.startsWith("http") ? image : `${uploads}/users/${image}`;
+    const baseUrl = image.startsWith("http")
+      ? image
+      : `${uploads}/users/${image}`;
+    return baseUrl.replace("/upload/", "/upload/w_100,f_auto,q_auto/");
   };
 
   const isCurrentUser = photo.userId?._id === user?._id;
-  const profileImage = isCurrentUser ? user?.profileImage : photo.userId?.profileImage;
+  const profileImage = isCurrentUser
+    ? user?.profileImage
+    : photo.userId?.profileImage;
 
   return (
     <div className="w-full flex flex-col">
@@ -85,7 +93,12 @@ const PhotoItem = ({ photo }: PhotoItemProps) => {
           <img
             src={getImageSrc(photo.image as string)}
             alt={photo.title}
-            className="w-full h-full object-cover transition-transform duration-500"
+            className="w-full max-h-[600px] object-cover transition-transform duration-500"
+            srcSet={`
+              ${getImageSrc(photo.image as string)} 720w,
+              ${getImageSrc(photo.image as string).replace("/w_720", "/w_1080")} 1080w,
+              ${getImageSrc(photo.image as string).replace("/w_720", "/w_1440")} 1440w
+            `}
           />
         )}
       </div>

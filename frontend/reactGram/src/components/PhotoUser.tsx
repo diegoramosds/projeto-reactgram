@@ -12,12 +12,14 @@ interface PhotoUserProps {
   sizeIcon: string;
 }
 
-const getProfileImageSrc = (image: string) => {
+const getProfileImageSrc = (image: string | undefined) => {
   if (!image) return "";
-  if (image.startsWith("http")) return image;
-
-  return `${uploads}/${image}`;
+  const baseUrl = image.startsWith("http")
+    ? image
+    : `${uploads}/users/${image}`;
+  return baseUrl.replace("/upload/", "/upload/w_100,f_auto/");
 };
+
 
 const PhotoUser = ({ user, sizeImage, sizeIcon }: PhotoUserProps) => {
   return (
@@ -25,7 +27,7 @@ const PhotoUser = ({ user, sizeImage, sizeIcon }: PhotoUserProps) => {
       {user?.profileImage ? (
         <img
           src={getProfileImageSrc(user.profileImage)}
-          alt={user.name}
+          alt={user.name || "Imagem de perfil do usuário"}
           style={{ width: sizeImage, height: sizeImage }}
           className="mx-auto rounded-full"
         />
